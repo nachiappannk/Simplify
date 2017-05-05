@@ -2,6 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Simplify/SimplifyUi/bin/Debug
-/Simplify/Simplify/obj/Debug
+/Simplify/SimplifyUi/bin/
+/Simplify/Simplify/obj/
 /Simplify/.vs/Simplify/v14/.suo
