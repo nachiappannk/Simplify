@@ -102,26 +102,8 @@ namespace Simplify.ExcelDataGateway
 
         private void AddJournal(IList<JournalStatement> journalStatements)
         {
-            using (ExcelWriter writer = new ExcelWriter(outputExcelFileName, "Journal"))
-            {
-                int index = 0;
-                writer.Write(index++, "S.No.", "Date", "Type", "Book", "Ledger", "Description", "Credit", "Debit");
-                writer.SetColumnsWidth(6, 12, 4, 8, 35, 45, 12, 12);
-                writer.ApplyHeadingFormat(8);
-                writer.WriteList(index, journalStatements, 
-                    (j, rowIndex) => new object[]
-                    {
-                        rowIndex - 1,
-                        j.Date,
-                        j.EntryType,
-                        j.BookName.GetString(),
-                        j.Name,
-                        j.AdditionalName,
-                        j.GetCreditValue(),
-                        j.GetDebitValue(),
-                    });
-                
-            }
+            JournalGateway journalGateway = new JournalGateway(outputExcelFileName);
+            journalGateway.WriteJournal(journalStatements);   
         }
     }
 }

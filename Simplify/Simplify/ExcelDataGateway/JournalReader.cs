@@ -70,7 +70,7 @@ namespace Simplify.ExcelDataGateway
                             Value = value,
                             Date = date,
                             BookName = book,
-                            AdditionalName = additionalName,
+                            Description = additionalName,
                             EntryType = entryType,
                         });
                         index++;

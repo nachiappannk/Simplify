@@ -16,9 +16,9 @@ namespace SimplifyUi.ViewModel
         {
             try
             {
-                BooksOfAccountReader booksOfAccountReader = new BooksOfAccountReader(InputExcelFileName, SelectedSheet);
+                JournalGateway journalGateway = new JournalGateway(InputExcelFileName);
                 var logger = new Logger();
-                var journal = booksOfAccountReader.GetJournalStatements(logger);
+                var journal = journalGateway.GetJournalStatements(logger, SelectedSheet);
                 _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputJournalKey, journal);
                 _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
                 _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayJournalReadMessages);
