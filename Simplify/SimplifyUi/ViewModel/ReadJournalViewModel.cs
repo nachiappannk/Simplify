@@ -22,43 +22,13 @@ namespace Simplify.ViewModel
         {
             try
             {
-                ExcelReader excelReader = new ExcelReader();
-                List<string> readMessages;
-                ExcelSheetNames = excelReader.GetSheetNames(InputExcelFileName);
-                var journal = excelReader.GetJournalStatements(InputExcelFileName, SelectedSheet,
-                    out readMessages);
+                ComputeAndUpdateSheetName();
+                BooksOfAccountReader booksOfAccountReader = new BooksOfAccountReader(InputExcelFileName, SelectedSheet);
+                var logger = new Logger();
+                var journal = booksOfAccountReader.GetJournalStatements(logger);
                 _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputJournalKey, journal);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.JournalReadMessagesKey, readMessages);
+                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
                 _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayJournalReadMessages);
-            }
-            catch (Exception e)
-            {
-                ErrorMessage = e.Message;
-            }
-        }
-    }
-
-    public class ReadPreviousPeriodBalanceSheetViewModel : ReadExcelViewModel
-    {
-        public ReadPreviousPeriodBalanceSheetViewModel(Bag bag, Action<int> nextStepRequestAction) 
-            : base(bag, nextStepRequestAction)
-        {
-            ReadFileName = "Balance Sheet Excel File";
-            ReadSheetName = "Previous year Balance Sheet work sheet";
-            Title = "Please provide the previous year balance sheet";
-        }
-
-        protected override void ExecuteNextStep()
-        {
-            try
-            {
-                ExcelReader excelReader = new ExcelReader();
-                List<string> readMessages;
-                ExcelSheetNames = excelReader.GetSheetNames(InputExcelFileName);
-                var balanceSheet = excelReader.GetBalanceSheet(InputExcelFileName, SelectedSheet, out readMessages);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, readMessages);
-                _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);
             }
             catch (Exception e)
             {
@@ -119,9 +89,8 @@ namespace Simplify.ViewModel
         {
             try
             {
-                ExcelReader excelReader = new ExcelReader();
                 SelectedSheet = String.Empty;
-                ExcelSheetNames = excelReader.GetSheetNames(inputExcel);
+                ComputeAndUpdateSheetName();
             }
             catch (Exception e)
             {
@@ -174,8 +143,9 @@ namespace Simplify.ViewModel
             if (string.IsNullOrEmpty(inputExcelFileName)) return false;
             try
             {
-                ExcelReader excelReader = new ExcelReader();
-                if (!excelReader.GetSheetNames(inputExcelFileName).Contains(SelectedSheet))
+                ComputeAndUpdateSheetName();
+
+                if (!ExcelSheetNames.Contains(SelectedSheet))
                 {
                     ErrorMessage = "The selected sheet "+ SelectedSheet + " was removed";
                     return false;
@@ -187,6 +157,12 @@ namespace Simplify.ViewModel
                 return false;
             }
             return true;
+        }
+
+        public void ComputeAndUpdateSheetName()
+        {
+            ExcelSheetInfoProvider sheetInfoProvider = new ExcelSheetInfoProvider(InputExcelFileName);
+            ExcelSheetNames = sheetInfoProvider.GetSheetNames();
         }
 
         protected abstract void ExecuteNextStep();

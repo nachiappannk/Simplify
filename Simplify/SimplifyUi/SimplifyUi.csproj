@@ -84,7 +84,9 @@
     <Compile Include="ViewModel\ConsolidatedBooksGenerationWorkflowViewModel.cs" />
     <Compile Include="ViewModel\DisplayMessagesViewModel.cs" />
     <Compile Include="ViewModel\BooksOfAccountGenerationStatusViewModel.cs" />
+    <Compile Include="ViewModel\Logger.cs" />
     <Compile Include="ViewModel\ReadJournalViewModel.cs" />
+    <Compile Include="ViewModel\ReadPreviousPeriodBalanceSheetViewModel.cs" />
     <Page Include="BooksOfAccountGenerationStatusUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

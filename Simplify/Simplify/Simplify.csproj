@@ -81,7 +81,10 @@
     <Compile Include="DataGateway\IJournalReader.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetReader.cs" />
     <Compile Include="ExcelDataGateway\BooksOfAccountWriter.cs" />
-    <Compile Include="ExcelDataGateway\ExcelReader.cs" />
+    <Compile Include="ExcelDataGateway\BooksOfAccountReader.cs" />
+    <Compile Include="ExcelDataGateway\ExcelSheetInfoProvider.cs" />
+    <Compile Include="ExcelDataGateway\ExcelWriter.cs" />
+    <Compile Include="ExcelDataGateway\ILogger.cs" />
     <Compile Include="ExcelDataGateway\JournalReader.cs" />
     <Compile Include="Application\ProfitAndLossAccountGenerator.cs" />
     <Compile Include="Books\ProfitAndLossBook.cs" />

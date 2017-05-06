@@ -10,38 +10,35 @@ using Simplify.Books;
 
 namespace Simplify.ExcelDataGateway
 {
-    public class ExcelReader
+    public interface IRowReader
     {
-        public IList<string> GetSheetNames(string excelFileName)
+        DateTime ReadDate(int zeroBasedColumnIndex);
+        int ReadInteger(int zeroBasedColumnIndex);
+        double ReadDouble(int zeroBasedColumnIndex);
+        string ReadString(int zeroBasedColumnIndex);
+    }
+
+
+    public class BooksOfAccountReader : IDisposable
+    {
+        private ExcelPackage _excelPackage;
+        private ExcelWorksheet _worksheet;
+
+        public BooksOfAccountReader(string excelFileName, string sheetName)
         {
-            AssertFileExists(excelFileName);
-            AssertFileExtentionIsXlsx(excelFileName);
-            
-            using (ExcelPackage package = GetReadOnlyExcelPackage(excelFileName))
+            ExcelSheetInfoProvider sheetInfoProvider = new ExcelSheetInfoProvider(excelFileName);
+            if (!sheetInfoProvider.IsSheetPresent(sheetName))
             {
-                return GetSheetNames(package);
+                throw new Exception(sheetName + ": sheet does not exist");
             }
+            _excelPackage = ExcelSheetInfoProvider.GetReadOnlyExcelPackage(excelFileName);
+            _worksheet = _excelPackage.Workbook.Worksheets[sheetName];
         }
 
-        private static IList<string> GetSheetNames(ExcelPackage package)
+        public List<JournalStatement> GetJournalStatements(ILogger logger)
         {
-            return package.Workbook.Worksheets.Select(s => s.Name).ToList();
-        }
 
-        private static ExcelPackage GetReadOnlyExcelPackage(string excelFileName)
-        {
-            var stream = GetFileStream(excelFileName);
-            return new ExcelPackage(stream);
-        }
-
-        public List<JournalStatement> GetJournalStatements(string excelFileName, string sheetName, out List<string> readMessages)
-        {
-            AssertFileExists(excelFileName);
-            AssertFileExtentionIsXlsx(excelFileName);
-            using (ExcelPackage package = GetReadOnlyExcelPackage(excelFileName))
-            {
-                AssertSheetExists(sheetName, package);
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+            ExcelWorksheet worksheet = _worksheet;
                 const int SerialNumber = 1;
                 const int Date = 2;
                 const int EntryType = 3;
@@ -52,18 +49,17 @@ namespace Simplify.ExcelDataGateway
                 const int Debit = 8;
 
                 int index = 1;
-                readMessages = new List<string>();
                 List<JournalStatement> ret = new List<JournalStatement>();
                 try
                 {
-                    AddColumnReadInfo(readMessages, worksheet, index, SerialNumber, nameof(SerialNumber));
-                    AddColumnReadInfo(readMessages, worksheet, index, Date, nameof(Date));
-                    AddColumnReadInfo(readMessages, worksheet, index, EntryType, nameof(EntryType));
-                    AddColumnReadInfo(readMessages, worksheet, index, Book, nameof(Book));
-                    AddColumnReadInfo(readMessages, worksheet, index, LedgerName, nameof(LedgerName));
-                    AddColumnReadInfo(readMessages, worksheet, index, AdditionalInformation, nameof(AdditionalInformation));
-                    AddColumnReadInfo(readMessages, worksheet, index, Credit, nameof(Credit));
-                    AddColumnReadInfo(readMessages, worksheet, index, Debit, nameof(Debit));
+                    AddColumnReadInfo(logger, worksheet, index, SerialNumber, nameof(SerialNumber));
+                    AddColumnReadInfo(logger, worksheet, index, Date, nameof(Date));
+                    AddColumnReadInfo(logger, worksheet, index, EntryType, nameof(EntryType));
+                    AddColumnReadInfo(logger, worksheet, index, Book, nameof(Book));
+                    AddColumnReadInfo(logger, worksheet, index, LedgerName, nameof(LedgerName));
+                    AddColumnReadInfo(logger, worksheet, index, AdditionalInformation, nameof(AdditionalInformation));
+                    AddColumnReadInfo(logger, worksheet, index, Credit, nameof(Credit));
+                    AddColumnReadInfo(logger, worksheet, index, Debit, nameof(Debit));
                     index++;
                     while (true)
                     {
@@ -77,7 +73,7 @@ namespace Simplify.ExcelDataGateway
                         var debit = GetNumber(worksheet, index, Debit);
                         if (credit > 0.001 && debit > 0.001)
                         {
-                            AddErrorMessage(readMessages, "Credit and Debit mentioned in row number " + index);
+                            logger.Error("Credit and Debit mentioned in row number " + index);
                         }
                         var value = credit - debit;   
                         ret.Add(new JournalStatement()
@@ -94,23 +90,18 @@ namespace Simplify.ExcelDataGateway
                 }
                 catch (Exception e)
                 {
-                    AddInfoMessage(readMessages, "Read "+(index-1)+" number of entries");
+                    logger.Info("Read "+(index-1)+" number of entries");
                 }
                 return ret;
-            }
         }
 
 
-        public BalanceSheetBook GetBalanceSheet(string excelFileName, string sheetName, out List<string> readMessages)
+        public BalanceSheetBook GetBalanceSheet(ILogger logger)
         {
-            AssertFileExists(excelFileName);
-            AssertFileExtentionIsXlsx(excelFileName);
-            using (ExcelPackage package = GetReadOnlyExcelPackage(excelFileName))
+            
             {
-                AssertSheetExists(sheetName, package);
-                readMessages = new List<string>();
                 BalanceSheetBook ret = new BalanceSheetBook();
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+                ExcelWorksheet worksheet = _worksheet;
                 const int LedgerName = 1;
                 const int Credit = 2;
                 const int Debit = 3;
@@ -119,9 +110,9 @@ namespace Simplify.ExcelDataGateway
 
                 try
                 {
-                    AddColumnReadInfo(readMessages, worksheet, index, LedgerName, nameof(LedgerName));
-                    AddColumnReadInfo(readMessages, worksheet, index, Credit, nameof(Credit));
-                    AddColumnReadInfo(readMessages, worksheet, index, Debit, nameof(Debit));
+                    AddColumnReadInfo(logger, worksheet, index, LedgerName, nameof(LedgerName));
+                    AddColumnReadInfo(logger, worksheet, index, Credit, nameof(Credit));
+                    AddColumnReadInfo(logger, worksheet, index, Debit, nameof(Debit));
 
                     index = 2;
                     while (true)
@@ -135,7 +126,7 @@ namespace Simplify.ExcelDataGateway
                         {
                             if (credit > 0.001 && debit > 0.001)
                             {
-                                AddErrorMessage(readMessages, "Credit and Debit mentioned in row number " + index);
+                                logger.Error("Credit and Debit mentioned in row number " + index);
                             }
                             ret.Add(new Statement()
                             {
@@ -148,9 +139,9 @@ namespace Simplify.ExcelDataGateway
                 }
                 catch (Exception e)
                 {
-                    AddInfoMessage(readMessages, "Read " + (index - 1) + " number of entries");
+                    logger.Error("Read " + (index - 1) + " number of entries");
                 }
-                AddInfoMessage(readMessages, "Please verify that the previous year capital is "+ret.GetCapital());
+                logger.Error("Please verify that the previous year capital is " +ret.GetCapital());
                 return ret;
             }
         }
@@ -164,17 +155,13 @@ namespace Simplify.ExcelDataGateway
         {
             readMessages.Add("Info: " + infoMessage);
         }
-        private void AddColumnReadInfo(IList<string> readMessages, ExcelWorksheet worksheet, int rowIndex, int columnIndex, string fieldName)
+        private void AddColumnReadInfo(ILogger logger, ExcelWorksheet worksheet, int rowIndex, int columnIndex, string fieldName)
         {
             var columnName = GetText(worksheet, rowIndex, columnIndex);
-            AddInfoMessage(readMessages, "Read " + columnName + " as " + fieldName);
+            logger.Info("Read " + columnName + " as " + fieldName);
         }
 
-        private static void AssertSheetExists(string sheetName, ExcelPackage package)
-        {
-            var sheetNames = GetSheetNames(package);
-            if (!sheetNames.Contains(sheetName)) throw new Exception(sheetName + ": sheet does not exist");
-        }
+        
 
         private static FileStream GetFileStream(string excelFileName)
         {
@@ -204,22 +191,9 @@ namespace Simplify.ExcelDataGateway
             return bookName.ToUpper().GetBook();
         }
 
-
-        
-        private static void AssertFileExtentionIsXlsx(string excelFileName)
+        public void Dispose()
         {
-            if (Path.GetExtension(excelFileName) != ".xlsx")
-            {
-                throw new Exception("The extention is not xlsx");
-            }
-        }
-
-        private static void AssertFileExists(string excelFileName)
-        {
-            if (!File.Exists(excelFileName))
-            {
-                throw new Exception("File Does Not Exist");
-            }
+            _excelPackage.Dispose();
         }
     }
 }
