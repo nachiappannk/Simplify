@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Simplify.ExcelDataGateway;
 
-namespace Simplify.ViewModel
+namespace SimplifyUi.ViewModel
 {
     public class ReadPreviousPeriodBalanceSheetViewModel : ReadExcelViewModel
     {

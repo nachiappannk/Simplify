@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Simplify.Books;
 
-namespace Simplify
+namespace Simplify.Application
 {
     public class ProfitAndLossAccountGenerator
     {

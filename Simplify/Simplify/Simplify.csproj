@@ -89,6 +89,7 @@
     <Compile Include="Application\ProfitAndLossAccountGenerator.cs" />
     <Compile Include="Books\ProfitAndLossBook.cs" />
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
+    <Compile Include="ExcelDataGateway\SheetHeadingLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

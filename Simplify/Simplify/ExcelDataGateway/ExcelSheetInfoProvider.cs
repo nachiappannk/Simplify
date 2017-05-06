@@ -17,9 +17,14 @@ namespace Simplify.ExcelDataGateway
 
         public IList<string> GetSheetNames()
         {
-            using (var package = GetReadOnlyExcelPackage(_excelFileName))
+            AssertFileExists(_excelFileName);
+            AssertFileExtentionIsXlsx(_excelFileName);
+            using (Stream stream = GetFileStream(_excelFileName))
             {
-                return package.Workbook.Worksheets.Select(s => s.Name).ToList();
+                using (var package = new ExcelPackage(stream))
+                {
+                    return package.Workbook.Worksheets.Select(s => s.Name).ToList();
+                }
             }
         }
 
@@ -39,18 +44,10 @@ namespace Simplify.ExcelDataGateway
             }
         }
 
-        private static FileStream GetFileStream(string excelFileName)
+        public static FileStream GetFileStream(string excelFileName)
         {
             FileStream stream = File.Open(excelFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             return stream;
-        }
-
-        public static ExcelPackage GetReadOnlyExcelPackage(string excelFileName)
-        {
-            AssertFileExists(excelFileName);
-            AssertFileExtentionIsXlsx(excelFileName);
-            var stream = GetFileStream(excelFileName);
-            return new ExcelPackage(stream);
         }
     }
 
@@ -61,6 +58,4 @@ namespace Simplify.ExcelDataGateway
             return infoProvider.GetSheetNames().Select(x => x.ToLower()).Contains(sheetName.ToLower());
         }
     }
-
-
 }

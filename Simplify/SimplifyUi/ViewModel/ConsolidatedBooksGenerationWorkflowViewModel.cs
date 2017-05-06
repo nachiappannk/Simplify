@@ -1,14 +1,8 @@
-﻿using System.Collections;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Simplify.Annotations;
-using Simplify.Books;
+using Simplify.Properties;
 
-namespace Simplify.ViewModel
+namespace SimplifyUi.ViewModel
 {
     public class ConsolidatedBooksGenerationWorkflowViewModel : INotifyPropertyChanged
     {

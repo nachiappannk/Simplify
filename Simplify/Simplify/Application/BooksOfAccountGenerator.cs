@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Simplify.Books;
 
-namespace Simplify
+namespace Simplify.Application
 {
     public class BooksOfAccountGenerator
     {

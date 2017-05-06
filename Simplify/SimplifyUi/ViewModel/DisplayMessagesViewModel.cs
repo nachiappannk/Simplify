@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Prism.Commands;
 
-namespace Simplify.ViewModel
+namespace SimplifyUi.ViewModel
 {
     public class DisplayMessagesViewModel
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Windows.Input;
-using Prism.Commands;
+using Simplify.Application;
 using Simplify.Books;
 using Simplify.DataGateway;
 using Simplify.ExcelDataGateway;
 
-namespace Simplify.ViewModel
+namespace SimplifyUi.ViewModel
 {
     public class BooksOfAccountGenerationStatusViewModel
     {
