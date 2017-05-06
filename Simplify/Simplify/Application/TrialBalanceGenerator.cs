@@ -19,7 +19,7 @@ namespace Simplify.Application
                 .ToList();
             var trialBalance = new TrialBalanceBook();
 
-            trialBalance.AddRange(statements);
+            trialBalance.AddRange(statements.OrderBy(x=>x.Name));
             return trialBalance;
         }
     }

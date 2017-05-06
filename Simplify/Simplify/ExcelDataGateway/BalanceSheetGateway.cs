@@ -22,22 +22,22 @@ namespace Simplify.ExcelDataGateway
 
         public void WriteBalanceSheet(BalanceSheetBook balanceSheet)
         {
-            var bSheetCopy = balanceSheet.Where(s => Math.Abs((double) s.Value) > 0.001).ToList();
             var index = 0;
             using (var writer = new ExcelWriter(_excelFileName, "BS"))
             {
                 writer.Write(index++, headings.ToArray<object>());
                 writer.SetColumnsWidth(6, 45, 12, 12, 12);
                 writer.ApplyHeadingFormat(headings.Length);
-                writer.WriteList(index, bSheetCopy, (b, rowIndex) => new object[]
+                writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
                     b.Name,
                     b.GetCreditValue(),
                     b.GetDebitValue(),
                 });
-                index = index + bSheetCopy.Count;
-                writer.Write(index, "", "Total", bSheetCopy.GetCreditTotal(), bSheetCopy.GetDebitTotal(), bSheetCopy.GetTotal());
+                index = index + balanceSheet.Count;
+                writer.Write(index, "", "Total", balanceSheet.GetCreditTotal(), balanceSheet.GetDebitTotal(), 
+                    balanceSheet.GetTotal());
 
             }
         }

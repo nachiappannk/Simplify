@@ -14,7 +14,7 @@ namespace Simplify.Application
                 {
                     Name = key,
                     Value = values.Sum(),
-                }).ToList();
+                }).OrderBy(x=> x.Name).ToList();
             var profitAndLossBook = new ProfitAndLossBook();
             profitAndLossBook.AddRange(groupedStatements);
             return profitAndLossBook;

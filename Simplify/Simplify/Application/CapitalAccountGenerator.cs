@@ -13,9 +13,9 @@ namespace Simplify.Application
             
             var neededStatements = journalStatements.Where(x => x.BookName == Book.Capital).ToList();
             var capitalAccount = new CapitalAccountBook(accountOpeningDate, accountClosingDate);
-            capitalAccount.AddRange(neededStatements);
-            capitalAccount.UpsertOpeningCapital(openingBalance);
-            capitalAccount.UpsertNetEarnings(netEarnings);
+            capitalAccount.AddRange(neededStatements.OrderBy(x=> x.Date));
+            capitalAccount.InsertNetEarnings(netEarnings);
+            capitalAccount.InsertOpeningCapital(openingBalance);
             return capitalAccount;
         }
     }

@@ -49,7 +49,7 @@ namespace Simplify.ExcelDataGateway
                         j.GetDebitValue(),
                     });
                 index = index + capitalAccountBook.Count;
-                writer.Write(index, "", "Closing Balance", capitalAccountBook.GetCreditTotal(), 
+                writer.Write(index, "","", "Closing Balance", capitalAccountBook.GetCreditTotal(), 
                     capitalAccountBook.GetDebitTotal(),
                     capitalAccountBook.GetTotal());
                 

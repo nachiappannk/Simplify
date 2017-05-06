@@ -34,7 +34,7 @@ namespace Simplify.ExcelDataGateway
                 writer.Write(index++, _headings);
                 writer.SetColumnsWidth(6, 12, 4, 8, 35, 45, 12, 12);
                 writer.ApplyHeadingFormat(8);
-                writer.WriteList(index, journalStatements,
+                writer.WriteList(index, journalStatements.OrderBy(x =>x.Date).ToList(),
                     (j, rowIndex) => new object[]
                     {
                         rowIndex - 1,

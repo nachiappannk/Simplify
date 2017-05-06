@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Simplify.Books;
 
 namespace Simplify.Application
@@ -9,21 +11,45 @@ namespace Simplify.Application
         public BalanceSheetBook Generate(IList<JournalStatement> journalStatements,
             BalanceSheetBook previousYearBalanceSheet, double capital)
         {
-            var neededStatements = journalStatements.Where(x => x.BookName == Book.BalanceSheet)
-                .Select(x => (Statement) x).ToList();
-            neededStatements.AddRange(previousYearBalanceSheet);
 
-            var groupedStatements = neededStatements.GroupBy(x => x.Name, x => x.Value, (key, values) =>
-                new Statement()
-                {
-                    Name = key,
-                    Value = values.Sum(),
-                }).ToList();
+            var currentYearStatements = journalStatements
+                .Where(x => x.BookName == Book.BalanceSheet).Select(x => (Statement) x)
+                .Select(TrimBrackets)
+                .Where(s => Math.Abs(s.Value) > 0.001).ToList();
+
+
+            var allStatements = new List<Statement>();
+            allStatements.AddRange(previousYearBalanceSheet);
+            allStatements.AddRange(currentYearStatements);
+
+
+            var groupedStatements = allStatements
+                .GroupBy(x => x.Name, x => x.Value, (key, values) =>
+                    new Statement()
+                    {
+                        Name = key,
+                        Value = values.Sum(),
+                    })
+                .Where(s => Math.Abs(s.Value) > 0.001).ToList();
+
+            
 
             var balanceSheet = new BalanceSheetBook();
-            balanceSheet.AddRange(groupedStatements);
+            balanceSheet.AddRange(groupedStatements.OrderBy(s => s.Name));
             balanceSheet.UpsertCapital(capital);
             return balanceSheet;
         }
+
+        private Statement TrimBrackets(Statement s)
+        {
+            var name = s.Name;
+            var output = Regex.Replace(name, "\\([a-zA-Z0-9\\s]*\\)", string.Empty);
+            return new Statement()
+            {
+                Name = output.Trim(),
+                Value = s.Value,
+            };
+        }
+
     }
 }

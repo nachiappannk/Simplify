@@ -26,6 +26,8 @@ namespace Simplify.Books
             if (capitalStatement != null)
             {
                 capitalStatement.Value = capital;
+                balanceSheet.Remove(capitalStatement);
+                balanceSheet.Insert(0, capitalStatement);
             }
             else
             {
