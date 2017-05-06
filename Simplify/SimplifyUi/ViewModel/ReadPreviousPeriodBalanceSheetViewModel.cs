@@ -19,10 +19,10 @@ namespace SimplifyUi.ViewModel
             {
                 ComputeAndUpdateSheetName();
 
-                BooksOfAccountReader booksOfAccountReader = new BooksOfAccountReader(InputExcelFileName, SelectedSheet);
+                BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(InputExcelFileName);
                 var logger = new Logger();
                 
-                var balanceSheet = booksOfAccountReader.GetBalanceSheet(logger);
+                var balanceSheet = balanceSheetGateway.GetBalanceSheet(logger, SelectedSheet);
                 _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
                 _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
                 _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);

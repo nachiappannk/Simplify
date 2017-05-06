@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Simplify.Books;
 using Simplify.DataGateway;
@@ -9,7 +7,7 @@ namespace Simplify.ExcelDataGateway
 {
     public class BooksOfAccountWriter : IBooksOfAccountWriter
     {
-        private string outputExcelFileName;
+        private readonly string outputExcelFileName;
 
         public BooksOfAccountWriter(string outputExcelFileName)
         {
@@ -27,26 +25,8 @@ namespace Simplify.ExcelDataGateway
 
         private void AddBalanceSheet(BalanceSheetBook balanceSheet)
         {
-            var bSheetCopy = balanceSheet.Where(s => Math.Abs(s.Value) > 0.001).ToList();
-            var index = 0;
-            using (var writer = new ExcelWriter(outputExcelFileName, "BS"))
-            {
-                object[] headings = {"S.No.", "Ledger", "Credit", "Debit", "Total"};
-                writer.Write(index++,headings);
-                writer.SetColumnsWidth(6, 45, 12, 12, 12);
-                writer.ApplyHeadingFormat(headings.Length);
-
-                writer.WriteList(index, bSheetCopy, (b, rowIndex) => new object[]
-                {
-                    rowIndex - 1,
-                    b.Name,
-                    b.GetCreditValue(),
-                    b.GetDebitValue(),
-                });
-                index = index + bSheetCopy.Count;
-                writer.Write(index, "", "Total", bSheetCopy.GetCreditTotal(), bSheetCopy.GetDebitTotal(), bSheetCopy.GetTotal());
-                
-            }
+            BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(outputExcelFileName);
+            balanceSheetGateway.WriteBalanceSheet(balanceSheet);
         }
 
         private void AddCapitalAccount(CapitalAccountBook capitalAccountBook)

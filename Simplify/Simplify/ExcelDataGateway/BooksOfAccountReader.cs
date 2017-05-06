@@ -72,35 +72,5 @@ namespace Simplify.ExcelDataGateway
         }
 
 
-        public BalanceSheetBook GetBalanceSheet(ILogger logger)
-        {
-            const int LedgerName = 0;
-            const int Credit = 1;
-            const int Debit = 2;
-            string[] columnNames = { nameof(LedgerName), nameof(Credit), nameof(Debit)};
-
-            using (ExcelReader reader = new ExcelReader(_excelFileName, _sheetName))
-            { 
-                SheetHeadingLogger.LogHeadingRowDetails(logger, reader, columnNames);
-            
-                var balanceSheetStatements = reader.ReadAllLines(1, (r) =>
-                {
-                    var credit = r.ReadDouble(Credit);
-                    var debit = r.ReadDouble(Debit);
-                    if (credit > 0.001 && debit > 0.001)
-                    {
-                        logger.Error("Both credit and debit has values");
-                    }
-                    return new Statement()
-                    {
-                        Name = r.ReadString(LedgerName),
-                        Value = credit - debit,
-                    };
-                }).ToList();
-                var balanceSheet = new BalanceSheetBook();
-                balanceSheet.AddRange(balanceSheetStatements);
-                return balanceSheet;
-            }
-        }
     }
 }
