@@ -3,7 +3,7 @@ using Simplify.Books;
 
 namespace Simplify.DataGateway
 {
-    public interface IJournalReader : IBalanceSheetReader
+    public interface IJournalReader
     {
         IList<JournalStatement> GetJournal(string inputFile);
     }

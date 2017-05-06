@@ -11,6 +11,7 @@ namespace Simplify.Books
     {
         public static Book GetBook(this string bookName)
         {
+            bookName = bookName.ToUpper();
             switch (bookName)
             {
                 case "P&L":

@@ -14,7 +14,7 @@ using OfficeOpenXml;
 
 namespace Simplify.ExcelDataGateway
 {
-    class JournalReader : IJournalReader, IBalanceSheetReader
+    class JournalReader : IJournalReader
     {
         private string GetText(ExcelWorksheet sheet, int row, int column)
         {
