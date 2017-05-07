@@ -76,6 +76,7 @@
     <Compile Include="Books\ConsolidatedBook.cs" />
     <Compile Include="Books\DatedStatement.cs" />
     <Compile Include="Books\JournalStatement.cs" />
+    <Compile Include="Books\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
     <Compile Include="DataGateway\IJournalReader.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />
