@@ -8,29 +8,47 @@ using Simplify.ExcelDataGateway;
 using Simplify.Properties;
 using SimplifyUi.BooksOfAccountGeneration.ViewModel;
 using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
-    public class CapitalGainWorkflowViewModel : WorkflowViewModel
+    public class CapitalGainWorkflowViewModel : INotifyPropertyChanged
     {
+        private object _workflowStepViewModel;
+        public object WorkflowStepViewModel
+        {
+            get { return _workflowStepViewModel; }
+            set
+            {
+                if (_workflowStepViewModel != value)
+                {
+                    _workflowStepViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public static readonly int ReadTradeLog = 1;
-        public static readonly int DisplayMessage = 2;
+        public void GotoInformationStep(IList<string> mainInfo, ILogger logger)
+        {
+            WorkflowStepViewModel = new object();
+        }
 
-        public static readonly string TradeLogKey = nameof(TradeLogKey);
-        public static readonly string TradeLogReadMessagesKey = nameof(TradeLogReadMessagesKey);
-        public static readonly string SquaredTradeKey= nameof(SquaredTradeKey);
-        public static readonly string DisplayMessagesKey = nameof(DisplayMessagesKey);
+        public void GotoGatherInput()
+        {
 
+        }
 
         public CapitalGainWorkflowViewModel()
         {
-            RegisterNextStep(ReadTradeLog, () =>
-            {
-                WorkflowStepViewModel = new ReadTradeLogViewModel(Bag, GoToNextStep);
-            });
-            GoToNextStep(ReadTradeLog);    
+            WorkflowStepViewModel = new CapitalGainsInputViewModel(GotoInformationStep);    
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [Annotations.NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

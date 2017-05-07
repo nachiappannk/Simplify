@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="SimplifyUi.CapitalGainsGeneration.CapitalGainsInputUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel"
+             xmlns:common="clr-namespace:SimplifyUi.Common"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModel:CapitalGainsInputViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel LastChildFill="False">
+        <Label DockPanel.Dock="Top"
+            Height="35" Content="Compute Capital Gains" HorizontalAlignment="Stretch"
+               VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
+               VerticalContentAlignment="Center"/>
+        <common:ExcelSheetSelectorUserControl DockPanel.Dock="Top" Margin="10,10,10,0" 
+                                              DataContext="{Binding ExcelSheetSelectorViewModel}"/>
+        <Border Background="LightSkyBlue" Height="40" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
+            <DockPanel LastChildFill="False">
+                <Button Width="60" Height="30" Content="Generate" DockPanel.Dock="Right" Margin="0,0,10,0"
+                        Command="{Binding GenerateCommand}"/>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</UserControl>

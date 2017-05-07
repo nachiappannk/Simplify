@@ -77,12 +77,20 @@
     <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml.cs">
       <DependentUpon>BooksOfAccountGenerationWorkflowUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CapitalGainsGeneration\CapitalGainsInputUserControl.xaml.cs">
+      <DependentUpon>CapitalGainsInputUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml.cs">
       <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CapitalGainsGeneration\ViewModel\OutputNameComputer.cs" />
+    <Compile Include="Common\ExcelSheetSelectorUserControl.xaml.cs">
+      <DependentUpon>ExcelSheetSelectorUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ViewModel\ExcelSheetSelectorViewModel.cs" />
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\ReadTradeLogViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainsInputViewModel.cs" />
     <Compile Include="Common\DisplayMessagesUserControl.xaml.cs">
       <DependentUpon>DisplayMessagesUserControl.xaml</DependentUpon>
     </Compile>
@@ -106,11 +114,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CapitalGainsGeneration\CapitalGainsInputUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\DisplayMessagesUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\ExcelSheetSelectorUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +148,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

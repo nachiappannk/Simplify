@@ -11,28 +11,20 @@ namespace Simplify.Facade
     public class CapitalGainsStatementGenerationFacade
     {
         public void GenerateStatements(string inputExcelFileName, 
-            string excelSheetName, 
-            string outputExcelFile, ILogger logger)
+            string excelSheetName, string outputExcelFile, ILogger logger)
         {
 
-            try
-            {
-                TradeLogGateway tradeLogGateway = new TradeLogGateway(inputExcelFileName);
-                var tradeLogs = tradeLogGateway.ReadTradeLog(logger, excelSheetName);
 
-                SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
-                var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
-                    var writeLogGateway = new TradeLogGateway(outputExcelFile);
-                    writeLogGateway.WriteOpenPositions(result.OpenTradeStatements);
+            TradeLogGateway tradeLogGateway = new TradeLogGateway(inputExcelFileName);
+            var tradeLogs = tradeLogGateway.ReadTradeLog(logger, excelSheetName);
 
-                    var capitalGainsStatementWriter = new CapitalGainsStatementWriter(outputExcelFile);
-                    capitalGainsStatementWriter.WriteCapitalGains(result.SquaredStatements);
-            }
-            catch (Exception e)
-            {
-                
-            }
-            
+            SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
+            var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
+                var writeLogGateway = new TradeLogGateway(outputExcelFile);
+                writeLogGateway.WriteOpenPositions(result.OpenTradeStatements);
+
+                var capitalGainsStatementWriter = new CapitalGainsStatementWriter(outputExcelFile);
+                capitalGainsStatementWriter.WriteCapitalGains(result.SquaredStatements);
         }
     }
 }

@@ -19,6 +19,8 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
         {
             try
             {
+                
+
                 ComputeSheetName();
 
                 BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(InputExcelFileName);

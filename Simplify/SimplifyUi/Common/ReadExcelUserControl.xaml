@@ -24,8 +24,6 @@
             <Button DockPanel.Dock="Right" Margin="10" Height="24" Width="40" Content="Pick" Click="OnPickerButtonClick"/>
             <TextBox x:Name="FilePicker" IsReadOnly="True" Text="{Binding InputExcelFileName}"  Height="24" FontSize="14" 
                      HorizontalAlignment="Stretch"/>
-            
-            
         </DockPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Grid.Row="2">
             <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left"

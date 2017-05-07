@@ -6,6 +6,7 @@
              xmlns:common="clr-namespace:SimplifyUi.Common"
              xmlns:commonViewModel="clr-namespace:SimplifyUi.Common.ViewModel"
              xmlns:viewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel"
+             xmlns:capitalGainsGeneration="clr-namespace:SimplifyUi.CapitalGainsGeneration"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModel:CapitalGainWorkflowViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -14,6 +15,10 @@
             <DataTemplate DataType="{x:Type commonViewModel:ReadExcelViewModel}">
                 <common:ReadExcelUserControl/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:CapitalGainsInputViewModel}">
+                <capitalGainsGeneration:CapitalGainsInputUserControl/>
+            </DataTemplate>
+            
         </Grid.Resources>
         <ContentControl Content="{Binding WorkflowStepViewModel}"></ContentControl>
     </Grid>
