@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
+             xmlns:viewModel="clr-namespace:SimplifyUi.BooksOfAccountGeneration.ViewModel"
              d:DataContext="{d:DesignInstance viewModel:BooksOfAccountGenerationStatusViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -20,7 +21,8 @@
                FontSize="20" Background="Blue" Foreground="White" 
                FontWeight="Bold" HorizontalAlignment="Stretch"/>
         <Grid Grid.Row="1" >
-            <Label Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ErrorMessage}" Visibility="{Binding IsError , 
+            <Label Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Content="{Binding ErrorMessage}" Visibility="{Binding IsError , 
                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Label FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Content="{Binding CompletedMessage}" Visibility="{Binding IsCompleted , 
