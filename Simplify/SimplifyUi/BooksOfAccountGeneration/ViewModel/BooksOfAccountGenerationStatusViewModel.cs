@@ -14,24 +14,24 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
         {
             try
             {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string outputExcelFileName = "Output" + DateTime.Now.ToString("_yyyy_MM_dd_HH_mm_ss_fff");
-                string fullPath = path + "\\" + outputExcelFileName + ".xlsx";
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                //string outputExcelFileName = "Output" + DateTime.Now.ToString("_yyyy_MM_dd_HH_mm_ss_fff");
+                //string fullPath = path + "\\" + outputExcelFileName + ".xlsx";
 
 
-                var journal = bag.GetObject<List<JournalStatement>>(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey);
-                var previousBalanceSheet =
-                    bag.GetObject<BalanceSheetBook>(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey);
+                //var journal = bag.GetObject<List<JournalStatement>>(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey);
+                //var previousBalanceSheet =
+                //    bag.GetObject<BalanceSheetBook>(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey);
 
-                BooksOfAccountGenerator booksOfAccountGenerator = new BooksOfAccountGenerator();
-                var books = booksOfAccountGenerator.Generate(journal, previousBalanceSheet, new DateTime(2017, 3, 31),
-                    new DateTime(2016, 3, 31));
+                //BooksOfAccountGenerator booksOfAccountGenerator = new BooksOfAccountGenerator();
+                //var books = booksOfAccountGenerator.Generate(journal, previousBalanceSheet, new DateTime(2017, 3, 31),
+                //    new DateTime(2016, 3, 31));
 
-                IBooksOfAccountWriter booksOfAccountWriter = new BooksOfAccountWriter(fullPath);
-                booksOfAccountWriter.WriteBooksOfAccount(books);
-                CompletedMessage = "Please find " + outputExcelFileName+".xlsx in the desktop";
-                IsCompleted = true;
-                IsError = false;
+                //IBooksOfAccountWriter booksOfAccountWriter = new BooksOfAccountWriter(fullPath);
+                //booksOfAccountWriter.WriteBooksOfAccount(books);
+                //CompletedMessage = "Please find " + outputExcelFileName+".xlsx in the desktop";
+                //IsCompleted = true;
+                //IsError = false;
             }
             catch (Exception e)
             {

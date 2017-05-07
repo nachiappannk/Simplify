@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:common="clr-namespace:SimplifyUi.Common"
-             xmlns:commonViewModel="clr-namespace:SimplifyUi.Common.ViewModel"
              xmlns:viewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel"
              xmlns:capitalGainsGeneration="clr-namespace:SimplifyUi.CapitalGainsGeneration"
              mc:Ignorable="d" 
@@ -12,9 +10,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
-            <DataTemplate DataType="{x:Type commonViewModel:ReadExcelViewModel}">
-                <common:ReadExcelUserControl/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:CapitalGainsInputViewModel}">
                 <capitalGainsGeneration:CapitalGainsInputUserControl/>
             </DataTemplate>

@@ -5,21 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SimplifyUi.BooksOfAccountGeneration"
              xmlns:viewModel="clr-namespace:SimplifyUi.BooksOfAccountGeneration.ViewModel"
-             xmlns:commonViewModel="clr-namespace:SimplifyUi.Common.ViewModel"
-             xmlns:common="clr-namespace:SimplifyUi.Common"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModel:BooksOfAccountGenerationWorkflowViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
-            <DataTemplate DataType="{x:Type commonViewModel:ReadExcelViewModel}">
-                <common:ReadExcelUserControl/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type commonViewModel:DisplayMessagesViewModel}">
-                <common:DisplayMessagesUserControl/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:BooksOfAccountGenerationStatusViewModel}">
-                <local:BooksOfAccountGenerationStatusUserControl/>
+            
+            <DataTemplate DataType="{x:Type viewModel:BooksOfAccountInputViewModel}">
+                <local:BooksOfAccountInputUserControl/>
             </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding WorkflowStepViewModel}"></ContentControl>

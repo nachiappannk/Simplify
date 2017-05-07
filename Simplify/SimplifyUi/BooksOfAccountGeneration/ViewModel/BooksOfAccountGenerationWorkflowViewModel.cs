@@ -1,46 +1,51 @@
-﻿using SimplifyUi.Common.ViewModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using SimplifyUi.CapitalGainsGeneration.ViewModel;
+using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
-    public class BooksOfAccountGenerationWorkflowViewModel : WorkflowViewModel
+    public class BooksOfAccountGenerationWorkflowViewModel : INotifyPropertyChanged
     {
-        public static readonly int ReadJournal = 1;
-        public static readonly int DisplayJournalReadMessages = 2;
-        public static readonly int ReadPreviousPeriodBalanceSheet = 3;
-        public static readonly int DisplayBalanceSheetReadMessages = 4;
-        public static readonly int GenerateBooksOfAccount = 5;
+        private object _workflowStepViewModel;
+        public object WorkflowStepViewModel
+        {
+            get { return _workflowStepViewModel; }
+            set
+            {
+                if (_workflowStepViewModel != value)
+                {
+                    _workflowStepViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public static readonly string InputJournalKey = nameof(InputJournalKey);
-        public static readonly string JournalReadMessagesKey = nameof(JournalReadMessagesKey);
-        public static readonly string InputBalanceSheetKey = nameof(InputBalanceSheetKey);
-        public static readonly string BalanceSheetReadMessagesKey = nameof(BalanceSheetReadMessagesKey);
+        public void GotoInformationStep(List<string> mainInfo, Logger logger)
+        {
+            WorkflowStepViewModel = new DisplayInformationViewModel("Books of AccountGeneration Status", mainInfo,
+                logger.GetLogMessages(), GotoGatherInput);
+        }
 
+        public void GotoGatherInput()
+        {
+            WorkflowStepViewModel = new BooksOfAccountInputViewModel(GotoInformationStep);
+        }
 
         public BooksOfAccountGenerationWorkflowViewModel()
         {
-            RegisterNextStep(ReadJournal, () =>
-            {
-                WorkflowStepViewModel = new ReadJournalViewModel(Bag, GoToNextStep);
-            });
-            RegisterNextStep(DisplayJournalReadMessages, () =>
-            {
-                WorkflowStepViewModel = new DisplayMessagesViewModel(Bag, JournalReadMessagesKey,
-                    "Please check the journal read logs", ReadPreviousPeriodBalanceSheet, GoToNextStep);
-            });
-            RegisterNextStep(ReadPreviousPeriodBalanceSheet, () =>
-            {
-                WorkflowStepViewModel = new ReadPreviousPeriodBalanceSheetViewModel(Bag, GoToNextStep);
-            });
-            RegisterNextStep(DisplayBalanceSheetReadMessages, () =>
-            {
-                WorkflowStepViewModel = new DisplayMessagesViewModel(Bag, BalanceSheetReadMessagesKey,
-                    "Please check the balance sheet read logs", GenerateBooksOfAccount, GoToNextStep);
-            });
-            RegisterNextStep(GenerateBooksOfAccount, () =>
-            {
-                WorkflowStepViewModel = new BooksOfAccountGenerationStatusViewModel(Bag);
-            });
-            GoToNextStep(ReadJournal);
+            GotoGatherInput();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [Annotations.NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }
