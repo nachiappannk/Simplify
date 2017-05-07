@@ -6,11 +6,18 @@
         xmlns:local="clr-namespace:SimplifyUi"
         xmlns:booksOfAccountGeneration="clr-namespace:SimplifyUi.BooksOfAccountGeneration"
         xmlns:capitalGainsGeneration="clr-namespace:SimplifyUi.CapitalGainsGeneration"
+        xmlns:viewModel="clr-namespace:SimplifyUi.Common.ViewModel"
+        xmlns:common="clr-namespace:SimplifyUi.Common"
 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="600">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModel:DisplayInformationViewModel}">
+                <common:DisplayInformationUserControl/>
+            </DataTemplate>
+        </Grid.Resources>
         <TabControl TabStripPlacement="Left">
             <TabControl.Resources>
                 <Style TargetType="TabItem">

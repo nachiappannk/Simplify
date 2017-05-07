@@ -28,20 +28,19 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             }
         }
 
-        public void GotoInformationStep(List<string> mainInfo, Logger logger)
+        public void GotoInformationStep(IList<string> mainInfo, ILogger logger)
         {
-            WorkflowStepViewModel = new DisplayInformationViewModel("Capital Gains Generation Status", mainInfo,
-                logger.GetLogMessages(), GotoGatherInput);
+            WorkflowStepViewModel = new object();
         }
 
         public void GotoGatherInput()
         {
-            WorkflowStepViewModel = new CapitalGainsInputViewModel(GotoInformationStep);
+
         }
 
         public CapitalGainWorkflowViewModel()
         {
-            GotoGatherInput();  
+            WorkflowStepViewModel = new CapitalGainsInputViewModel(GotoInformationStep);    
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

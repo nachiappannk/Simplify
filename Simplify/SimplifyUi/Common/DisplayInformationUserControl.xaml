@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="SimplifyUi.Common.DisplayInformationUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModel="clr-namespace:SimplifyUi.Common.ViewModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModel:DisplayInformationViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+            Height="35" Content="{Binding Title}" HorizontalAlignment="Stretch"
+               VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
+               VerticalContentAlignment="Center"/>
+        <DockPanel Grid.Row="1">
+            <Label DockPanel.Dock="Top" Content="Process Information" FontSize="14"/>
+            <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl  ItemsSource="{Binding MainInformation}" >
+                    <ItemsControl.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding}" FontSize="12" 
+                                TextWrapping="Wrap"/>
+                        </ItemContainerTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+        <DockPanel Grid.Row="2">
+            <Label DockPanel.Dock="Top" Content="Additional Information" FontSize="12"/>
+            <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl  ItemsSource="{Binding AdditionalInformation}">
+                    <ItemsControl.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding}" FontSize="10" 
+                                   TextWrapping="Wrap"/>
+                        </ItemContainerTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+        <Border Grid.Row="3" Background="LightSkyBlue" Height="40" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
+            <DockPanel LastChildFill="False">
+                <Button Width="60" Height="30" Content="Thank you" DockPanel.Dock="Right" Margin="0,0,10,0"
+                        Command="{Binding CompletedCommand}"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

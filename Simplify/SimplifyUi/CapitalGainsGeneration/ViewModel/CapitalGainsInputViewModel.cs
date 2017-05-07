@@ -12,13 +12,14 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
     public class CapitalGainsInputViewModel
     {
-        private Action<IList<string>, ILogger> _completionCallBack;
+        private Action<List<string>, Logger> _completionCallBack;
 
-        public CapitalGainsInputViewModel(Action<IList<string>, ILogger> completionCallBack)
+        public CapitalGainsInputViewModel(Action<List<string>, Logger> completionCallBack)
         {
             _completionCallBack = completionCallBack;
 
             ExcelSheetSelectorViewModel = new ExcelSheetSelectorViewModel();
+            ExcelSheetSelectorViewModel.Title = "Please provide trade log";
             ExcelSheetSelectorViewModel.ValidityChanged += () =>
             {
                 GenerateCommand.RaiseCanExecuteChanged();
