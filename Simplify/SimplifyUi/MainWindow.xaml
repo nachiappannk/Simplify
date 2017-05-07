@@ -10,7 +10,46 @@
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <booksOfAccountGeneration:BooksOfAccountGenerationWorkflowUserControl 
+        <TabControl TabStripPlacement="Left">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4" Margin="2">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="4"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Books of Account" TextWrapping="Wrap" MaxWidth="80"  Height="40" FontSize="14"
+                               FontWeight="Bold"/>
+                </TabItem.Header>
+                <booksOfAccountGeneration:BooksOfAccountGenerationWorkflowUserControl 
             DataContext="{Binding BooksOfAccountGenerationWorkflowViewModel}"/>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Capital Gains" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
+                               FontWeight="Bold"/>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

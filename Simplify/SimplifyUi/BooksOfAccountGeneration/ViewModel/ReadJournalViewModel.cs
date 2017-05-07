@@ -9,9 +9,9 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
     {
         public ReadJournalViewModel(Bag bag, Action<int> nextStepRequestAction) : base(bag, nextStepRequestAction)
         {
-            ReadFileName = "Journal Excel File";
-            ReadSheetName = "Journal Work Sheet";
-            Title = "Please provide the journal";
+            ReadFileNameDisplayText = "Journal Excel File";
+            ReadSheetNameDisplayText = "Journal Work Sheet";
+            TitleDisplayText = "Please provide the journal";
         }
 
         protected override void ExecuteNextStep()
@@ -21,13 +21,13 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
                 JournalGateway journalGateway = new JournalGateway(InputExcelFileName);
                 var logger = new Logger();
                 var journal = journalGateway.GetJournalStatements(logger, SelectedSheet);
-                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey, journal);
-                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
-                _nextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayJournalReadMessages);
+                Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey, journal);
+                Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
+                NextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayJournalReadMessages);
             }
             catch (Exception e)
             {
-                ComputeAndUpdateSheetName();
+                ComputeSheetName();
                 ErrorMessage = e.Message;
             }
         }

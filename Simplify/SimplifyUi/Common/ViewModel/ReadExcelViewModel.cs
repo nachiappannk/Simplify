@@ -12,12 +12,12 @@ namespace SimplifyUi.Common.ViewModel
 {
     public abstract class ReadExcelViewModel : INotifyPropertyChanged
     {
-        protected readonly Bag _bag;
-        protected readonly Action<int> _nextStepRequestAction;
+        protected readonly Bag Bag;
+        protected readonly Action<int> NextStepRequestAction;
 
-        public string ReadFileName { get; set; }
-        public string ReadSheetName { get; set; }
-        public string Title { get; set; }
+        public string ReadFileNameDisplayText { get; set; }
+        public string ReadSheetNameDisplayText { get; set; }
+        public string TitleDisplayText { get; set; }
 
         public ICommand NextStepCommand
         {
@@ -27,16 +27,16 @@ namespace SimplifyUi.Common.ViewModel
 
         private readonly DelegateCommand _nextStepDelegateCommand;
 
-        private string inputExcelFileName = "";
+        private string _inputExcelFileName = "";
         public string InputExcelFileName
         {
-            get { return inputExcelFileName; }
+            get { return _inputExcelFileName; }
             set
             {
-                if (inputExcelFileName != value)
+                if (_inputExcelFileName != value)
                 {
-                    inputExcelFileName = value;
-                    ComputeAndUpdateSheetName();
+                    _inputExcelFileName = value;
+                    ComputeSheetName();
                 }
 
             }
@@ -51,47 +51,49 @@ namespace SimplifyUi.Common.ViewModel
                 if (_selectedSheet != value)
                 {
                     _selectedSheet = value;
-                    _nextStepDelegateCommand.RaiseCanExecuteChanged();
                     OnPropertyChanged();
+                    RecomputeNextCommandState();
                 }
             }
         }
-        
 
-        private IList<string> excelSheetNames = new List<string>();
+        private void RecomputeNextCommandState()
+        {
+            _nextStepDelegateCommand.RaiseCanExecuteChanged();
+        }
+
+
+        private IList<string> _excelSheetNames = new List<string>();
         public IList<string> ExcelSheetNames
         {
-            get { return excelSheetNames; }
+            get { return _excelSheetNames; }
             set
             {
-                if (!Equals(excelSheetNames, value))
+                if (!Equals(_excelSheetNames, value))
                 {
-                    excelSheetNames = value;
+                    _excelSheetNames = value;
                     OnPropertyChanged();
                 }
             }
         }
         
-        public bool IsSheetSelectionEnabled { get; set; }
 
-
-        public ReadExcelViewModel(Bag bag, Action<int> nextStepRequestAction)
+        protected ReadExcelViewModel(Bag bag, Action<int> nextStepRequestAction)
         {
-            _bag = bag;
-            _nextStepRequestAction = nextStepRequestAction;
+            Bag = bag;
+            NextStepRequestAction = nextStepRequestAction;
             _nextStepDelegateCommand = new DelegateCommand(ExecuteNextStep, CanNextStepExecute);
         }
 
-        private string errorMessage = String.Empty;
-
+        private string _errorMessage = String.Empty;
         public string ErrorMessage
         {
-            get { return errorMessage; }
+            get { return _errorMessage; }
             set
             {
-                if (errorMessage != value)
+                if (_errorMessage != value)
                 {
-                    errorMessage = value;
+                    _errorMessage = value;
                     OnPropertyChanged();
                 }
             }
@@ -99,10 +101,10 @@ namespace SimplifyUi.Common.ViewModel
 
         private bool CanNextStepExecute()
         {
-            if (string.IsNullOrEmpty(inputExcelFileName)) return false;
+            if (string.IsNullOrEmpty(_inputExcelFileName)) return false;
             try
             {
-                ComputeAndUpdateSheetName();
+                ComputeSheetName();
                 if (!ExcelSheetNames.Contains(SelectedSheet))
                 {
                     ErrorMessage = "The selected sheet "+ SelectedSheet + " was removed";
@@ -117,7 +119,7 @@ namespace SimplifyUi.Common.ViewModel
             return true;
         }
 
-        public void ComputeAndUpdateSheetName()
+        public void ComputeSheetName()
         {
             ExcelSheetInfoProvider sheetInfoProvider = new ExcelSheetInfoProvider(InputExcelFileName);
             ExcelSheetNames = sheetInfoProvider.GetSheetNames();

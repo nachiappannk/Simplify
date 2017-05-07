@@ -15,12 +15,12 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="{Binding Title}" Height="40" 
+            <Label Grid.Row="0" Content="{Binding TitleDisplayText}" Height="40" 
                FontSize="20" Background="Blue" Foreground="White" 
                FontWeight="Bold" HorizontalAlignment="Stretch"/>
         <DockPanel VerticalAlignment="Stretch" Grid.Row="1">
             <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left"
-                       Text="{Binding ReadFileName}" FontSize="16" Margin="10" Height="24"/>
+                       Text="{Binding ReadFileNameDisplayText}" FontSize="16" Margin="10" Height="24"/>
             <Button DockPanel.Dock="Right" Margin="10" Height="24" Width="40" Content="Pick" Click="OnPickerButtonClick"/>
             <TextBox x:Name="FilePicker" IsReadOnly="True" Text="{Binding InputExcelFileName}"  Height="24" FontSize="14" 
                      HorizontalAlignment="Stretch"/>
@@ -29,7 +29,7 @@
         </DockPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" Grid.Row="2">
             <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left"
-                       Text="{Binding ReadSheetName}" FontSize="16" Margin="10" Height="24"/>
+                       Text="{Binding ReadSheetNameDisplayText}" FontSize="16" Margin="10" Height="24"/>
             <ComboBox DockPanel.Dock="Right" Margin="10" Height="24" Width="160"
                       SelectedValue="{Binding SelectedSheet}"
                       ItemsSource="{Binding ExcelSheetNames}"

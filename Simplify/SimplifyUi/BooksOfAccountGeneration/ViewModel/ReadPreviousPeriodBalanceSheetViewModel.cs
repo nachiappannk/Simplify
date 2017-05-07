@@ -10,24 +10,24 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
         public ReadPreviousPeriodBalanceSheetViewModel(Bag bag, Action<int> nextStepRequestAction) 
             : base(bag, nextStepRequestAction)
         {
-            ReadFileName = "Balance Sheet Excel File";
-            ReadSheetName = "Previous year Balance Sheet work sheet";
-            Title = "Please provide the previous year balance sheet";
+            ReadFileNameDisplayText = "Balance Sheet Excel File";
+            ReadSheetNameDisplayText = "Previous year Balance Sheet work sheet";
+            TitleDisplayText = "Please provide the previous year balance sheet";
         }
 
         protected override void ExecuteNextStep()
         {
             try
             {
-                ComputeAndUpdateSheetName();
+                ComputeSheetName();
 
                 BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(InputExcelFileName);
                 var logger = new Logger();
                 
                 var balanceSheet = balanceSheetGateway.GetBalanceSheet(logger, SelectedSheet);
-                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
-                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
-                _nextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);
+                Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
+                Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
+                NextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);
             }
             catch (Exception e)
             {
