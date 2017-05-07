@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Simplify.ExcelDataGateway;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.Common.ViewModelTools
 {
     public class Logger : ILogger
     {

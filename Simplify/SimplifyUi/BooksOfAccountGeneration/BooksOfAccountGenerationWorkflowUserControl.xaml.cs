@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SimplifyUi
+namespace SimplifyUi.BooksOfAccountGeneration
 {
     /// <summary>
-    /// Interaction logic for BooksOfAccountGenerationStatusUserControl.xaml
+    /// Interaction logic for BooksOfAccountGenerationWorkflowUserControl.xaml
     /// </summary>
-    public partial class BooksOfAccountGenerationStatusUserControl : UserControl
+    public partial class BooksOfAccountGenerationWorkflowUserControl : UserControl
     {
-        public BooksOfAccountGenerationStatusUserControl()
+        public BooksOfAccountGenerationWorkflowUserControl()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
     }
 }

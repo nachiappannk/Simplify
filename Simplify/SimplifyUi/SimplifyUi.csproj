@@ -71,28 +71,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooksOfAccountGenerationStatusUserControl.xaml.cs">
+    <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationStatusUserControl.xaml.cs">
       <DependentUpon>BooksOfAccountGenerationStatusUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DisplayMessagesUserControl.xaml.cs">
+    <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml.cs">
+      <DependentUpon>BooksOfAccountGenerationWorkflowUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\DisplayMessagesUserControl.xaml.cs">
       <DependentUpon>DisplayMessagesUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReadExcelUserControl.xaml.cs">
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Common\ReadExcelUserControl.xaml.cs">
       <DependentUpon>ReadExcelUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Bag.cs" />
-    <Compile Include="ViewModel\ConsolidatedBooksGenerationWorkflowViewModel.cs" />
-    <Compile Include="ViewModel\DisplayMessagesViewModel.cs" />
-    <Compile Include="ViewModel\BooksOfAccountGenerationStatusViewModel.cs" />
-    <Compile Include="ViewModel\Logger.cs" />
-    <Compile Include="ViewModel\ReadExcelViewModel.cs" />
-    <Compile Include="ViewModel\ReadJournalViewModel.cs" />
-    <Compile Include="ViewModel\ReadPreviousPeriodBalanceSheetViewModel.cs" />
-    <Page Include="BooksOfAccountGenerationStatusUserControl.xaml">
+    <Compile Include="Common\ViewModelTools\Bag.cs" />
+    <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountGenerationWorkflowViewModel.cs" />
+    <Compile Include="Common\ViewModel\DisplayMessagesViewModel.cs" />
+    <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountGenerationStatusViewModel.cs" />
+    <Compile Include="Common\ViewModelTools\Logger.cs" />
+    <Compile Include="Common\ViewModel\ReadExcelViewModel.cs" />
+    <Compile Include="BooksOfAccountGeneration\ViewModel\ReadJournalViewModel.cs" />
+    <Compile Include="BooksOfAccountGeneration\ViewModel\ReadPreviousPeriodBalanceSheetViewModel.cs" />
+    <Page Include="BooksOfAccountGeneration\BooksOfAccountGenerationStatusUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DisplayMessagesUserControl.xaml">
+    <Page Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\DisplayMessagesUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,7 +116,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ReadExcelUserControl.xaml">
+    <Page Include="Common\ReadExcelUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

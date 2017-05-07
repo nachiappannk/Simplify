@@ -1,7 +1,9 @@
 using System;
 using Simplify.ExcelDataGateway;
+using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
     public class ReadPreviousPeriodBalanceSheetViewModel : ReadExcelViewModel
     {
@@ -23,9 +25,9 @@ namespace SimplifyUi.ViewModel
                 var logger = new Logger();
                 
                 var balanceSheet = balanceSheetGateway.GetBalanceSheet(logger, SelectedSheet);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
-                _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);
+                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
+                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
+                _nextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayBalanceSheetReadMessages);
             }
             catch (Exception e)
             {

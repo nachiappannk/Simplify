@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Simplify.Properties;
+using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
-    public class ConsolidatedBooksGenerationWorkflowViewModel : INotifyPropertyChanged
+    public class BooksOfAccountGenerationWorkflowViewModel : INotifyPropertyChanged
     {
         public static readonly int ReadJournal = 1;
         public static readonly int DisplayJournalReadMessages = 2;
@@ -59,9 +61,8 @@ namespace SimplifyUi.ViewModel
             }
         }
 
-        private ReadJournalViewModel readJournalViewModel;
-
-        public ConsolidatedBooksGenerationWorkflowViewModel()
+        
+        public BooksOfAccountGenerationWorkflowViewModel()
         {
             GoToNextStep(ReadJournal);
         }

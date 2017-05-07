@@ -1,7 +1,9 @@
 ﻿using System;
 using Simplify.ExcelDataGateway;
+using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
     public class ReadJournalViewModel : ReadExcelViewModel
     {
@@ -19,9 +21,9 @@ namespace SimplifyUi.ViewModel
                 JournalGateway journalGateway = new JournalGateway(InputExcelFileName);
                 var logger = new Logger();
                 var journal = journalGateway.GetJournalStatements(logger, SelectedSheet);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.InputJournalKey, journal);
-                _bag.AddObject(ConsolidatedBooksGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
-                _nextStepRequestAction.Invoke(ConsolidatedBooksGenerationWorkflowViewModel.DisplayJournalReadMessages);
+                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey, journal);
+                _bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.JournalReadMessagesKey, logger.GetLogMessages());
+                _nextStepRequestAction.Invoke(BooksOfAccountGenerationWorkflowViewModel.DisplayJournalReadMessages);
             }
             catch (Exception e)
             {

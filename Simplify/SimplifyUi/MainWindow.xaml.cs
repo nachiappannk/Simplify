@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SimplifyUi.ViewModel;
 
 namespace SimplifyUi
 {
@@ -24,7 +23,7 @@ namespace SimplifyUi
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ConsolidatedBooksGenerationWorkflowViewModel();
+            DataContext = new MainWindowViewModel();
         }
     }
 }

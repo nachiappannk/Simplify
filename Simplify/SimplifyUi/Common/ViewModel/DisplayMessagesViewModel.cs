@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Prism.Commands;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.Common.ViewModel
 {
     public class DisplayMessagesViewModel
     {

@@ -4,8 +4,9 @@ using Simplify.Application;
 using Simplify.Books;
 using Simplify.DataGateway;
 using Simplify.ExcelDataGateway;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
     public class BooksOfAccountGenerationStatusViewModel
     {
@@ -18,9 +19,9 @@ namespace SimplifyUi.ViewModel
                 string fullPath = path + "\\" + outputExcelFileName + ".xlsx";
 
 
-                var journal = bag.GetObject<List<JournalStatement>>(ConsolidatedBooksGenerationWorkflowViewModel.InputJournalKey);
+                var journal = bag.GetObject<List<JournalStatement>>(BooksOfAccountGenerationWorkflowViewModel.InputJournalKey);
                 var previousBalanceSheet =
-                    bag.GetObject<BalanceSheetBook>(ConsolidatedBooksGenerationWorkflowViewModel.InputBalanceSheetKey);
+                    bag.GetObject<BalanceSheetBook>(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey);
 
                 BooksOfAccountGenerator booksOfAccountGenerator = new BooksOfAccountGenerator();
                 var books = booksOfAccountGenerator.Generate(journal, previousBalanceSheet, new DateTime(2017, 3, 31),

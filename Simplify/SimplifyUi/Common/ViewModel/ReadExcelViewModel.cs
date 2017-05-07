@@ -6,8 +6,9 @@ using System.Windows.Input;
 using Prism.Commands;
 using Simplify.ExcelDataGateway;
 using Simplify.Properties;
+using SimplifyUi.Common.ViewModelTools;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.Common.ViewModel
 {
     public abstract class ReadExcelViewModel : INotifyPropertyChanged
     {

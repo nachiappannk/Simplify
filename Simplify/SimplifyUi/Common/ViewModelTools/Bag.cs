@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SimplifyUi.ViewModel
+namespace SimplifyUi.Common.ViewModelTools
 {
     public class Bag
     {
