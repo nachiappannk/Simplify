@@ -77,6 +77,9 @@
     <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml.cs">
       <DependentUpon>BooksOfAccountGenerationWorkflowUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\ReadTradeLogViewModel.cs" />
     <Compile Include="Common\DisplayMessagesUserControl.xaml.cs">
       <DependentUpon>DisplayMessagesUserControl.xaml</DependentUpon>
     </Compile>
@@ -155,9 +158,7 @@
       <Name>Simplify</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CapitalGainsGeneration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

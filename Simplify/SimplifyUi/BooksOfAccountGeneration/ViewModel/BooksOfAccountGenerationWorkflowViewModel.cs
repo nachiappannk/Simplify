@@ -1,12 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Simplify.Properties;
-using SimplifyUi.Common.ViewModel;
-using SimplifyUi.Common.ViewModelTools;
+﻿using SimplifyUi.Common.ViewModel;
 
 namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
-    public class BooksOfAccountGenerationWorkflowViewModel : INotifyPropertyChanged
+    public class BooksOfAccountGenerationWorkflowViewModel : WorkflowViewModel
     {
         public static readonly int ReadJournal = 1;
         public static readonly int DisplayJournalReadMessages = 2;
@@ -19,61 +15,32 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
         public static readonly string InputBalanceSheetKey = nameof(InputBalanceSheetKey);
         public static readonly string BalanceSheetReadMessagesKey = nameof(BalanceSheetReadMessagesKey);
 
-        Bag _bag = new Bag();
 
-        private void GoToNextStep(int nextStepIndex)
-        {
-            if (ReadJournal == nextStepIndex)
-            {
-                WorkflowStepViewModel = new ReadJournalViewModel(_bag, GoToNextStep);
-            }
-            else if (nextStepIndex == DisplayJournalReadMessages)
-            {
-                WorkflowStepViewModel = new DisplayMessagesViewModel(_bag, JournalReadMessagesKey, 
-                    "Please check the journal read logs", ReadPreviousPeriodBalanceSheet, GoToNextStep);
-            }
-            else if (nextStepIndex == ReadPreviousPeriodBalanceSheet)
-            {
-                WorkflowStepViewModel = new ReadPreviousPeriodBalanceSheetViewModel(_bag, GoToNextStep);
-            }
-            else if (nextStepIndex == DisplayBalanceSheetReadMessages)
-            {
-                WorkflowStepViewModel = new DisplayMessagesViewModel(_bag, BalanceSheetReadMessagesKey,
-                   "Please check the balance sheet read logs", GenerateBooksOfAccount, GoToNextStep);
-            }else if (nextStepIndex == GenerateBooksOfAccount)
-            {
-                WorkflowStepViewModel = new BooksOfAccountGenerationStatusViewModel(_bag);
-            }
-        }
-
-        private object workflowStepViewModel;
-
-        public object WorkflowStepViewModel
-        {
-            get { return workflowStepViewModel; }
-            set
-            {
-                if (workflowStepViewModel != value)
-                {
-                    workflowStepViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        
         public BooksOfAccountGenerationWorkflowViewModel()
         {
+            RegisterNextStep(ReadJournal, () =>
+            {
+                WorkflowStepViewModel = new ReadJournalViewModel(Bag, GoToNextStep);
+            });
+            RegisterNextStep(DisplayJournalReadMessages, () =>
+            {
+                WorkflowStepViewModel = new DisplayMessagesViewModel(Bag, JournalReadMessagesKey,
+                    "Please check the journal read logs", ReadPreviousPeriodBalanceSheet, GoToNextStep);
+            });
+            RegisterNextStep(ReadPreviousPeriodBalanceSheet, () =>
+            {
+                WorkflowStepViewModel = new ReadPreviousPeriodBalanceSheetViewModel(Bag, GoToNextStep);
+            });
+            RegisterNextStep(DisplayBalanceSheetReadMessages, () =>
+            {
+                WorkflowStepViewModel = new DisplayMessagesViewModel(Bag, BalanceSheetReadMessagesKey,
+                    "Please check the balance sheet read logs", GenerateBooksOfAccount, GoToNextStep);
+            });
+            RegisterNextStep(GenerateBooksOfAccount, () =>
+            {
+                WorkflowStepViewModel = new BooksOfAccountGenerationStatusViewModel(Bag);
+            });
             GoToNextStep(ReadJournal);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
     }
 }
