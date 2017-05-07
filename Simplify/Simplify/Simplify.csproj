@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\SquaredAndOpenTradeSeparator.cs" />
     <Compile Include="Books\BalanceSheetBook.cs" />
     <Compile Include="Application\BalanceSheetGenerator.cs" />
     <Compile Include="Books\Book.cs" />
