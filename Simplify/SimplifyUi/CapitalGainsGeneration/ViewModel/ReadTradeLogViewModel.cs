@@ -1,6 +1,7 @@
 using System;
 using Simplify.Application;
 using Simplify.ExcelDataGateway;
+using Simplify.Facade;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 
@@ -21,21 +22,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             try
             {
                 ComputeSheetName();
-
                 var logger = new Logger();
-
-                TradeLogGateway tradeLogGateway = new TradeLogGateway(InputExcelFileName);
-                var tradeLogs = tradeLogGateway.ReadTradeLog(logger, SelectedSheet);
-                SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
-                var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
-                {
-                    TradeLogGateway writeLogGateway = new TradeLogGateway("Test.xlsx");
-                    writeLogGateway.WriteOpenPositions(result.OpenTradeStatements);
-                }
-
-                Bag.AddObject(CapitalGainWorkflowViewModel.TradeLogKey, tradeLogs);
-                Bag.AddObject(CapitalGainWorkflowViewModel.TradeLogReadMessagesKey,logger.GetLogMessages());
-                NextStepRequestAction.Invoke(CapitalGainWorkflowViewModel.DisplayMessage);
+                CapitalGainsStatementGenerationFacade facade = new CapitalGainsStatementGenerationFacade();
+                facade.GenerateStatements(InputExcelFileName,SelectedSheet,"Text.xlsx", logger);
             }
             catch (Exception e)
             {

@@ -22,8 +22,14 @@ namespace Simplify.ExcelDataGateway
 
         public DateTime ReadDate(int zeroBasedColumnIndex)
         {
-            var dateValue = ReadDouble(zeroBasedColumnIndex);
-            return DateTime.FromOADate(dateValue);
+            
+            var value = ReadCell(zeroBasedColumnIndex);
+            if (value == null) return DateTime.FromOADate(0); 
+            if (value is int) return DateTime.FromOADate((int)value);
+            if (value is double) return DateTime.FromOADate((double)value);
+            if (value is string) return Convert.ToDateTime((string)value);
+            if (value is DateTime) return (DateTime) value;
+            return DateTime.MinValue;
         }
 
         private object ReadCell(int zeroBasedColumnIndex)

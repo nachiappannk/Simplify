@@ -77,11 +77,13 @@
     <Compile Include="Books\ConsolidatedBook.cs" />
     <Compile Include="Books\DatedStatement.cs" />
     <Compile Include="Books\JournalStatement.cs" />
+    <Compile Include="Books\SquaredStatement.cs" />
     <Compile Include="Books\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
     <Compile Include="DataGateway\IJournalReader.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />
     <Compile Include="ExcelDataGateway\BooksOfAccountWriter.cs" />
+    <Compile Include="ExcelDataGateway\CapitalGainsStatementWriter.cs" />
     <Compile Include="ExcelDataGateway\ExcelReader.cs" />
     <Compile Include="ExcelDataGateway\ExcelSheetInfoProvider.cs" />
     <Compile Include="ExcelDataGateway\ExcelWriter.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\SheetHeadingLogger.cs" />
     <Compile Include="ExcelDataGateway\TradeLogGateway.cs" />
+    <Compile Include="Facade\CapitalGainsStatementGenerationFacade.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Books\Statement.cs" />

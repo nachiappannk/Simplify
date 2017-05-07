@@ -20,16 +20,4 @@ namespace Simplify.Books
         public string Account { get; set; }
         public string Contract { get; set; }
     }
-
-    public class SquaredStatement
-    {
-        public SquaredStatement(TradeStatement ts1, TradeStatement ts2)
-        {
-            TradeStatements = new TradeStatement[] {ts1, ts2};
-        }
-        public TradeStatement[] TradeStatements { get; private set; }
-    }
-
-
-
 }
