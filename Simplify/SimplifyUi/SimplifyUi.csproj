@@ -71,9 +71,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationStatusUserControl.xaml.cs">
-      <DependentUpon>BooksOfAccountGenerationStatusUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml.cs">
       <DependentUpon>BooksOfAccountGenerationWorkflowUserControl.xaml</DependentUpon>
     </Compile>
@@ -99,14 +96,8 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainsInputViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="Common\ViewModelTools\Bag.cs" />
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountGenerationWorkflowViewModel.cs" />
-    <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountGenerationStatusViewModel.cs" />
     <Compile Include="Common\ViewModelTools\Logger.cs" />
-    <Page Include="BooksOfAccountGeneration\BooksOfAccountGenerationStatusUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
