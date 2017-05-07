@@ -12,6 +12,7 @@ namespace Simplify.Books
         public int SerialNumber { get; set; }
         public DateTime Date { get; set; }
         public bool IsPurchase { get; set; }
+        public string ItemType { get; set; }
         public string Name { get; set; }
         public double Quantity { get; set; }
         public double Value { get; set; }

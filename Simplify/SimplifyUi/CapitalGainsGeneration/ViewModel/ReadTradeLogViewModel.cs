@@ -1,4 +1,6 @@
 using System;
+using Simplify.Application;
+using Simplify.ExcelDataGateway;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 
@@ -22,10 +24,17 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
                 var logger = new Logger();
 
-                //BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(InputExcelFileName);
-                //var balanceSheet = balanceSheetGateway.GetBalanceSheet(logger, SelectedSheet);
-                //Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.InputBalanceSheetKey, balanceSheet);
-                //Bag.AddObject(BooksOfAccountGenerationWorkflowViewModel.BalanceSheetReadMessagesKey, logger.GetLogMessages());
+                TradeLogGateway tradeLogGateway = new TradeLogGateway(InputExcelFileName);
+                var tradeLogs = tradeLogGateway.ReadTradeLog(logger, SelectedSheet);
+                SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
+                var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
+                {
+                    TradeLogGateway writeLogGateway = new TradeLogGateway("Test.xlsx");
+                    writeLogGateway.WriteOpenPositions(result.OpenTradeStatements);
+                }
+
+                Bag.AddObject(CapitalGainWorkflowViewModel.TradeLogKey, tradeLogs);
+                Bag.AddObject(CapitalGainWorkflowViewModel.TradeLogReadMessagesKey,logger.GetLogMessages());
                 NextStepRequestAction.Invoke(CapitalGainWorkflowViewModel.DisplayMessage);
             }
             catch (Exception e)

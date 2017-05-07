@@ -16,7 +16,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
         public static readonly int ReadTradeLog = 1;
         public static readonly int DisplayMessage = 2;
-        
+
+        public static readonly string TradeLogKey = nameof(TradeLogKey);
+        public static readonly string TradeLogReadMessagesKey = nameof(TradeLogReadMessagesKey);
         public static readonly string SquaredTradeKey= nameof(SquaredTradeKey);
         public static readonly string DisplayMessagesKey = nameof(DisplayMessagesKey);
 

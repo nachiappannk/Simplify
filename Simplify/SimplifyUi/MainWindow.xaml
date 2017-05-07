@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimplifyUi"
         xmlns:booksOfAccountGeneration="clr-namespace:SimplifyUi.BooksOfAccountGeneration"
+        xmlns:capitalGainsGeneration="clr-namespace:SimplifyUi.CapitalGainsGeneration"
 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
@@ -42,13 +43,15 @@
                                FontWeight="Bold"/>
                 </TabItem.Header>
                 <booksOfAccountGeneration:BooksOfAccountGenerationWorkflowUserControl 
-            DataContext="{Binding BooksOfAccountGenerationWorkflowViewModel}"/>
+                    DataContext="{Binding BooksOfAccountGenerationWorkflowViewModel}"/>
             </TabItem>
             <TabItem>
                 <TabItem.Header>
                     <TextBlock Text="Capital Gains" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
                                FontWeight="Bold"/>
                 </TabItem.Header>
+                <capitalGainsGeneration:CapitalGainsWorkflowUserControl
+                    DataContext="{Binding CapitalGainWorkflowViewModel}"/>
             </TabItem>
         </TabControl>
     </Grid>

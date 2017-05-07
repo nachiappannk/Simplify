@@ -96,7 +96,8 @@ namespace Simplify.Application
                 brokenStatement.Value = brokenValue;
                 remainingStatement.Value = initialValue - brokenValue;
                 BrokenTradeStatement = brokenStatement;
-                RemainingTradeStatement = remainingStatement;
+                if(remainingStatement.Quantity > 0.0001)
+                    RemainingTradeStatement = remainingStatement;
             }
 
             private static TradeStatement CreateACopy(TradeStatement ts)
@@ -110,6 +111,7 @@ namespace Simplify.Application
                     Account = ts.Account,
                     Contract = ts.Contract,
                     Quantity = ts.Quantity,
+                    ItemType = ts.ItemType,
                     Value = ts.Value,
                 };
                 return tradeStatement;

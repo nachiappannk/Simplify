@@ -77,6 +77,9 @@
     <Compile Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml.cs">
       <DependentUpon>BooksOfAccountGenerationWorkflowUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml.cs">
+      <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\ReadTradeLogViewModel.cs" />
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BooksOfAccountGeneration\BooksOfAccountGenerationWorkflowUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
