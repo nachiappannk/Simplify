@@ -14,7 +14,9 @@
                VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
                VerticalContentAlignment="Center"/>
         <common:ExcelSheetSelectorUserControl DockPanel.Dock="Top" Margin="10,10,10,0" 
-                                              DataContext="{Binding ExcelSheetSelectorViewModel}"/>
+                                              DataContext="{Binding OpeningStockSelectorViewModel}"/>
+        <common:ExcelSheetSelectorUserControl DockPanel.Dock="Top" Margin="10,10,10,0" 
+                                              DataContext="{Binding TradeLogExcelSheetSelectorViewModel}"/>
         <Border Background="LightSkyBlue" Height="40" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
             <DockPanel LastChildFill="False">
                 <Button Width="60" Height="30" Content="Generate" DockPanel.Dock="Right" Margin="0,0,10,0"

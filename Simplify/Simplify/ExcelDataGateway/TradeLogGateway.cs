@@ -38,7 +38,7 @@ namespace Simplify.ExcelDataGateway
                 writer.ApplyHeadingFormat(headings.Length);
                 writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
                 {
-                    b.SerialNumber,
+                    rowIndex - 1,
                     b.Date,
                     b.ItemType,
                     b.Name,

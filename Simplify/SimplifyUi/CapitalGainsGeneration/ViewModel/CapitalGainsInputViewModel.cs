@@ -18,9 +18,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         {
             _completionCallBack = completionCallBack;
 
-            ExcelSheetSelectorViewModel = new ExcelSheetSelectorViewModel();
-            ExcelSheetSelectorViewModel.Title = "Please provide trade log";
-            ExcelSheetSelectorViewModel.ValidityChanged += () =>
+            OpeningStockSelectorViewModel = new ExcelSheetSelectorViewModel();
+            OpeningStockSelectorViewModel.Title = "Please provide opening stock";
+            OpeningStockSelectorViewModel.ValidityChanged += () =>
+            {
+                GenerateCommand.RaiseCanExecuteChanged();
+            };
+
+            TradeLogExcelSheetSelectorViewModel = new ExcelSheetSelectorViewModel();
+            TradeLogExcelSheetSelectorViewModel.Title = "Please provide trade log";
+            TradeLogExcelSheetSelectorViewModel.ValidityChanged += () =>
             {
                 GenerateCommand.RaiseCanExecuteChanged();
             };
@@ -37,8 +44,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             try
             {
                 CapitalGainsStatementGenerationFacade facade = new CapitalGainsStatementGenerationFacade();
-                facade.GenerateStatements(ExcelSheetSelectorViewModel.InputFileName,
-                    ExcelSheetSelectorViewModel.SelectedSheet,
+                facade.GenerateStatements(
+                    OpeningStockSelectorViewModel.InputFileName,
+                    OpeningStockSelectorViewModel.SelectedSheet,
+                    TradeLogExcelSheetSelectorViewModel.InputFileName,
+                    TradeLogExcelSheetSelectorViewModel.SelectedSheet,
                     fullPath, logger);
                 mainMessage.Add("Successfully Generated Capital Gains File");
                 mainMessage.Add("Output :"+fullPath);
@@ -57,11 +67,12 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
         private bool CanGenerate()
         {
-            return ExcelSheetSelectorViewModel.IsValid;
+            return (OpeningStockSelectorViewModel.IsValid && TradeLogExcelSheetSelectorViewModel.IsValid);
         }
 
         public DelegateCommand GenerateCommand { get; set; }
-        public ExcelSheetSelectorViewModel ExcelSheetSelectorViewModel { get; set; }
-        
+        public ExcelSheetSelectorViewModel OpeningStockSelectorViewModel { get; set; }
+        public ExcelSheetSelectorViewModel TradeLogExcelSheetSelectorViewModel { get; set; }
+
     }
 }

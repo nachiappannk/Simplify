@@ -10,13 +10,16 @@ namespace Simplify.Facade
 {
     public class CapitalGainsStatementGenerationFacade
     {
-        public void GenerateStatements(string inputExcelFileName, 
-            string excelSheetName, string outputExcelFile, ILogger logger)
+        public void GenerateStatements(string openingStockFileName, 
+            string openingStockSheetName, string tradeLogFileName, string tradeLogSheetName,
+            string outputExcelFile, ILogger logger)
         {
+            TradeLogGateway openStockGateway = new TradeLogGateway(openingStockFileName);
+            var openingStock = openStockGateway.ReadTradeLog(logger, openingStockSheetName);
 
-
-            TradeLogGateway tradeLogGateway = new TradeLogGateway(inputExcelFileName);
-            var tradeLogs = tradeLogGateway.ReadTradeLog(logger, excelSheetName);
+            TradeLogGateway tradeLogGateway = new TradeLogGateway(tradeLogFileName);
+            var tradeLogs = tradeLogGateway.ReadTradeLog(logger, tradeLogSheetName);
+            tradeLogs.AddRange(openingStock);
 
             SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
             var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
