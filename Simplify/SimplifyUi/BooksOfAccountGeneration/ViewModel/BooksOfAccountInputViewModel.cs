@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Simplify.Facade;
 using SimplifyUi.CapitalGainsGeneration.ViewModel;
 using SimplifyUi.Common.ViewModel;
@@ -14,10 +15,14 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
     public class BooksOfAccountInputViewModel
     {
+        public InteractionRequest<FileSaveAsNotification> FileSaveAsRequest { get; private set; }
+
         private Action<List<string>, Logger> _gotoInformationStep;
 
         public BooksOfAccountInputViewModel(Action<List<string>, Logger> gotoInformationStep)
         {
+            FileSaveAsRequest = new InteractionRequest<FileSaveAsNotification>();
+
             _gotoInformationStep = gotoInformationStep;
             JournalSelectorViewModel = new ExcelSheetSelectorViewModel();
             JournalSelectorViewModel.Title = "Please provide the journal";
@@ -76,18 +81,21 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 
         void Generate()
         {
-
-
             if (!AccountingPeriodEndDate.HasValue) return;
             if (!AccountingPeriodStartDate.HasValue) return;
 
             List<string> mainMessage = new List<string>();
             var logger = new Logger();
-            var fullPath = OutputNameComputer.ComputeOutputFile("BalanceSheet", ".xlsx");
+            var file = new FileSaveAsNotification()
+            {
+                Title = "Balance Sheet Output File",
+                DefaultFileName = "BalanceSheetOutput",
+            };
+            FileSaveAsRequest.Raise(file);
+            var fullPath = file.OutputFileName;
             try
             {
                 var facade = new BooksOfAccountStatementGenerationFacade();
-
                 facade.GenerateStatements(JournalSelectorViewModel.InputFileName,
                     JournalSelectorViewModel.SelectedSheet,
                     PreviousBalanceSheetSelectorViewModel.InputFileName,

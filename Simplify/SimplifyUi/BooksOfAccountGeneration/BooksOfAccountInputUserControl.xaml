@@ -5,10 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:common="clr-namespace:SimplifyUi.Common"
              xmlns:viewModel="clr-namespace:SimplifyUi.BooksOfAccountGeneration.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:interactionRequest="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModel:BooksOfAccountInputViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel LastChildFill="False">
+        <i:Interaction.Triggers>
+            <interactionRequest:InteractionRequestTrigger SourceObject="{Binding FileSaveAsRequest}">
+                <common:SaveFileAction/>
+            </interactionRequest:InteractionRequestTrigger>
+        </i:Interaction.Triggers>
         <Label DockPanel.Dock="Top"
             Height="35" Content="Generate Books Of Account" HorizontalAlignment="Stretch"
                VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 

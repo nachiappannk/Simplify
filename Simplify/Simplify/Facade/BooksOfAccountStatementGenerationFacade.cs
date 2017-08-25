@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Simplify.Facade
             string journalSheet, string previousBalanceSheetExcel, string previousBalanceSheetWorksheet, 
             string outputExcelFile, DateTime startDate, DateTime endDate, ILogger logger)
         {
+            if (File.Exists(outputExcelFile)) File.Delete(outputExcelFile);
 
             JournalGateway journalGateway = new JournalGateway(journalExcel);
             var journal = journalGateway.GetJournalStatements(logger, journalSheet);
