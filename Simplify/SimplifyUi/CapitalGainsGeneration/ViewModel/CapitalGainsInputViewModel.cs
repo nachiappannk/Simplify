@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Simplify.Application;
 using Simplify.ExcelDataGateway;
 using Simplify.Facade;
@@ -12,10 +13,14 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
     public class CapitalGainsInputViewModel
     {
+        public InteractionRequest<FileSaveAsNotification> FileSaveAsRequest { get; private set; }
+
         private Action<List<string>, Logger> _completionCallBack;
 
         public CapitalGainsInputViewModel(Action<List<string>, Logger> completionCallBack)
         {
+            FileSaveAsRequest = new InteractionRequest<FileSaveAsNotification>();
+
             _completionCallBack = completionCallBack;
 
             OpeningStockSelectorViewModel = new ExcelSheetSelectorViewModel();
@@ -40,7 +45,13 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         {
             List<string> mainMessage = new List<string>();
             var logger = new Logger();
-            var fullPath = OutputNameComputer.ComputeOutputFile("CapitalGains", ".xlsx");
+            var file = new FileSaveAsNotification()
+            {
+                Title = "Capital Gains Output File",
+                DefaultFileName = "CapitalGainsOutput",
+            };
+            FileSaveAsRequest.Raise(file);
+            var fullPath = file.OutputFileName;
             try
             {
                 CapitalGainsStatementGenerationFacade facade = new CapitalGainsStatementGenerationFacade();
