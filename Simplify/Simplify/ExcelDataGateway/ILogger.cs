@@ -13,9 +13,9 @@ namespace Simplify.ExcelDataGateway
 
     public enum MessageType
     {
-        Information,
-        Warning,
-        IgnorableError,
-        Error,
+        Information = 0,
+        Warning = 1,
+        IgnorableError = 2,
+        Error = 3,
     }
 }

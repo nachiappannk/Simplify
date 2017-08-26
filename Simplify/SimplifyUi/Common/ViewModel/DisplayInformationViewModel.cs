@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Commands;
+using Simplify.ExcelDataGateway;
+using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.Common.ViewModel
 {
     public class DisplayInformationViewModel
     {
-        public DisplayInformationViewModel(string title, List<string> mainInformation, List<string> additionalInformation, 
+        public DisplayInformationViewModel(string title, List<string> mainInformation, List<Message> additionalInformation, 
             Action completedAction  )
         {
             AdditionalInformation = additionalInformation;
@@ -21,7 +23,7 @@ namespace SimplifyUi.Common.ViewModel
         public string Title { get; set; }
         public List<string> MainInformation { get; set; }
 
-        public List<string> AdditionalInformation { get; set; }
+        public List<Message> AdditionalInformation { get; set; }
 
         public DelegateCommand CompletedCommand { get; set; }
     }

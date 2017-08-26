@@ -88,6 +88,9 @@
     <Compile Include="Common\DisplayInformationUserControl.xaml.cs">
       <DependentUpon>DisplayInformationUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\MessageUserControl.xaml.cs">
+      <DependentUpon>MessageUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\SaveFileAction.cs" />
     <Compile Include="Common\ViewModelTools\OutputNameComputer.cs" />
     <Compile Include="Common\ExcelSheetSelectorUserControl.xaml.cs">
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\ExcelSheetSelectorUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\MessageUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

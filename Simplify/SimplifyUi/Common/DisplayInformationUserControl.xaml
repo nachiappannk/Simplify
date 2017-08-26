@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:SimplifyUi.Common.ViewModel"
+             xmlns:viewModelTools="clr-namespace:SimplifyUi.Common.ViewModelTools"
+             xmlns:common="clr-namespace:SimplifyUi.Common"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModel:DisplayInformationViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -14,6 +16,23 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModelTools:Message}">
+                <common:MessageUserControl MessageBrush="Yellow"></common:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:InformationMessage}">
+                <common:MessageUserControl MessageBrush="LawnGreen"></common:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:WarningMessage}">
+                <common:MessageUserControl MessageBrush="Yellow"></common:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:IgnorableErrorMessage}">
+                <common:MessageUserControl MessageBrush="LightPink"></common:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:ErrorMessage}">
+                <common:MessageUserControl MessageBrush="DeepPink"></common:MessageUserControl>
+            </DataTemplate>
+        </Grid.Resources>
         <Label Grid.Row="0"
             Height="35" Content="{Binding Title}" HorizontalAlignment="Stretch"
                VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
@@ -34,14 +53,7 @@
         <DockPanel Grid.Row="2">
             <Label DockPanel.Dock="Top" Content="Additional Information" FontSize="12"/>
             <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <ItemsControl  ItemsSource="{Binding AdditionalInformation}">
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding}" FontSize="10" 
-                                   TextWrapping="Wrap"/>
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <ItemsControl  ItemsSource="{Binding AdditionalInformation}"/>
             </ScrollViewer>
         </DockPanel>
         <Border Grid.Row="3" Background="LightSkyBlue" Height="40" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
