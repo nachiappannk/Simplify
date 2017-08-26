@@ -64,7 +64,7 @@ namespace Simplify.ExcelDataGateway
                     var isPurchase = false;
                     if (cost > 0.0001 && sale > 0.0001)
                     {
-                        logger.Error("Both cost and sale has values");
+                        logger.Log(MessageType.IgnorableError, "Both cost and sale has values");
                     }
                     if (cost > sale)
                         isPurchase = true;

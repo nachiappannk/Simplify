@@ -11,7 +11,7 @@ namespace Simplify.ExcelDataGateway
                     for (int i = 0; i < columnNames.Length; i++)
                     {
                         ret[i] = r.ReadString(i);
-                        logger.Info("Read " + ret[i] + " as " + columnNames[i]);
+                        logger.Log(MessageType.Information, "Read " + ret[i] + " as " + columnNames[i]);
                     }
                     return ret;
                 });

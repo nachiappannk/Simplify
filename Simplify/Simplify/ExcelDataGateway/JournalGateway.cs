@@ -65,7 +65,7 @@ namespace Simplify.ExcelDataGateway
                     var debit = r.ReadDouble(Debit);
                     if (credit > 0.001 && debit > 0.001)
                     {
-                        logger.Error("Both credit and debit has values");
+                        logger.Log(MessageType.IgnorableError, "Both credit and debit has values");
                     }
                     return new JournalStatement
                     {

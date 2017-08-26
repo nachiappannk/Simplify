@@ -6,14 +6,10 @@ namespace SimplifyUi.Common.ViewModelTools
     public class Logger : ILogger
     {
         List<string> _messages = new List<string>();
-        public void Info(string message)
-        {
-            _messages.Add("Info: " + message);
-        }
 
-        public void Error(string message)
+        public void Log(MessageType messageType, string message)
         {
-            _messages.Add("Error: " + message);
+            _messages.Add(message);
         }
 
         public List<string> GetLogMessages()

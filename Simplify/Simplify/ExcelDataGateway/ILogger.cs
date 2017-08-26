@@ -8,7 +8,14 @@ namespace Simplify.ExcelDataGateway
 {
     public interface ILogger
     {
-        void Info(string message);
-        void Error(string message);
+        void Log(MessageType type, string message);
+    }
+
+    public enum MessageType
+    {
+        Information,
+        Warning,
+        IgnorableError,
+        Error,
     }
 }
