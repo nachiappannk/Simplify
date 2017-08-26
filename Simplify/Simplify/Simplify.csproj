@@ -94,7 +94,7 @@
     <Compile Include="Application\ProfitAndLossAccountGenerator.cs" />
     <Compile Include="Books\ProfitAndLossBook.cs" />
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
-    <Compile Include="ExcelDataGateway\SheetHeadingLogger.cs" />
+    <Compile Include="ExcelDataGateway\SheetHeadingVerifier.cs" />
     <Compile Include="ExcelDataGateway\TradeLogGateway.cs" />
     <Compile Include="Facade\BooksOfAccountStatementGenerationFacade.cs" />
     <Compile Include="Facade\CapitalGainsStatementGenerationFacade.cs" />

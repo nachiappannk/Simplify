@@ -7,11 +7,13 @@
              xmlns:viewModelTools="clr-namespace:SimplifyUi.Common.ViewModelTools"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewModelTools:Message}"
-             d:DesignHeight="25" d:DesignWidth="300" MinHeight="25">
+             d:DesignWidth="300" MinHeight="25">
     <Border HorizontalAlignment="Stretch" BorderThickness="2" BorderBrush="Gray" Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MessageUserControl}} , Path=MessageBrush}"  
                     CornerRadius="5" Margin="4,0,4,4">
         <DockPanel HorizontalAlignment="Stretch" >
-            <Button Content="Hide" DockPanel.Dock="Right" FontSize="6" Margin="2,2,4,2" Click="ButtonBase_OnClick" />
+            <Grid DockPanel.Dock="Right">
+                <Button Content="Hide"  FontSize="6" Margin="2" Click="ButtonBase_OnClick" Height="15"  VerticalAlignment="Top"/>
+            </Grid>
             <TextBlock Text="{Binding MessageInfo}" FontSize="10" 
                        TextWrapping="Wrap"/>
         </DockPanel>

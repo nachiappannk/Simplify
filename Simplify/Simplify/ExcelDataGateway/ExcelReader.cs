@@ -7,12 +7,16 @@ namespace Simplify.ExcelDataGateway
 {
     public class ExcelReader : IDisposable
     {
+        public string FileName { get; private set; }
+        public string SheetName { get; private set; }
         private ExcelPackage _package;
         private ExcelWorksheet _sheet;
         private FileStream _stream;
 
         public ExcelReader(string filename, string sheetName)
         {
+            FileName = filename;
+            SheetName = sheetName;
             AssertSheetExists(filename, sheetName);
             _stream = ExcelSheetInfoProvider.GetFileStream(filename);
             _package = new ExcelPackage(_stream);

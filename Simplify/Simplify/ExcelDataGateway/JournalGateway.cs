@@ -7,8 +7,18 @@ namespace Simplify.ExcelDataGateway
     public class JournalGateway
     {
         private readonly string _inputFile;
-        string[] _headings = { "S.No.", "Date", "Type", "Book", "Ledger", "Description", "Credit", "Debit" };
 
+        private List<List<string>> _headings = new List<List<string>>()
+        {
+            new List<string>() {"S.No."},
+            new List<string>() { "Date" },
+            new List<string>() { "Type" },
+            new List<string>() { "Book" },
+            new List<string>() { "Ledger" },
+            new List<string>() { "Description" },
+            new List<string>() { "Credit" },
+            new List<string>() { "Debit" }
+        };
 
         const int SerialNumber = 0;
         const int Date = 1;
@@ -57,7 +67,7 @@ namespace Simplify.ExcelDataGateway
             using (ExcelReader reader = new ExcelReader(_inputFile, sheetName))
             {
 
-                SheetHeadingLogger.LogHeadingRowDetails(logger, reader, _headings);
+                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, _headings);
 
                 var journalStatements = reader.ReadAllLines(1, (r) =>
                 {

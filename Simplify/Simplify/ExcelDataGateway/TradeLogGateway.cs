@@ -10,7 +10,20 @@ namespace Simplify.ExcelDataGateway
     public class TradeLogGateway
     {
         private readonly string _excelFileName;
-        readonly string[] headings = { "S.No.", "Date","Item Type", "Name", "Account", "Contract" ,"Stt", "Quantity", "Cost", "Sale"};
+        readonly List<List<string>> _columnsHeadingOptions = new List<List<string>>()
+        {
+            new List<string>() { "S.No."},
+            new List<string>() {"Date" },
+            new List<string>() {"Item Type" },
+            new List<string>() {"Name" },
+            new List<string>() { "Account"},
+            new List<string>(){ "Contract"} ,
+            new List<string>(){ "Stt"},
+            new List<string>(){ "Quantity"},
+            new List<string>(){"Cost"},
+            new List<string>(){ "Sale"}
+        };
+
         private const int SerialNumber = 0;
         private const int Date = 1;
         private const int ItemType = 2;
@@ -33,9 +46,9 @@ namespace Simplify.ExcelDataGateway
             var index = 0;
             using (var writer = new ExcelWriter(_excelFileName, "OpenPositions"))
             {
-                writer.Write(index++, headings.ToArray<object>());
+                writer.Write(index++, _columnsHeadingOptions.ToArray<object>());
                 writer.SetColumnsWidth(6, 12,8, 30, 16,16,16, 12, 12, 12);
-                writer.ApplyHeadingFormat(headings.Length);
+                writer.ApplyHeadingFormat(_columnsHeadingOptions.Count);
                 writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
@@ -56,7 +69,7 @@ namespace Simplify.ExcelDataGateway
         {
             using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName))
             {
-                SheetHeadingLogger.LogHeadingRowDetails(logger, reader, headings);
+                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, _columnsHeadingOptions);
                 var tradeStatements = reader.ReadAllLines(1, (r) =>
                 {
                     var cost = r.ReadDouble(Cost);

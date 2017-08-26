@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Simplify.Books;
 
@@ -7,7 +8,16 @@ namespace Simplify.ExcelDataGateway
     public class BalanceSheetGateway
     {
         private readonly string _excelFileName;
-        readonly string[] headings = { "S.No.", "Ledger", "Credit", "Debit", "Total" };
+
+        private readonly List<List<string>> headings = new List<List<string>>()
+        {
+            new List<string>(){ "S.No."},
+            new List<string>(){ "Ledger"},
+            new List<string>(){ "Credit" },
+            new List<string>(){ "Debit" },
+            new List<string>(){ "Total" },
+
+        };
         private const int SerialNumber = 0;
         private const int Ledger = 1;
         private const int Credit = 2;
@@ -27,7 +37,7 @@ namespace Simplify.ExcelDataGateway
             {
                 writer.Write(index++, headings.ToArray<object>());
                 writer.SetColumnsWidth(6, 45, 12, 12, 12);
-                writer.ApplyHeadingFormat(headings.Length);
+                writer.ApplyHeadingFormat(headings.Count);
                 writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
@@ -46,7 +56,7 @@ namespace Simplify.ExcelDataGateway
         {
             using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName))
             {
-                SheetHeadingLogger.LogHeadingRowDetails(logger, reader, headings);
+                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, headings);
                 var balanceSheetStatements = reader.ReadAllLines(1, (r) =>
                 {
                     var credit = r.ReadDouble(Credit);
