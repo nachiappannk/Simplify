@@ -26,7 +26,7 @@ namespace Simplify.Facade
             var previousBalanceSheet = balanceSheetGateway.GetBalanceSheet(logger, previousBalanceSheetWorksheet);
             
 
-            BooksOfAccountGenerator booksOfAccountGenerator = new BooksOfAccountGenerator();
+            BooksOfAccountGenerator booksOfAccountGenerator = new BooksOfAccountGenerator(logger);
             var books = booksOfAccountGenerator.Generate(journal, previousBalanceSheet, endDate,
                startDate);
 

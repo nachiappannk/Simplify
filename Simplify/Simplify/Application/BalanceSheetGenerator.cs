@@ -13,7 +13,7 @@ namespace Simplify.Application
         {
 
             var currentYearStatements = journalStatements
-                .Where(x => x.BookName == Book.BalanceSheet).Select(x => (Statement) x)
+                //.Select(x => (Statement) x)
                 .Select(TrimBrackets)
                 .Where(s => Math.Abs(s.Value) > 0.001).ToList();
 

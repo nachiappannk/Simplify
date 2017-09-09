@@ -8,7 +8,7 @@ namespace Simplify.Application
     {
         public ProfitAndLossBook Generate(IList<JournalStatement> journalStatements)
         {
-            var neededStatements = journalStatements.Where(x => x.BookName == Book.ProfitAndLoss);
+            var neededStatements = journalStatements;
             var groupedStatements = neededStatements.GroupBy(x => x.Name, x => x.Value,
                 (key, values) => new Statement()
                 {

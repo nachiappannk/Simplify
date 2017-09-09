@@ -18,9 +18,9 @@ namespace Simplify.ExcelDataGateway
         {
             AddJournal(consolidatedBook.Journal);
             AddTrialBalance(consolidatedBook.TrialBalance);
-            AddProfitAndLoss(consolidatedBook.ProfitAndLoss);
-            AddCapitalAccount(consolidatedBook.CapitalAccount);
-            AddBalanceSheet(consolidatedBook.BalanceSheetBook);
+            //AddProfitAndLoss(consolidatedBook.ProfitAndLoss);
+            //AddCapitalAccount(consolidatedBook.CapitalAccount);
+            //AddBalanceSheet(consolidatedBook.BalanceSheetBook);
         }
 
         private void AddBalanceSheet(BalanceSheetBook balanceSheet)

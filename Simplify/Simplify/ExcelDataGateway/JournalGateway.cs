@@ -12,8 +12,6 @@ namespace Simplify.ExcelDataGateway
         {
             new List<string>() {"S.No."},
             new List<string>() { "Date" },
-            new List<string>() { "Type" },
-            new List<string>() { "Book" },
             new List<string>() { "Ledger" },
             new List<string>() { "Description" },
             new List<string>() { "Credit" },
@@ -22,12 +20,10 @@ namespace Simplify.ExcelDataGateway
 
         const int SerialNumber = 0;
         const int Date = 1;
-        const int EntryType = 2;
-        const int Book = 3;
-        const int LedgerName = 4;
-        const int Description = 5;
-        const int Credit = 6;
-        const int Debit = 7;
+        const int LedgerName = 2;
+        const int Description = 3;
+        const int Credit = 4;
+        const int Debit = 5;
 
         public JournalGateway(string inputFile)
         {
@@ -42,15 +38,13 @@ namespace Simplify.ExcelDataGateway
 
                 
                 writer.Write(index++, _headings);
-                writer.SetColumnsWidth(6, 12, 4, 8, 35, 45, 12, 12);
+                writer.SetColumnsWidth(6, 12, 35, 45, 12, 12);
                 writer.ApplyHeadingFormat(8);
                 writer.WriteList(index, journalStatements.OrderBy(x =>x.Date).ToList(),
                     (j, rowIndex) => new object[]
                     {
                         rowIndex - 1,
                         j.Date,
-                        j.EntryType,
-                        j.BookName.GetString(),
                         j.Name,
                         j.Description,
                         j.GetCreditValue(),
@@ -92,8 +86,6 @@ namespace Simplify.ExcelDataGateway
                     return new JournalStatement
                     {
                         Date = r.ReadDate(Date),
-                        EntryType = r.ReadString(EntryType),
-                        BookName = r.ReadString(Book).GetBook(),
                         Name = r.ReadString(LedgerName),
                         Description = r.ReadString(Description),
                         Value = credit - debit,

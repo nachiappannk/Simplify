@@ -11,7 +11,7 @@ namespace Simplify.Application
             double netEarnings, DateTime accountOpeningDate, DateTime accountClosingDate)
         {
             
-            var neededStatements = journalStatements.Where(x => x.BookName == Book.Capital).ToList();
+            var neededStatements = journalStatements.ToList();
             var capitalAccount = new CapitalAccountBook(accountOpeningDate, accountClosingDate);
             capitalAccount.AddRange(neededStatements.OrderBy(x=> x.Date));
             capitalAccount.InsertNetEarnings(netEarnings);
