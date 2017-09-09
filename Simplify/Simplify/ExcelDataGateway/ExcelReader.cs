@@ -7,14 +7,16 @@ namespace Simplify.ExcelDataGateway
 {
     public class ExcelReader : IDisposable
     {
-        public string FileName { get; private set; }
-        public string SheetName { get; private set; }
+        private readonly ILogger _logger;
+        private string FileName { get; set; }
+        private string SheetName { get; set; }
         private ExcelPackage _package;
         private ExcelWorksheet _sheet;
         private FileStream _stream;
 
-        public ExcelReader(string filename, string sheetName)
+        public ExcelReader(string filename, string sheetName, ILogger logger)
         {
+            _logger = logger;
             FileName = filename;
             SheetName = sheetName;
             AssertSheetExists(filename, sheetName);
@@ -36,7 +38,7 @@ namespace Simplify.ExcelDataGateway
         public T ReadLine<T>(int zeroBasedRowIndex, Func<IRowCellsReader, T> rowToObjectConvertor)
         {
             
-            RowCellsReader rowCellsReader = new RowCellsReader(_sheet, zeroBasedRowIndex);
+            RowCellsReader rowCellsReader = new RowCellsReader(_sheet, zeroBasedRowIndex, FileName, SheetName, _logger);
             return rowToObjectConvertor.Invoke(rowCellsReader);
         }
 
@@ -47,7 +49,7 @@ namespace Simplify.ExcelDataGateway
             List<T> results = new List<T>();
             for (int i = zeroBasedStartRowIndex; zeroBasedStartRowIndex < numberOfRows; zeroBasedStartRowIndex++)
             {
-                RowCellsReader rowCellsReader = new RowCellsReader(_sheet, zeroBasedStartRowIndex);
+                RowCellsReader rowCellsReader = new RowCellsReader(_sheet, zeroBasedStartRowIndex, FileName, SheetName, _logger);
                 results.Add(rowToObjectConvertor.Invoke(rowCellsReader));
             }
             return results;

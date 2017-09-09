@@ -9,7 +9,7 @@ namespace Simplify.ExcelDataGateway
     {
         public static void VerifyHeadingNames(ILogger logger, ExcelReader reader, List<List<string>> columnsHeadingOptions)
         {
-            string[] headings = reader.ReadLine(0,
+            reader.ReadLine(0,
                 r =>
                 {
                     string[] ret = new string[columnsHeadingOptions.Count];
@@ -18,7 +18,7 @@ namespace Simplify.ExcelDataGateway
                         var readColumnName = r.ReadString(i);
                         ret[i] = readColumnName;
                         var columnNameOptions = columnsHeadingOptions[i];
-                        LogUnmatchedColumnName(logger, reader.FileName, reader.SheetName, readColumnName, columnNameOptions);
+                        LogUnmatchedColumnName(logger, r.FileName, r.SheetName, readColumnName, columnNameOptions);
                     }
                     return ret;
                 });

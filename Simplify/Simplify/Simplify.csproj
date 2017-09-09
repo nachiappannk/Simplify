@@ -80,7 +80,6 @@
     <Compile Include="Books\SquaredStatement.cs" />
     <Compile Include="Books\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
-    <Compile Include="DataGateway\IJournalReader.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />
     <Compile Include="ExcelDataGateway\BooksOfAccountWriter.cs" />
     <Compile Include="ExcelDataGateway\CapitalGainsStatementWriter.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="ExcelDataGateway\ILogger.cs" />
     <Compile Include="ExcelDataGateway\IRowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\JournalGateway.cs" />
-    <Compile Include="ExcelDataGateway\JournalReader.cs" />
     <Compile Include="Application\ProfitAndLossAccountGenerator.cs" />
     <Compile Include="Books\ProfitAndLossBook.cs" />
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />

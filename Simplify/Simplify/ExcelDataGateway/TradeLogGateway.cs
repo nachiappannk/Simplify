@@ -67,20 +67,24 @@ namespace Simplify.ExcelDataGateway
 
         public List<TradeStatement> ReadTradeLog(ILogger logger, string sheetName)
         {
-            using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName))
+            using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName, logger))
             {
                 SheetHeadingVerifier.VerifyHeadingNames(logger, reader, _columnsHeadingOptions);
                 var tradeStatements = reader.ReadAllLines(1, (r) =>
                 {
-                    var cost = r.ReadDouble(Cost);
-                    var sale = r.ReadDouble(Sale);
-                    var isPurchase = false;
-                    if (cost > 0.0001 && sale > 0.0001)
+                    var isCostAvailable = r.IsValueAvailable(Cost);
+                    var cost = isCostAvailable ? r.ReadDouble(Cost) : 0;
+                    var isSaleAvailable = r.IsValueAvailable(Sale);
+                    var sale = isSaleAvailable ? r.ReadDouble(Sale) : 0;
+                    if (isCostAvailable && isSaleAvailable)
                     {
-                        logger.Log(MessageType.IgnorableError, "Both cost and sale has values");
+                        logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
+                                                               $"in sheet{r.SheetName}, " +
+                                                               $"in line no. {r.LineNumber}, " +
+                                                               "both cost and sale is mentioned. Taking the sum as value");
                     }
-                    if (cost > sale)
-                        isPurchase = true;
+
+                    bool isPurchase = cost > sale;
                     if (cost < 0.001 && sale< 0.001)
                         isPurchase = true;//Bonus Case
                     var value = cost + sale;

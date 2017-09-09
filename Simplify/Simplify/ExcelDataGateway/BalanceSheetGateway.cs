@@ -54,16 +54,28 @@ namespace Simplify.ExcelDataGateway
 
         public BalanceSheetBook GetBalanceSheet(ILogger logger, string sheetName)
         {
-            using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName))
+            using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName, logger))
             {
                 SheetHeadingVerifier.VerifyHeadingNames(logger, reader, headings);
                 var balanceSheetStatements = reader.ReadAllLines(1, (r) =>
                 {
-                    var credit = r.ReadDouble(Credit);
-                    var debit = r.ReadDouble(Debit);
-                    if (credit > 0.001 && debit > 0.001)
+                    var isCreditAvailable = r.IsValueAvailable(Credit);
+                    var credit = isCreditAvailable? r.ReadDouble(Credit) : 0;
+                    var isDebitAvailable = r.IsValueAvailable(Debit);
+                    var debit = isDebitAvailable ? r.ReadDouble(Debit) : 0;
+                    if (isCreditAvailable && isDebitAvailable)
                     {
-                        logger.Log(MessageType.IgnorableError, "Both credit and debit has values");
+                        logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
+                                                               $"in sheet{r.SheetName}, " +
+                                                               $"in line no. {r.LineNumber}, " +
+                                                               "both credit and debit is mentioned. Taking the difference as value");
+                    }
+                    if (!isCreditAvailable && !isDebitAvailable)
+                    {
+                        logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
+                                                               $"in sheet{r.SheetName}, " +
+                                                               $"in line no. {r.LineNumber}, " +
+                                                               "both credit and debit is not mentioned. Taking the value as 0");
                     }
                     return new Statement()
                     {

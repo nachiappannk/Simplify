@@ -1,35 +1,83 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using OfficeOpenXml;
 
 namespace Simplify.ExcelDataGateway
 {
     public class RowCellsReader : IRowCellsReader
     {
+        public string FileNameWithPath { get; private set; }
+        public string SheetName { get; private set; }
+        public string FileName { get; private set; }
+        public int LineNumber { get; private set; }
+
         private readonly ExcelWorksheet _excelWorksheet;
         private readonly int _zeroBasedRowIndex;
+        private readonly ILogger _logger;
         private readonly int _rowLimit;
         private readonly int _columnLimit;
 
         public RowCellsReader(ExcelWorksheet excelWorksheet, 
-            int zeroBasedRowIndex)
+            int zeroBasedRowIndex, string fileName, string sheetName, ILogger logger)
         {
+            FileNameWithPath = fileName;
+            SheetName = sheetName;
+            FileName = Path.GetFileName(FileNameWithPath);
+            LineNumber = zeroBasedRowIndex + 1;
             _excelWorksheet = excelWorksheet;
             _zeroBasedRowIndex = zeroBasedRowIndex;
+            _logger = logger;
             _rowLimit = excelWorksheet.Dimension.Rows;
             _columnLimit = excelWorksheet.Dimension.Columns;
         }
 
         public DateTime ReadDate(int zeroBasedColumnIndex)
         {
-            
             var value = ReadCell(zeroBasedColumnIndex);
-            if (value == null) return DateTime.FromOADate(0); 
-            if (value is int) return DateTime.FromOADate((int)value);
+            if (value == null)
+            {
+                var retValue = DateTime.FromOADate(0);
+                var errorMessage = $"Expected to find a date but did not, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
+
+            if (value is int)
+            {
+                var retValue = DateTime.FromOADate((int)value);
+                var errorMessage = $"Expected to find a date but found a number, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
+
             if (value is double) return DateTime.FromOADate((double)value);
-            if (value is string) return Convert.ToDateTime((string)value);
+
+            if (value is string)
+            {
+                var retValue = Convert.ToDateTime((string)value);
+                var errorMessage = $"Expected to find a date but found text, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
             if (value is DateTime) return (DateTime) value;
-            return DateTime.MinValue;
+
+            var returnValue = DateTime.MinValue;
+            var errMessage = $"Expected to find a date but did not find any, so using {returnValue.ToString(CultureInfo.InvariantCulture)}";
+            LogError(zeroBasedColumnIndex, errMessage);
+            return returnValue;
+        }
+
+        private void LogError(int zeroBasedColumnIndex, string errorMessage)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"In file {FileName}, ");
+            stringBuilder.AppendLine($"In sheet {SheetName}, ");
+            stringBuilder.AppendLine($"In cell {GetCellAddress(zeroBasedColumnIndex)}, ");
+            stringBuilder.AppendLine(errorMessage);
+            _logger.Log(MessageType.IgnorableError, stringBuilder.ToString());
         }
 
         private object ReadCell(int zeroBasedColumnIndex)
@@ -40,24 +88,69 @@ namespace Simplify.ExcelDataGateway
             return value;
         }
 
+        private string GetCellAddress(int zeroBasedColumnIndex)
+        {
+            if (_zeroBasedRowIndex >= _rowLimit) return "Un Determined";
+            if (zeroBasedColumnIndex >= _columnLimit) return "Un Determined";
+            var value = _excelWorksheet.Cells[_zeroBasedRowIndex + 1, zeroBasedColumnIndex + 1].Address;
+            return value;
+        }
+
         public int ReadInteger(int zeroBasedColumnIndex)
         {
             var value = ReadCell(zeroBasedColumnIndex);
-            if (value == null) return 0;
+            if (value == null)
+            {
+                var retValue = 0;
+                var errorMessage = $"Expected to find a number but did not, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
             if (value is int) return (int) value;
             if (value is double) return (int) (double) value;
-            if (value is string) return Convert.ToInt32((string) value);
-            return 0;
+            if (value is string)
+            {
+                var retValue = Convert.ToInt32((string)value);
+                var errorMessage = $"Expected to find a number but found text, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
+            var returnValue = 0;
+            var errMessage = $"Expected to find a number but did not find any, so using {returnValue.ToString(CultureInfo.InvariantCulture)}";
+            LogError(zeroBasedColumnIndex, errMessage);
+            return returnValue;
+        }
+
+        public bool IsValueAvailable(int zeroBasedColumnIndex)
+        {
+            var value = ReadCell(zeroBasedColumnIndex);
+            return value != null;
         }
 
         public double ReadDouble(int zeroBasedColumnIndex)
         {
             var value = ReadCell(zeroBasedColumnIndex);
-            if (value == null) return 0;
+            if (value == null)
+            {
+                var retValue = 0;
+                var errorMessage = $"Expected to find a number but did not, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
             if (value is int) return (int)value;
             if (value is double) return (double)value;
-            if (value is string) return Convert.ToDouble((string)value);
-            return 0;
+            if (value is string)
+            {
+                var retValue = Convert.ToDouble((string)value);
+                var errorMessage = $"Expected to find a number but found text, so using {retValue.ToString(CultureInfo.InvariantCulture)}";
+                LogError(zeroBasedColumnIndex, errorMessage);
+                return retValue;
+            }
+
+            var returnValue = 0;
+            var errMessage = $"Expected to find a number but did not find any, so using {returnValue.ToString(CultureInfo.InvariantCulture)}";
+            LogError(zeroBasedColumnIndex, errMessage);
+            return returnValue;
         }
 
         public string ReadString(int zeroBasedColumnIndex)
