@@ -67,16 +67,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
+    <Compile Include="Application\StatementPriorityAdjuster.cs" />
+    <Compile Include="Books\NotionalAccount.cs" />
+    <Compile Include="Books\NotionalAccountBook.cs" />
+    <Compile Include="Application\NotionalBooksGenerator.cs" />
     <Compile Include="Application\SquaredAndOpenTradeSeparator.cs" />
     <Compile Include="Books\BalanceSheetBook.cs" />
     <Compile Include="Application\BalanceSheetGenerator.cs" />
-    <Compile Include="Books\Book.cs" />
     <Compile Include="Application\BooksOfAccountGenerator.cs" />
     <Compile Include="Books\CapitalAccountBook.cs" />
     <Compile Include="Application\CapitalAccountGenerator.cs" />
     <Compile Include="Books\ConsolidatedBook.cs" />
     <Compile Include="Books\DatedStatement.cs" />
-    <Compile Include="Books\JournalStatement.cs" />
+    <Compile Include="Books\DetailedDatedStatement.cs" />
     <Compile Include="Books\SquaredStatement.cs" />
     <Compile Include="Books\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />

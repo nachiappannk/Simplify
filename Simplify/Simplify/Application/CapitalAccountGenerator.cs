@@ -7,7 +7,7 @@ namespace Simplify.Application
 {
     public class CapitalAccountGenerator
     {
-        public CapitalAccountBook Generate(IList<JournalStatement> journalStatements, double openingBalance,
+        public CapitalAccountBook Generate(IList<DetailedDatedStatement> journalStatements, double openingBalance,
             double netEarnings, DateTime accountOpeningDate, DateTime accountClosingDate)
         {
             

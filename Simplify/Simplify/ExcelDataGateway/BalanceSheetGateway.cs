@@ -41,7 +41,7 @@ namespace Simplify.ExcelDataGateway
                 writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
-                    b.Name,
+                    b.Description,
                     b.GetCreditValue(),
                     b.GetDebitValue(),
                 });
@@ -79,7 +79,7 @@ namespace Simplify.ExcelDataGateway
                     }
                     return new Statement()
                     {
-                        Name = r.ReadString(Ledger),
+                        Description = r.ReadString(Ledger),
                         Value = credit - debit,
                     };
                 }).ToList();

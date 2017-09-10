@@ -6,15 +6,15 @@ namespace Simplify.Application
 {
     public class ProfitAndLossAccountGenerator
     {
-        public ProfitAndLossBook Generate(IList<JournalStatement> journalStatements)
+        public ProfitAndLossBook Generate(IList<DetailedDatedStatement> journalStatements)
         {
             var neededStatements = journalStatements;
-            var groupedStatements = neededStatements.GroupBy(x => x.Name, x => x.Value,
+            var groupedStatements = neededStatements.GroupBy(x => x.Description, x => x.Value,
                 (key, values) => new Statement()
                 {
-                    Name = key,
+                    Description = key,
                     Value = values.Sum(),
-                }).OrderBy(x=> x.Name).ToList();
+                }).OrderBy(x=> x.Description).ToList();
             var profitAndLossBook = new ProfitAndLossBook();
             profitAndLossBook.AddRange(groupedStatements);
             return profitAndLossBook;

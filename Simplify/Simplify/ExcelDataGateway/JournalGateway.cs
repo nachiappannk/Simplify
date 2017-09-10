@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Simplify.Books;
@@ -8,12 +9,12 @@ namespace Simplify.ExcelDataGateway
     {
         private readonly string _inputFile;
 
-        private List<List<string>> _headings = new List<List<string>>()
+        private List<List<string>> _headingOptions = new List<List<string>>()
         {
-            new List<string>() {"S.No."},
+            new List<string>() { "S.No."},
             new List<string>() { "Date" },
             new List<string>() { "Ledger" },
-            new List<string>() { "Description" },
+            new List<string>() { "DetailedDescription" },
             new List<string>() { "Credit" },
             new List<string>() { "Debit" }
         };
@@ -30,23 +31,29 @@ namespace Simplify.ExcelDataGateway
             _inputFile = inputFile;
         }
 
-        public void WriteJournal(IList<JournalStatement> journalStatements)
+        public void WriteJournal(IList<DetailedDatedStatement> journalStatements)
         {
             using (ExcelWriter writer = new ExcelWriter(_inputFile, "Journal"))
             {
                 int index = 0;
 
-                
-                writer.Write(index++, _headings);
+                object[] headings = new object[_headingOptions.Count];
+                for(int i = 0; i < _headingOptions.Count; i++)
+                {
+                    var head = _headingOptions[i].FirstOrDefault();
+                    if (string.IsNullOrWhiteSpace(head)) head = string.Empty;
+                    headings[i] = head;    
+                }
+                writer.Write(index++, headings);
                 writer.SetColumnsWidth(6, 12, 35, 45, 12, 12);
-                writer.ApplyHeadingFormat(8);
+                writer.ApplyHeadingFormat(6);
                 writer.WriteList(index, journalStatements.OrderBy(x =>x.Date).ToList(),
                     (j, rowIndex) => new object[]
                     {
                         rowIndex - 1,
                         j.Date,
-                        j.Name,
                         j.Description,
+                        j.DetailedDescription,
                         j.GetCreditValue(),
                         j.GetDebitValue(),
                     });
@@ -55,13 +62,13 @@ namespace Simplify.ExcelDataGateway
         }
 
 
-        public List<JournalStatement> GetJournalStatements(ILogger logger, string sheetName)
+        public List<DetailedDatedStatement> GetJournalStatements(ILogger logger, string sheetName)
         {
             
             using (ExcelReader reader = new ExcelReader(_inputFile, sheetName, logger))
             {
 
-                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, _headings);
+                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, _headingOptions);
 
                 var journalStatements = reader.ReadAllLines(1, (r) =>
                 {
@@ -83,11 +90,11 @@ namespace Simplify.ExcelDataGateway
                                                                $"in line no. {r.LineNumber}, " +
                                                                "both credit and debit is not mentioned. Taking the value as 0");
                     }
-                    return new JournalStatement
+                    return new DetailedDatedStatement
                     {
                         Date = r.ReadDate(Date),
-                        Name = r.ReadString(LedgerName),
-                        Description = r.ReadString(Description),
+                        Description = r.ReadString(LedgerName),
+                        DetailedDescription = r.ReadString(Description),
                         Value = credit - debit,
                     };
                 }).ToList();

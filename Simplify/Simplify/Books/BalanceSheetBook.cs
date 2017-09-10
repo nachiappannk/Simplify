@@ -12,7 +12,7 @@ namespace Simplify.Books
     {
         public static double GetCapital(this BalanceSheetBook balanceSheet)
         {
-            var capitalStatement = balanceSheet.FirstOrDefault(x => x.Name == BalanceSheetBook.Capital);
+            var capitalStatement = balanceSheet.FirstOrDefault(x => x.Description == BalanceSheetBook.Capital);
             if (capitalStatement != null)
             {
                 return capitalStatement.Value;
@@ -22,7 +22,7 @@ namespace Simplify.Books
 
         public static void UpsertCapital(this BalanceSheetBook balanceSheet, double capital)
         {
-            var capitalStatement = balanceSheet.FirstOrDefault(x => x.Name == BalanceSheetBook.Capital);
+            var capitalStatement = balanceSheet.FirstOrDefault(x => x.Description == BalanceSheetBook.Capital);
             if (capitalStatement != null)
             {
                 capitalStatement.Value = capital;
@@ -33,7 +33,7 @@ namespace Simplify.Books
             {
                 balanceSheet.Add(new Statement()
                     {
-                        Name = BalanceSheetBook.Capital,
+                        Description = BalanceSheetBook.Capital,
                         Value = capital,
                     }
                 );

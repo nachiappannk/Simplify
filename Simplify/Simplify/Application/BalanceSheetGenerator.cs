@@ -8,7 +8,7 @@ namespace Simplify.Application
 {
     public class BalanceSheetGenerator
     {
-        public BalanceSheetBook Generate(IList<JournalStatement> journalStatements,
+        public BalanceSheetBook Generate(IList<DetailedDatedStatement> journalStatements,
             BalanceSheetBook previousYearBalanceSheet, double capital)
         {
 
@@ -24,10 +24,10 @@ namespace Simplify.Application
 
 
             var groupedStatements = allStatements
-                .GroupBy(x => x.Name, x => x.Value, (key, values) =>
+                .GroupBy(x => x.Description, x => x.Value, (key, values) =>
                     new Statement()
                     {
-                        Name = key,
+                        Description = key,
                         Value = values.Sum(),
                     })
                 .Where(s => Math.Abs(s.Value) > 0.001).ToList();
@@ -35,21 +35,20 @@ namespace Simplify.Application
             
 
             var balanceSheet = new BalanceSheetBook();
-            balanceSheet.AddRange(groupedStatements.OrderBy(s => s.Name));
+            balanceSheet.AddRange(groupedStatements.OrderBy(s => s.Description));
             balanceSheet.UpsertCapital(capital);
             return balanceSheet;
         }
 
         private Statement TrimBrackets(Statement s)
         {
-            var name = s.Name;
+            var name = s.Description;
             var output = Regex.Replace(name, "\\([a-zA-Z0-9\\s]*\\)", string.Empty);
             return new Statement()
             {
-                Name = output.Trim(),
+                Description = output.Trim(),
                 Value = s.Value,
             };
         }
-
     }
 }

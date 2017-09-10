@@ -17,7 +17,7 @@ namespace Simplify.ExcelDataGateway
             "Purchase Date",
             "Holding Days",
             "Type",
-            "Name",
+            "Description",
             "Account",
             "Contract",
             "Stt",

@@ -29,7 +29,7 @@ namespace Simplify.Books
                 {
                     Date = date,
                     Value = value,
-                    Name = name,
+                    Description = name,
                 });
             
         }

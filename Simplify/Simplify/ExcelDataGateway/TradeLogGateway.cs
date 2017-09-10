@@ -15,7 +15,7 @@ namespace Simplify.ExcelDataGateway
             new List<string>() { "S.No."},
             new List<string>() {"Date" },
             new List<string>() {"Item Type" },
-            new List<string>() {"Name" },
+            new List<string>() {"Description" },
             new List<string>() { "Account"},
             new List<string>(){ "Contract"} ,
             new List<string>(){ "Stt"},

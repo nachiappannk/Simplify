@@ -15,14 +15,14 @@ namespace Simplify.Application
         {
             _logger = logger;
         }
-        public TrialBalanceBook Generate(IList<JournalStatement> journalStatements)
+        public TrialBalanceBook Generate(IList<DetailedDatedStatement> journalStatements)
         {
             var statements = journalStatements.GroupBy(
-                    x => x.Name, 
+                    x => x.Description, 
                     y => y.Value, 
                     (key, values) => new Statement()
                     {
-                        Name = key,
+                        Description = key,
                         Value = values.Sum(),
                     })
                 .ToList();
@@ -34,7 +34,7 @@ namespace Simplify.Application
             }
             var trialBalance = new TrialBalanceBook();
 
-            trialBalance.AddRange(statements.OrderBy(x=>x.Name));
+            trialBalance.AddRange(statements.OrderBy(x=>x.Description));
             return trialBalance;
         }
     }

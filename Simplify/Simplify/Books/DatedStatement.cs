@@ -7,5 +7,4 @@ namespace Simplify.Books
     {
         public DateTime Date { get; set; }
     }
-    
 }
