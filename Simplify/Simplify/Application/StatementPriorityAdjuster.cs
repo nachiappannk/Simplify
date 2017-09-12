@@ -15,29 +15,12 @@ namespace Simplify.Application
         };
 
 
-        public DetailedDatedStatement RePrioritizeStatement(DetailedDatedStatement detailedDatedStatement , StatementPriority priority)
+        public DatedStatement RePrioritizeStatement(DatedStatement statement , StatementPriority priority)
         {
-            var ret = detailedDatedStatement.CreateCopy();
+            var ret = statement.CreateCopy();
             var date = ret.Date;
             ret.Date = new DateTime(date.Year, date.Month, date.Day, _priorityToHoursConvertor[priority],0,0);
             return ret;
-        }
-
-        public DetailedDatedStatement ReDetailedDatedStatementAsOpening(DetailedDatedStatement detailedDatedStatement)
-        {
-            return RePrioritizeStatement(detailedDatedStatement, StatementPriority.Opening);
-        }
-        public DetailedDatedStatement ReDetailedDatedStatementAsClosing(DetailedDatedStatement detailedDatedStatement)
-        {
-            return RePrioritizeStatement(detailedDatedStatement, StatementPriority.Closing);
-        }
-        public DetailedDatedStatement ReDetailedDatedStatementAsPreClosing(DetailedDatedStatement detailedDatedStatement)
-        {
-            return RePrioritizeStatement(detailedDatedStatement, StatementPriority.PreClosing);
-        }
-        public DetailedDatedStatement ReDetailedDatedStatementAsNormal(DetailedDatedStatement detailedDatedStatement)
-        {
-            return RePrioritizeStatement(detailedDatedStatement, StatementPriority.Normal);
         }
     }
 

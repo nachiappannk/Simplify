@@ -7,11 +7,11 @@ namespace Simplify.ExcelDataGateway
 {
     public class BooksOfAccountWriter : IBooksOfAccountWriter
     {
-        private readonly string outputExcelFileName;
+        private readonly string _outputExcelFileName;
 
         public BooksOfAccountWriter(string outputExcelFileName)
         {
-            this.outputExcelFileName = outputExcelFileName;
+            _outputExcelFileName = outputExcelFileName;
         }
 
         public void WriteBooksOfAccount(ConsolidatedBook consolidatedBook)
@@ -19,21 +19,22 @@ namespace Simplify.ExcelDataGateway
             AddJournal(consolidatedBook.Journal);
             AddTrialBalance(consolidatedBook.TrialBalance);
             AddNotionalAccountBooks(consolidatedBook.NotionalAccountBooks);
+            AddReadAccounts(consolidatedBook.RealAccountBooks);
+            AddBalanceSheet(consolidatedBook.BalanceSheetBook);
 
             //AddProfitAndLoss(consolidatedBook.ProfitAndLoss);
             //AddCapitalAccount(consolidatedBook.CapitalAccount);
-            //AddBalanceSheet(consolidatedBook.BalanceSheetBook);
         }
 
         private void AddBalanceSheet(BalanceSheetBook balanceSheet)
         {
-            BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(outputExcelFileName);
+            BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(_outputExcelFileName);
             balanceSheetGateway.WriteBalanceSheet(balanceSheet);
         }
 
         private void AddCapitalAccount(CapitalAccountBook capitalAccountBook)
         {
-            using (ExcelWriter writer = new ExcelWriter(outputExcelFileName, "CapitalAccount"))
+            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "CapitalAccount"))
             {
                 int index = 0;
                 object[] headings = {"S.No.", "Date", "Ledger", "Credit", "Debit", "Total"};
@@ -59,7 +60,7 @@ namespace Simplify.ExcelDataGateway
         }
         private void AddProfitAndLoss(ProfitAndLossBook profitAndLoss)
         {
-            using (ExcelWriter writer = new ExcelWriter(outputExcelFileName, "P&L"))
+            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "P&L"))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Ledger", "Earnings", "Expenditure", "Net");
@@ -90,10 +91,38 @@ namespace Simplify.ExcelDataGateway
             }
         }
 
+        private void AddReadAccounts(List<RealAccountBook> realAccountBooks)
+        {
+            foreach (var realAccountBook in realAccountBooks)
+            {
+                using (ExcelWriter writer =
+                    new ExcelWriter(_outputExcelFileName, realAccountBook.AccountName))
+                {
+                    int index = 0;
+                    writer.Write(index++, "S.No.", "Date", "Description", "Credit", "Debit", "Net");
+                    writer.ApplyHeadingFormat(6);
+                    writer.SetColumnsWidth(6, 12, 45, 12, 12, 12);
+                    writer.WriteList(index, realAccountBook, (j, rowIndex) =>
+                        new object[]
+                        {
+                            rowIndex - 1,
+                            j.Date,
+                            j.Description,
+                            j.GetCreditValue(),
+                            j.GetDebitValue(),
+                        });
+                    index = index + realAccountBook.Count + 1;
+                    writer.Write(index, "", "", "Net " + realAccountBook.AccountName,
+                        realAccountBook.GetCreditTotal(), realAccountBook.GetDebitTotal(),
+                        realAccountBook.GetTotal());
+                }
+            }
+        }
+
         private void WriteNotionalAccountSummary(NotionalAccountBook notionalAccountBook)
         {
             using (ExcelWriter writer =
-                new ExcelWriter(outputExcelFileName, notionalAccountBook.Account.NotionalAccountName + "-Summary"))
+                new ExcelWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName + "-Summary"))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Description", "Credit", "Debit", "Net");
@@ -118,7 +147,7 @@ namespace Simplify.ExcelDataGateway
 
         private void WriteNotionalAccount(NotionalAccountBook notionalAccountBook)
         {
-            using (ExcelWriter writer = new ExcelWriter(outputExcelFileName, notionalAccountBook.Account.NotionalAccountName))
+            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Date", "Tag", "Description", "Credit", "Debit", "Net");
@@ -146,7 +175,7 @@ namespace Simplify.ExcelDataGateway
 
         private void AddTrialBalance(TrialBalanceBook trialBalance )
         {
-            using (ExcelWriter writer = new ExcelWriter(outputExcelFileName, "TRB"))
+            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "TRB"))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Ledger", "Credit", "Debit","Difference");
@@ -168,7 +197,7 @@ namespace Simplify.ExcelDataGateway
 
         private void AddJournal(IList<DetailedDatedStatement> journalStatements)
         {
-            JournalGateway journalGateway = new JournalGateway(outputExcelFileName);
+            JournalGateway journalGateway = new JournalGateway(_outputExcelFileName);
             journalGateway.WriteJournal(journalStatements);   
         }
     }

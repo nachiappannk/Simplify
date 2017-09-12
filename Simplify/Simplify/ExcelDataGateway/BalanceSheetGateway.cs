@@ -59,6 +59,7 @@ namespace Simplify.ExcelDataGateway
                 SheetHeadingVerifier.VerifyHeadingNames(logger, reader, headings);
                 var balanceSheetStatements = reader.ReadAllLines(1, (r) =>
                 {
+                    var isValid = r.IsValueAvailable(SerialNumber);
                     var isCreditAvailable = r.IsValueAvailable(Credit);
                     var credit = isCreditAvailable? r.ReadDouble(Credit) : 0;
                     var isDebitAvailable = r.IsValueAvailable(Debit);
@@ -77,17 +78,22 @@ namespace Simplify.ExcelDataGateway
                                                                $"in line no. {r.LineNumber}, " +
                                                                "both credit and debit is not mentioned. Taking the value as 0");
                     }
-                    return new Statement()
+                    return new StatementWithValidity()
                     {
+                        IsValid = isValid,
                         Description = r.ReadString(Ledger),
                         Value = credit - debit,
                     };
                 }).ToList();
                 var balanceSheet = new BalanceSheetBook();
-                balanceSheet.AddRange(balanceSheetStatements);
+                balanceSheet.AddRange(balanceSheetStatements.Where(x => x.IsValid).Select(y => new Statement() {Description = y.Description, Value = y.Value }));
                 return balanceSheet;
             }
         }
 
+        public class StatementWithValidity : Statement 
+        {
+            public bool IsValid { get; set; }
+        }
     }
 }

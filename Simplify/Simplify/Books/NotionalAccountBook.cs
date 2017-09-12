@@ -13,18 +13,6 @@ namespace Simplify.Books
         }
         public NotionalAccount Account { get; set; }
 
-        public DetailedDatedStatement GetClosingStatment(DateTime closingDate)
-        {
-            var detailedStatement = new DetailedDatedStatement();
-            detailedStatement.Date = closingDate;
-            detailedStatement.Value = this.Sum(x => x.Value);
-            detailedStatement.Description = Account.RealAccountName;
-            detailedStatement.DetailedDescription = "Closing of "+Account.NotionalAccountName;
-
-
-            return detailedStatement;
-        }
-
         public List<Statement> GetSummaryStatement()
         {
             return this.GroupBy(x => x.Description, 

@@ -10,12 +10,11 @@ namespace Simplify.Application
     {
         private readonly ILogger _logger;
         public static JournalStatementBracketTrimmer _trimmer = new JournalStatementBracketTrimmer();
-        private readonly StatementPriorityAdjuster _statementPriorityAdjuster;
+        
 
         public BooksOfAccountGenerator(ILogger logger)
         {
             _logger = logger;
-            _statementPriorityAdjuster = new StatementPriorityAdjuster();
         }
 
         private DetailedDatedStatement TrimBracket(DetailedDatedStatement detailedDatedStatement)
@@ -23,52 +22,70 @@ namespace Simplify.Application
             return _trimmer.Trim(detailedDatedStatement);
         }
 
-
         public ConsolidatedBook Generate(IList<DetailedDatedStatement> journalStatements, BalanceSheetBook previousYearBalanceSheet,
             DateTime bookClosingDate, DateTime bookOpeningDate)
         {
-
             var trialBalance = new TrialBalanceGenerator(_logger).Generate(journalStatements);
 
             var bracketTrimmedJournalStatements = journalStatements.Select(TrimBracket).ToList();
 
-            bracketTrimmedJournalStatements = bracketTrimmedJournalStatements.Select(_statementPriorityAdjuster.ReDetailedDatedStatementAsNormal).ToList();
-
             var notionalBooksGenerator = new NotionalBooksGenerator();
-
-            var nonNotionalStatements = new List<DetailedDatedStatement>();
+            var realBooksGenerator = new RealBooksGenerator();
 
             foreach (var statement in bracketTrimmedJournalStatements)
             {
                 if (notionalBooksGenerator.IsNotionalAccountStatement(statement))
                     notionalBooksGenerator.AddNotionalAccountStatement(statement);
                 else
-                    nonNotionalStatements.Add(statement);
+                    realBooksGenerator.AddStatement(statement, StatementPriority.Normal);
             }
 
             var notionalAccountBooks = notionalBooksGenerator.GetNotionalAccountBooks();
 
+            var notionalAccountClosingStatements = GetClosingStatements(notionalAccountBooks, bookClosingDate);
+            realBooksGenerator.AddStatements(notionalAccountClosingStatements, StatementPriority.PreClosing);
 
+            var previousBalanceSheetStatements = GetOpeningStatements(previousYearBalanceSheet, bookOpeningDate);
+            realBooksGenerator.AddStatements(previousBalanceSheetStatements, StatementPriority.Opening);
 
-            //var profitAndLoss = new ProfitAndLossAccountGenerator().Generate(journalStatements);
-
-            //var capitalAccount = new CapitalAccountGenerator().Generate(journalStatements,
-            //    previousYearBalanceSheet.GetCapital(),
-            //    profitAndLoss.GetNetEarnings(),
-            //    bookOpeningDate, bookClosingDate);
-
-            //var balanceSheet = new BalanceSheetGenerator().Generate(journalStatements, previousYearBalanceSheet,
-            //    capitalAccount.GetCapital());
+            var realBooks = realBooksGenerator.GetRealAccountBooks();
+            var balanceSheetBook = realBooksGenerator.GetBalanceSheetBook();
 
             return new ConsolidatedBook()
             {
                 Journal    = journalStatements,
                 TrialBalance = trialBalance,
                 NotionalAccountBooks = notionalAccountBooks,
+                RealAccountBooks = realBooks,
+                BalanceSheetBook = balanceSheetBook,
                 //ProfitAndLoss = profitAndLoss,
                 //CapitalAccount = capitalAccount,
                 //BalanceSheetBook = balanceSheet,
             };
+        }
+
+        private static List<DetailedDatedStatement> GetOpeningStatements(BalanceSheetBook previousYearBalanceSheet, DateTime bookOpeningDate)
+        {
+            var previousBalanceSheetStatements = previousYearBalanceSheet.Select(x => new DetailedDatedStatement()
+            {
+                Date = bookOpeningDate,
+                Value = x.Value,
+                Description = x.Description,
+                DetailedDescription = "Opening Balance",
+            }).ToList();
+            return previousBalanceSheetStatements;
+        }
+
+        private static List<DetailedDatedStatement> GetClosingStatements(List<NotionalAccountBook> notionalAccountBooks, DateTime bookClosingDate)
+        {
+            var notionalAccountClosingStatements = notionalAccountBooks.Select(x => new DetailedDatedStatement()
+            {
+                Date = bookClosingDate,
+                Value = x.GetTotal(),
+                Description = x.Account.RealAccountName,
+                DetailedDescription = $"Closing of {x.Account.RealAccountName}",
+            }).ToList();
+            return notionalAccountClosingStatements;
         }
     }
 }

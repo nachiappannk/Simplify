@@ -7,4 +7,18 @@ namespace Simplify.Books
     {
         public DateTime Date { get; set; }
     }
+
+    public static class DatedStatementExtention
+    {
+        public static DatedStatement CreateCopy(this DatedStatement datedStatement)
+        {
+            return new DatedStatement()
+            {
+                Date = datedStatement.Date,
+                Description = datedStatement.Description,
+                Value = datedStatement.Value,
+
+            };
+        }
+    }
 }

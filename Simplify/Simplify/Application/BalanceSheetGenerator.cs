@@ -8,6 +8,22 @@ namespace Simplify.Application
 {
     public class BalanceSheetGenerator
     {
+        public BalanceSheetBook Generate(IList<DetailedDatedStatement> statements)
+        {
+            var balanceSheetBook = new BalanceSheetBook();
+            var balanceSheetStatements = statements
+                .GroupBy(x => x.Description, y => y.Value, (description, values) => new Statement()
+                {
+                    Description = description,
+                    Value = values.Sum(),
+                });
+
+            balanceSheetBook.AddRange(balanceSheetStatements);
+            return balanceSheetBook;
+        }
+
+
+
         public BalanceSheetBook Generate(IList<DetailedDatedStatement> journalStatements,
             BalanceSheetBook previousYearBalanceSheet, double capital)
         {
