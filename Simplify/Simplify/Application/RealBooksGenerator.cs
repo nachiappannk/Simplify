@@ -13,10 +13,24 @@ namespace Simplify.Application
 
         public List<RealAccountBook> GetRealAccountBooks()
         {
+            var nonInvertedRealAccountBooks = GetRealAccountBooksWithOutInversion();
+            return nonInvertedRealAccountBooks.Select(x =>
+            {
+                var realAccountBook = new RealAccountBook(x.AccountName);
+                var datedStatements = x.Select(z =>
+                    new DatedStatement() {Date = z.Date, Description = z.Description, Value = -1 * z.Value}).ToList();
+                realAccountBook.AddRange(datedStatements);
+                return realAccountBook;
+            }).ToList();
+        }
+
+        private List<RealAccountBook> GetRealAccountBooksWithOutInversion()
+        {
             return _accounts.Select(x =>
             {
                 var realAccountBook = new RealAccountBook(x.Key);
-                var datedStatements = x.Value.Select(y => new DatedStatement() {Date =y.Date, Description = y.Description, Value = y.Value * -1});
+                var datedStatements = x.Value.ToList();
+                datedStatements = datedStatements.OrderBy(x1 => x1.Date).ToList();
                 realAccountBook.AddRange(datedStatements);
                 return realAccountBook;
             }).ToList();
@@ -24,7 +38,7 @@ namespace Simplify.Application
 
         public BalanceSheetBook GetBalanceSheetBook()
         {
-            var realBooks = GetRealAccountBooks();
+            var realBooks = GetRealAccountBooksWithOutInversion();
             var balanceSheetStatements = realBooks.Select(x => new Statement() {Description = x.AccountName, Value = x.Sum(y => y.Value)});
             var balanceSheet = new BalanceSheetBook();
             balanceSheet.AddRange(balanceSheetStatements);

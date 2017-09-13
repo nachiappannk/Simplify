@@ -16,14 +16,11 @@ namespace Simplify.ExcelDataGateway
 
         public void WriteBooksOfAccount(ConsolidatedBook consolidatedBook)
         {
-            AddJournal(consolidatedBook.Journal);
-            AddTrialBalance(consolidatedBook.TrialBalance);
-            AddNotionalAccountBooks(consolidatedBook.NotionalAccountBooks);
-            AddReadAccounts(consolidatedBook.RealAccountBooks);
             AddBalanceSheet(consolidatedBook.BalanceSheetBook);
-
-            //AddProfitAndLoss(consolidatedBook.ProfitAndLoss);
-            //AddCapitalAccount(consolidatedBook.CapitalAccount);
+            AddTrialBalance(consolidatedBook.TrialBalance);
+            AddJournal(consolidatedBook.Journal);
+            AddNotionalAccountBooks(consolidatedBook.NotionalAccountBooks);
+            AddRealAccounts(consolidatedBook.RealAccountBooks);
         }
 
         private void AddBalanceSheet(BalanceSheetBook balanceSheet)
@@ -31,56 +28,6 @@ namespace Simplify.ExcelDataGateway
             BalanceSheetGateway balanceSheetGateway = new BalanceSheetGateway(_outputExcelFileName);
             balanceSheetGateway.WriteBalanceSheet(balanceSheet);
         }
-
-        private void AddCapitalAccount(CapitalAccountBook capitalAccountBook)
-        {
-            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "CapitalAccount"))
-            {
-                int index = 0;
-                object[] headings = {"S.No.", "Date", "Ledger", "Credit", "Debit", "Total"};
-                writer.Write(index++, headings);
-                writer.ApplyHeadingFormat(headings.Length);
-                writer.SetColumnsWidth(6, 12, 45, 12, 12, 12);
-
-                writer.WriteList(index, capitalAccountBook,
-                    (j, rowIndex) => new object[]
-                    {
-                        rowIndex - 1,
-                        j.Date,
-                        j.Description,
-                        j.GetCreditValue(),
-                        j.GetDebitValue(),
-                    });
-                index = index + capitalAccountBook.Count;
-                writer.Write(index, "","", "Closing Balance", capitalAccountBook.GetCreditTotal(), 
-                    capitalAccountBook.GetDebitTotal(),
-                    capitalAccountBook.GetTotal());
-                
-            }
-        }
-        private void AddProfitAndLoss(ProfitAndLossBook profitAndLoss)
-        {
-            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "P&L"))
-            {
-                int index = 0;
-                writer.Write(index++, "S.No.", "Ledger", "Earnings", "Expenditure", "Net");
-                writer.ApplyHeadingFormat(5);
-                writer.SetColumnsWidth(6, 45, 12, 12, 12);
-
-                writer.WriteList(index, profitAndLoss,
-                    (j, rowIndex) => new object[]
-                    {
-                        rowIndex - 1,
-                        j.Description,
-                        j.GetCreditValue(),
-                        j.GetDebitValue(),
-                    });
-                index = index + profitAndLoss.Count;
-                writer.Write(index,"","NetEarnings", profitAndLoss.GetCreditTotal(), profitAndLoss.GetDebitTotal(),
-                    profitAndLoss.GetTotal());
-            }
-        }
-
 
         private void AddNotionalAccountBooks(List<NotionalAccountBook> notionalAccountBooks)
         {
@@ -91,7 +38,7 @@ namespace Simplify.ExcelDataGateway
             }
         }
 
-        private void AddReadAccounts(List<RealAccountBook> realAccountBooks)
+        private void AddRealAccounts(List<RealAccountBook> realAccountBooks)
         {
             foreach (var realAccountBook in realAccountBooks)
             {

@@ -13,8 +13,8 @@ namespace Simplify.ExcelDataGateway
         {
             new List<string>(){ "S.No."},
             new List<string>(){ "Ledger"},
-            new List<string>(){ "Credit" },
-            new List<string>(){ "Debit" },
+            new List<string>(){ "Liability & Equity" , "Liability" , "Funding", "Equity" },
+            new List<string>(){ "Assets" },
             new List<string>(){ "Total" },
 
         };
@@ -45,7 +45,7 @@ namespace Simplify.ExcelDataGateway
                     b.GetCreditValue(),
                     b.GetDebitValue(),
                 });
-                index = index + balanceSheet.Count;
+                index = index + 1 + balanceSheet.Count;
                 writer.Write(index, "", "Total", balanceSheet.GetCreditTotal(), balanceSheet.GetDebitTotal(), 
                     balanceSheet.GetTotal());
 
