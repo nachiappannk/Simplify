@@ -20,12 +20,7 @@ namespace Simplify.Books
             return Math.Abs(value) < 0.001;
         }
 
-        public static bool IsBalanced(this IEnumerable<Statement> statements)
-        {
-            var total = statements.GetTotal();
-            return IsZero(total);
-        }
-
+        
         public static double GetTotal(this IEnumerable<Statement> statements)
         {
             var total = statements.Sum(s => s.Value);

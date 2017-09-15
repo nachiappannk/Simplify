@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using OfficeOpenXml;
+using Simplify.Application;
 
 namespace Simplify.ExcelDataGateway
 {

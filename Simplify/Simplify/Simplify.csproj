@@ -75,10 +75,7 @@
     <Compile Include="Application\NotionalBooksGenerator.cs" />
     <Compile Include="Application\SquaredAndOpenTradeSeparator.cs" />
     <Compile Include="Books\BalanceSheetBook.cs" />
-    <Compile Include="Application\BalanceSheetGenerator.cs" />
     <Compile Include="Application\BooksOfAccountGenerator.cs" />
-    <Compile Include="Books\CapitalAccountBook.cs" />
-    <Compile Include="Application\CapitalAccountGenerator.cs" />
     <Compile Include="Books\ConsolidatedBook.cs" />
     <Compile Include="Books\DatedStatement.cs" />
     <Compile Include="Books\DetailedDatedStatement.cs" />
@@ -92,11 +89,9 @@
     <Compile Include="ExcelDataGateway\ExcelReader.cs" />
     <Compile Include="ExcelDataGateway\ExcelSheetInfoProvider.cs" />
     <Compile Include="ExcelDataGateway\ExcelWriter.cs" />
-    <Compile Include="ExcelDataGateway\ILogger.cs" />
+    <Compile Include="Application\ILogger.cs" />
     <Compile Include="ExcelDataGateway\IRowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\JournalGateway.cs" />
-    <Compile Include="Application\ProfitAndLossAccountGenerator.cs" />
-    <Compile Include="Books\ProfitAndLossBook.cs" />
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\SheetHeadingVerifier.cs" />
     <Compile Include="ExcelDataGateway\TradeLogGateway.cs" />
