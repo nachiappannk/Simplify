@@ -5,12 +5,10 @@ namespace Simplify.Application
 {
     public class JournalStatementBracketTrimmer
     {
-        public DetailedDatedStatement Trim(DetailedDatedStatement detailedDatedStatement)
+        public string Trim(string name)
         {
-            var trimmedName = Regex.Replace(detailedDatedStatement.Description, "\\([a-zA-Z0-9\\s]*\\)", string.Empty).Trim();
-            var retVal = detailedDatedStatement.CreateCopy();
-            retVal.Description = trimmedName;
-            return retVal;
+            return Regex.Replace(name, "\\([a-zA-Z0-9\\s]*\\)", string.Empty).Trim();
+           
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Simplify.Books;
 using Simplify.ExcelDataGateway;
 
@@ -10,7 +11,6 @@ namespace Simplify.Application
     {
         private readonly ILogger _logger;
         public static JournalStatementBracketTrimmer _trimmer = new JournalStatementBracketTrimmer();
-        
 
         public BooksOfAccountGenerator(ILogger logger)
         {
@@ -19,12 +19,33 @@ namespace Simplify.Application
 
         private DetailedDatedStatement TrimBracket(DetailedDatedStatement detailedDatedStatement)
         {
-            return _trimmer.Trim(detailedDatedStatement);
+            var retVal = detailedDatedStatement.CreateCopy();
+            retVal.Description = _trimmer.Trim(detailedDatedStatement.Description);
+            return retVal; 
+        }
+
+        private bool IsCapitalAccount(string name)
+        {
+            return name.EndsWith("(e)") || name.EndsWith("(E)");
+        }
+
+        private Statement TrimBracket(Statement detailedDatedStatement)
+        {
+            var ret = new Statement()
+            {
+                Description = _trimmer.Trim(detailedDatedStatement.Description),
+                Value = detailedDatedStatement.Value
+            };
+            return ret;
         }
 
         public ConsolidatedBook Generate(IList<DetailedDatedStatement> journalStatements, BalanceSheetBook previousYearBalanceSheet,
             DateTime bookClosingDate, DateTime bookOpeningDate)
         {
+            var balanceAccountNames = previousYearBalanceSheet.Select(x => x.Description).Distinct().ToList();
+            var captialAccountNames = balanceAccountNames.Where(IsCapitalAccount).Select(_trimmer.Trim).ToList();
+            
+
             var trialBalance = new TrialBalanceGenerator(_logger).Generate(journalStatements);
 
             var bracketTrimmedJournalStatements = journalStatements.Select(TrimBracket).ToList();
@@ -45,11 +66,16 @@ namespace Simplify.Application
             var notionalAccountClosingStatements = GetClosingStatements(notionalAccountBooks, bookClosingDate);
             realBooksGenerator.AddStatements(notionalAccountClosingStatements, StatementPriority.PreClosing);
 
-            var previousBalanceSheetStatements = GetOpeningStatements(previousYearBalanceSheet, bookOpeningDate);
+            var previousBalanceSheetStatements = GetOpeningStatements(previousYearBalanceSheet.Select(TrimBracket).ToList(), bookOpeningDate);
             realBooksGenerator.AddStatements(previousBalanceSheetStatements, StatementPriority.Opening);
 
-            var realBooks = realBooksGenerator.GetRealAccountBooks();
+            var realBooks = realBooksGenerator.GetRealAccountBooks(captialAccountNames);
             var balanceSheetBook = realBooksGenerator.GetBalanceSheetBook();
+            foreach (var balanceSheetStatement in balanceSheetBook)
+            {
+                if (captialAccountNames.Contains(balanceSheetStatement.Description))
+                    balanceSheetStatement.Description = balanceSheetStatement.Description + " (E)";
+            }
 
             return new ConsolidatedBook()
             {
@@ -58,13 +84,10 @@ namespace Simplify.Application
                 NotionalAccountBooks = notionalAccountBooks,
                 RealAccountBooks = realBooks,
                 BalanceSheetBook = balanceSheetBook,
-                //ProfitAndLoss = profitAndLoss,
-                //CapitalAccount = capitalAccount,
-                //BalanceSheetBook = balanceSheet,
             };
         }
 
-        private static List<DetailedDatedStatement> GetOpeningStatements(BalanceSheetBook previousYearBalanceSheet, DateTime bookOpeningDate)
+        private static List<DetailedDatedStatement> GetOpeningStatements(List<Statement> previousYearBalanceSheet, DateTime bookOpeningDate)
         {
             var previousBalanceSheetStatements = previousYearBalanceSheet.Select(x => new DetailedDatedStatement()
             {
@@ -83,7 +106,7 @@ namespace Simplify.Application
                 Date = bookClosingDate,
                 Value = x.GetTotal(),
                 Description = x.Account.RealAccountName,
-                DetailedDescription = $"Closing of {x.Account.RealAccountName}",
+                DetailedDescription = $"Closing of {x.Account.NotionalAccountName}",
             }).ToList();
             return notionalAccountClosingStatements;
         }

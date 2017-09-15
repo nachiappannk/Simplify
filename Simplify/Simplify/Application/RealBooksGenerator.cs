@@ -11,15 +11,22 @@ namespace Simplify.Application
 
         Dictionary<string,List<DatedStatement>> _accounts = new Dictionary<string, List<DatedStatement>>();
 
-        public List<RealAccountBook> GetRealAccountBooks()
+        public List<RealAccountBook> GetRealAccountBooks(List<string> capitalAccountNames)
         {
             var nonInvertedRealAccountBooks = GetRealAccountBooksWithOutInversion();
             return nonInvertedRealAccountBooks.Select(x =>
             {
                 var realAccountBook = new RealAccountBook(x.AccountName);
-                var datedStatements = x.Select(z =>
-                    new DatedStatement() {Date = z.Date, Description = z.Description, Value = -1 * z.Value}).ToList();
-                realAccountBook.AddRange(datedStatements);
+                if (capitalAccountNames.Contains(x.AccountName))
+                {
+                    realAccountBook.AddRange(x);
+                }
+                else
+                {
+                    var datedStatements = x.Select(z =>
+                        new DatedStatement() { Date = z.Date, Description = z.Description, Value = -1 * z.Value }).ToList();
+                    realAccountBook.AddRange(datedStatements);
+                }
                 return realAccountBook;
             }).ToList();
         }
