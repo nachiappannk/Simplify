@@ -65,7 +65,7 @@ namespace Simplify.ExcelDataGateway
                     var credit = isCreditAvailable? r.ReadDouble(Credit) : 0;
                     var isDebitAvailable = r.IsValueAvailable(Debit);
                     var debit = isDebitAvailable ? r.ReadDouble(Debit) : 0;
-                    if (isCreditAvailable && isDebitAvailable)
+                    if (isCreditAvailable && isDebitAvailable && isValid)
                     {
                         logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
                                                                $"in sheet{r.SheetName}, " +

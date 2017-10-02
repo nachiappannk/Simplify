@@ -15,7 +15,7 @@ namespace Simplify.ExcelDataGateway
             new List<string>() { "S.No."},
             new List<string>() { "Date" },
             new List<string>() { "Ledger" },
-            new List<string>() { "DetailedDescription" },
+            new List<string>() { "Description", "DetailedDescription" },
             new List<string>() { "Credit" },
             new List<string>() { "Debit" }
         };
@@ -79,10 +79,14 @@ namespace Simplify.ExcelDataGateway
                     var debit = isDebitAvailable ? r.ReadDouble(Debit) : 0;
                     if (isCreditAvailable && isDebitAvailable)
                     {
-                        logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
-                                                               $"in sheet{r.SheetName}, " +
-                                                               $"in line no. {r.LineNumber}, " +
-                                                               "both credit and debit is mentioned. Taking the difference as value");
+                        if ((Math.Abs(credit) > 0.01) && (Math.Abs(debit) > 0.01))
+                        {
+                            logger.Log(MessageType.IgnorableError, $"In file {r.FileName}, " +
+                                                                $"in sheet {r.SheetName}, " +
+                                                                $"in line no. {r.LineNumber}, " +
+                                                                "both credit and debit is having non zero values. Taking the difference as value");
+                        }
+                        
                     }
                     if (!isCreditAvailable && !isDebitAvailable)
                     {
