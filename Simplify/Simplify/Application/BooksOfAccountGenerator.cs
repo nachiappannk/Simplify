@@ -70,12 +70,8 @@ namespace Simplify.Application
             realBooksGenerator.AddStatements(previousBalanceSheetStatements, StatementPriority.Opening);
 
             var realBooks = realBooksGenerator.GetRealAccountBooks(captialAccountNames);
-            var balanceSheetBook = realBooksGenerator.GetBalanceSheetBook();
-            foreach (var balanceSheetStatement in balanceSheetBook)
-            {
-                if (captialAccountNames.Contains(balanceSheetStatement.Description))
-                    balanceSheetStatement.Description = balanceSheetStatement.Description + " (E)";
-            }
+            var balanceSheetBook = realBooksGenerator.GetBalanceSheetBook(captialAccountNames);
+            
 
             return new ConsolidatedBook()
             {

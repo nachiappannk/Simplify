@@ -7,6 +7,7 @@
         xmlns:booksOfAccountGeneration="clr-namespace:SimplifyUi.BooksOfAccountGeneration"
         xmlns:capitalGainsGeneration="clr-namespace:SimplifyUi.CapitalGainsGeneration"
         xmlns:viewModel="clr-namespace:SimplifyUi.Common.ViewModel"
+        Icon="if_money_299107.ico"
         xmlns:common="clr-namespace:SimplifyUi.Common"
 
         mc:Ignorable="d"

@@ -43,10 +43,25 @@ namespace Simplify.Application
             }).ToList();
         }
 
-        public BalanceSheetBook GetBalanceSheetBook()
+        public BalanceSheetBook GetBalanceSheetBook(List<string> captialAccountNames)
         {
             var realBooks = GetRealAccountBooksWithOutInversion();
-            var balanceSheetStatements = realBooks.Select(x => new Statement() {Description = x.AccountName, Value = x.Sum(y => y.Value)});
+            var balanceSheetStatements = realBooks.Select(x => new Statement() {Description = x.AccountName, Value = x.Sum(y => y.Value)}).ToList();
+            foreach (var balanceSheetStatement in balanceSheetStatements)
+            {
+                if (captialAccountNames.Contains(balanceSheetStatement.Description))
+                    balanceSheetStatement.Description = balanceSheetStatement.Description + " (E)";
+            }
+            
+            balanceSheetStatements = balanceSheetStatements.OrderByDescending(x =>
+            {
+                var format = "00000000000";
+                if (captialAccountNames.Contains(x.Description)) return "A"+x.Value.ToString(format);
+                else if (x.Value > 0) return "C" + x.Value.ToString(format);
+                else return "B" + x.Value.ToString(format);
+            }).ToList();
+
+
             var balanceSheet = new BalanceSheetBook();
             balanceSheet.AddRange(balanceSheetStatements);
             return balanceSheet;
