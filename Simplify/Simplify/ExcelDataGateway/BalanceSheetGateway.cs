@@ -13,7 +13,7 @@ namespace Simplify.ExcelDataGateway
         private readonly List<List<string>> headings = new List<List<string>>()
         {
             new List<string>(){ "S.No."},
-            new List<string>(){ "Ledger"},
+            new List<string>(){ "Account"},
             new List<string>(){ "Liability & Equity" , "Liability" , "Funding", "Equity" },
             new List<string>(){ "Assets" },
             new List<string>(){ "Total" },
@@ -61,11 +61,13 @@ namespace Simplify.ExcelDataGateway
                 var balanceSheetStatements = reader.ReadAllLines(1, (r) =>
                 {
                     var isValid = r.IsValueAvailable(SerialNumber);
+                    if (!isValid) return new StatementWithValidity(){ IsValid = false};
+
                     var isCreditAvailable = r.IsValueAvailable(Credit);
                     var credit = isCreditAvailable? r.ReadDouble(Credit) : 0;
                     var isDebitAvailable = r.IsValueAvailable(Debit);
                     var debit = isDebitAvailable ? r.ReadDouble(Debit) : 0;
-                    if (isCreditAvailable && isDebitAvailable && isValid)
+                    if (isCreditAvailable && isDebitAvailable)
                     {
                         logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
                                                                $"in sheet{r.SheetName}, " +
@@ -81,7 +83,7 @@ namespace Simplify.ExcelDataGateway
                     }
                     return new StatementWithValidity()
                     {
-                        IsValid = isValid,
+                        IsValid = true,
                         Description = r.ReadString(Ledger),
                         Value = credit - debit,
                     };
