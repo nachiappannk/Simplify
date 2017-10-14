@@ -16,11 +16,9 @@ namespace Simplify.ExcelDataGateway
             "Sale Date",
             "Purchase Date",
             "Holding Days",
-            "Type",
-            "Description",
-            "Account",
-            "Contract",
-            "Stt",
+            "Name",
+            "Transaction Details",
+            "Transaction Tax",
             "Quantity",
             "Sale",
             "Cost",
@@ -33,28 +31,26 @@ namespace Simplify.ExcelDataGateway
 
         }
 
-        public void WriteCapitalGains(IList<SquaredStatement> squaredStatements)
+        public void WriteCapitalGains(IList<Deal> deals)
         {
             var index = 0;
             using (var writer = new ExcelWriter(_excelFileName, "CapitalGains"))
             {
                 writer.Write(index++, headings.ToArray<object>());
-                writer.SetColumnsWidth(6, 12,12, 8,4,30, 16, 16, 16,12, 12, 12, 12);
+                writer.SetColumnsWidth(6, 12,12, 8,30, 16, 16,12, 12, 12, 12);
                 writer.ApplyHeadingFormat(headings.Length);
-                writer.WriteList(index, squaredStatements, (b, rowIndex) => new object[]
+                writer.WriteList(index, deals, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
-                    b.GetSaleDate(),
-                    b.GetPurchaseDate(),
-                    b.GetHoldingDays(),
-                    b.GetItemType(),
-                    b.GetName(),
-                    b.GetAccount(),
-                    b.GetContract(),
-                    b.GetStt(),
-                    b.GetQuantity(),
-                    b.GetSale(),
-                    b.GetCost(),
+                    b.SaleDate,
+                    b.PurchaseDate,
+                    b.GetNumberOfHoldingDays(),
+                    b.Name,
+                    b.GetOverallTransactionDetail(),
+                    b.GetOverallTransactionTax(),
+                    b.Quantity,
+                    b.SaleValue,
+                    b.PurchaseValue,
                     b.GetProfit(),
                 });
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Simplify.Books;
@@ -12,9 +13,9 @@ namespace Simplify.Application
 
     public class SquaredAndOpenTradeSeparator
     {
-        public List<SquaredStatement> SquaredStatements { get; private set; }
-        public List<TradeStatement> OpenTradeStatements { get; private set; }
-        public SquaredAndOpenTradeStatements Separate(IList<TradeStatement> tradeStatements)
+        private List<SquaredStatement> SquaredStatements { get; set; }
+        private List<TradeStatement> OpenTradeStatements { get; set; }
+        public List<Deal> Separate(IList<TradeStatement> tradeStatements)
         {
             SquaredStatements = new List<SquaredStatement>();
             OpenTradeStatements = new List<TradeStatement>();
@@ -23,11 +24,15 @@ namespace Simplify.Application
             {
                 ProcessTradeStatements(tradeStatements.Where(x => x.Name == name));
             }
-            return new SquaredAndOpenTradeStatements()
-            {
-                SquaredStatements = SquaredStatements,
-                OpenTradeStatements = OpenTradeStatements,
-            };
+            var dealPart1 = SquaredStatements.Select(x => new Deal(x.TradeStatements)).ToList();
+            var dealPart2 = OpenTradeStatements.Select(x => new Deal(x));
+            dealPart1.AddRange(dealPart2);
+            //return new SquaredAndOpenTradeStatements()
+            //{
+            //    SquaredStatements = SquaredStatements,
+            //    OpenTradeStatements = OpenTradeStatements,
+            //};
+            return dealPart1;
         }
 
 
@@ -107,11 +112,9 @@ namespace Simplify.Application
                     IsPurchase = ts.IsPurchase,
                     Date = ts.Date,
                     Name = ts.Name,
-                    Stt = ts.Stt,
-                    Account = ts.Account,
-                    Contract = ts.Contract,
+                    TransactionTax = ts.TransactionTax,
+                    TransactionDetail = ts.TransactionDetail,
                     Quantity = ts.Quantity,
-                    ItemType = ts.ItemType,
                     Value = ts.Value,
                 };
                 return tradeStatement;

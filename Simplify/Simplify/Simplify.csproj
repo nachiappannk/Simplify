@@ -70,6 +70,7 @@
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
+    <Compile Include="Books\Deal.cs" />
     <Compile Include="Books\NotionalAccount.cs" />
     <Compile Include="Books\NotionalAccountBook.cs" />
     <Compile Include="Application\NotionalBooksGenerator.cs" />

@@ -26,10 +26,13 @@ namespace Simplify.Facade
             SquaredAndOpenTradeSeparator squaredAndOpenTradeSeparator = new SquaredAndOpenTradeSeparator();
             var result = squaredAndOpenTradeSeparator.Separate(tradeLogs);
                 var writeLogGateway = new TradeLogGateway(outputExcelFile);
-                writeLogGateway.WriteOpenPositions(result.OpenTradeStatements);
+            var openPositions = result.Where(x => !x.IsDealClosed).ToList();
+                writeLogGateway.WriteSummary(result);
+                writeLogGateway.WriteOpenPositions(openPositions);
 
                 var capitalGainsStatementWriter = new CapitalGainsStatementWriter(outputExcelFile);
-                capitalGainsStatementWriter.WriteCapitalGains(result.SquaredStatements);
+            var closedPositions = result.Where(x => x.IsDealClosed).ToList();
+            capitalGainsStatementWriter.WriteCapitalGains(closedPositions);
         }
     }
 }

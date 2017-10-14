@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 
 namespace Simplify.Books
@@ -11,6 +12,7 @@ namespace Simplify.Books
         }
         public TradeStatement[] TradeStatements { get; private set; }
     }
+
 
     public static class SquaredStatementExtns
     {
@@ -61,27 +63,16 @@ namespace Simplify.Books
             return s1 + " / " + s2;
         }
 
-        public static string GetStt(this SquaredStatement squaredStatement)
+        public static string GetTranasactionTax(this SquaredStatement squaredStatement)
         {
-            return AppendString(squaredStatement.GetSaleTradeStatement().Stt,
-                squaredStatement.GetPurchaseTradeStatement().Stt);
+            return AppendString(squaredStatement.GetSaleTradeStatement().TransactionTax,
+                squaredStatement.GetPurchaseTradeStatement().TransactionTax);
         }
 
-        public static string GetAccount(this SquaredStatement squaredStatement)
+        public static string GetTransactionDetail(this SquaredStatement squaredStatement)
         {
-            return AppendString(squaredStatement.GetSaleTradeStatement().Account,
-                squaredStatement.GetPurchaseTradeStatement().Account);
-        }
-
-        public static string GetContract(this SquaredStatement squaredStatement)
-        {
-            return AppendString(squaredStatement.GetSaleTradeStatement().Contract,
-                squaredStatement.GetPurchaseTradeStatement().Contract);
-        }
-
-        public static string GetItemType(this SquaredStatement squaredStatement)
-        {
-            return squaredStatement.GetSaleTradeStatement().ItemType;
+            return AppendString(squaredStatement.GetSaleTradeStatement().TransactionDetail,
+                squaredStatement.GetPurchaseTradeStatement().TransactionDetail);
         }
 
         public static string GetName(this SquaredStatement squaredStatement)

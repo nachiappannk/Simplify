@@ -15,11 +15,9 @@ namespace Simplify.ExcelDataGateway
         {
             new List<string>() { "S.No."},
             new List<string>() {"Date" },
-            new List<string>() {"Item Type" },
-            new List<string>() {"Description" },
-            new List<string>() { "Account"},
-            new List<string>(){ "Contract"} ,
-            new List<string>(){ "Stt"},
+            new List<string>() {"Name" },
+            new List<string>() { "Transaction Detail"},
+            new List<string>(){ "Transaction Tax"} ,
             new List<string>(){ "Quantity"},
             new List<string>(){"Cost"},
             new List<string>(){ "Sale"}
@@ -27,14 +25,12 @@ namespace Simplify.ExcelDataGateway
 
         private const int SerialNumber = 0;
         private const int Date = 1;
-        private const int ItemType = 2;
-        private const int Name = 3;
-        private const int Account = 4;
-        private const int Contract = 5;
-        private const int Stt = 6;
-        private const int Quantity = 7;
-        private const int Cost = 8;
-        private const int Sale = 9;
+        private const int Name = 2;
+        private const int TransactionDetail = 3;
+        private const int TransactionTax = 4;
+        private const int Quantity = 5;
+        private const int Cost = 6;
+        private const int Sale = 7;
 
         public TradeLogGateway(string excelFileName)
         {
@@ -42,26 +38,91 @@ namespace Simplify.ExcelDataGateway
 
         }
         
-        public void WriteOpenPositions(IList<TradeStatement> balanceSheet)
+        public void WriteSummary(IList<Deal> deals)
         {
             var index = 0;
+
+            List<List<string>> columnsHeadingOptions = new List<List<string>>()
+            {
+                new List<string>() {"Name" },
+                new List<string>(){ "Quantity"},
+                new List<string>() {"Purchase Date" },
+                new List<string>(){"Cost"},
+                new List<string>() {"Sale Date" },
+                new List<string>(){ "Sale"},
+                new List<string>(){ "Profit"}
+            };
+
+            
+        var dealsSorted = deals.OrderBy(x => x.PurchaseDate).ToList();
+
+            using (var writer = new ExcelWriter(_excelFileName, "Summary"))
+            {
+                writer.Write(index++, columnsHeadingOptions.ToArray<object>());
+                writer.SetColumnsWidth(30, 12, 16,16, 12, 12,12);
+                writer.ApplyHeadingFormat(columnsHeadingOptions.Count);
+                writer.WriteList(index, dealsSorted,
+                    (b, rowIndex) =>
+                    {
+                        if(b.IsDealClosed)
+                        return new object[]
+                        {
+                            b.Name,
+                            b.Quantity,
+                            b.PurchaseDate,
+                            b.PurchaseValue,
+                            b.SaleDate,
+                            b.SaleValue,
+                            b.SaleValue - b.PurchaseValue
+                        };
+                        else
+                            return new object[]
+                            {
+                                b.Name,
+                                b.Quantity,
+                                b.PurchaseDate,
+                                b.PurchaseValue,
+                            };
+                    });
+            }
+        }
+
+        private string SortKey(Deal deal)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(deal.Name);
+            builder.Append(deal.IsDealClosed ? "0" : "1");
+            builder.Append(deal.SaleDate.Year);
+            builder.Append("_");
+            builder.Append(deal.SaleDate.Month);
+            builder.Append("_");
+            builder.Append(deal.SaleDate.Day);
+
+            return builder.ToString();
+        }
+
+        public void WriteOpenPositions(IList<Deal> deals)
+        {
+            var index = 0;
+
+            var dealsSorted = deals.OrderBy(SortKey).ToList();
+
             using (var writer = new ExcelWriter(_excelFileName, "OpenPositions"))
             {
-                writer.Write(index++, _columnsHeadingOptions.ToArray<object>());
-                writer.SetColumnsWidth(6, 12,8, 30, 16,16,16, 12, 12, 12);
+                var comlumnsHeadingOptions = _columnsHeadingOptions.ToList();
+                comlumnsHeadingOptions.RemoveAt(comlumnsHeadingOptions.Count - 1);
+                writer.Write(index++, comlumnsHeadingOptions.ToArray<object>());
+                writer.SetColumnsWidth(6, 12, 30, 16, 16, 12, 12);
                 writer.ApplyHeadingFormat(_columnsHeadingOptions.Count);
-                writer.WriteList(index, balanceSheet, (b, rowIndex) => new object[]
+                writer.WriteList(index, dealsSorted, (b, rowIndex) => new object[]
                 {
                     rowIndex - 1,
-                    b.Date,
-                    b.ItemType,
+                    b.PurchaseDate,
                     b.Name,
-                    b.Account,
-                    b.Contract,
-                    b.Stt,
+                    b.PurchaseTransactionDetail,
+                    b.PurchaseTransactionTax,
                     b.Quantity,
-                    b.IsPurchase? b.Value: 0,
-                    (!b.IsPurchase)? b.Value: 0,
+                    b.PurchaseValue,
                 });
             }
         }
@@ -93,11 +154,9 @@ namespace Simplify.ExcelDataGateway
                     {
                         SerialNumber = r.ReadInteger(SerialNumber),
                         Date = r.ReadDate(Date),
-                        ItemType = r.ReadString(ItemType),
                         Name = r.ReadString(Name),
-                        Account = r.ReadString(Account),
-                        Contract = r.ReadString(Contract),
-                        Stt = r.ReadString(Stt),
+                        TransactionDetail = r.ReadString(TransactionDetail),
+                        TransactionTax = r.ReadString(TransactionTax),
                         Quantity = r.ReadDouble(Quantity),
                         Value = value,
                         IsPurchase = isPurchase,
