@@ -70,11 +70,11 @@
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
-    <Compile Include="Books\Deal.cs" />
+    <Compile Include="Books\SquarableStatement.cs" />
     <Compile Include="Books\NotionalAccount.cs" />
     <Compile Include="Books\NotionalAccountBook.cs" />
     <Compile Include="Application\NotionalBooksGenerator.cs" />
-    <Compile Include="Application\SquaredAndOpenTradeSeparator.cs" />
+    <Compile Include="Application\ProcessedTradeStatementsContainer.cs" />
     <Compile Include="Books\BalanceSheetBook.cs" />
     <Compile Include="Application\BooksOfAccountGenerator.cs" />
     <Compile Include="Books\ConsolidatedBook.cs" />

@@ -38,7 +38,7 @@ namespace Simplify.ExcelDataGateway
 
         }
         
-        public void WriteSummary(IList<Deal> deals)
+        public void WriteSummary(IList<SquarableStatement> deals)
         {
             var index = 0;
 
@@ -64,7 +64,7 @@ namespace Simplify.ExcelDataGateway
                 writer.WriteList(index, dealsSorted,
                     (b, rowIndex) =>
                     {
-                        if(b.IsDealClosed)
+                        if(b.IsSquared)
                         return new object[]
                         {
                             b.Name,
@@ -87,21 +87,21 @@ namespace Simplify.ExcelDataGateway
             }
         }
 
-        private string SortKey(Deal deal)
+        private string SortKey(SquarableStatement squarableStatement)
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(deal.Name);
-            builder.Append(deal.IsDealClosed ? "0" : "1");
-            builder.Append(deal.SaleDate.Year);
+            builder.Append(squarableStatement.Name);
+            builder.Append(squarableStatement.IsSquared ? "0" : "1");
+            builder.Append(squarableStatement.SaleDate.Year);
             builder.Append("_");
-            builder.Append(deal.SaleDate.Month);
+            builder.Append(squarableStatement.SaleDate.Month);
             builder.Append("_");
-            builder.Append(deal.SaleDate.Day);
+            builder.Append(squarableStatement.SaleDate.Day);
 
             return builder.ToString();
         }
 
-        public void WriteOpenPositions(IList<Deal> deals)
+        public void WriteOpenPositions(IList<SquarableStatement> deals)
         {
             var index = 0;
 

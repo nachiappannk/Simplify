@@ -4,20 +4,27 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Simplify.Books
 {
-    public class Deal
+    public class SquarableStatement
     {
-        public Deal(TradeStatement[] statements)
+        public SquarableStatement(TradeStatement[] statements)
         {
             TradeStatement purchaseTradedStatement = statements.First(x => x.IsPurchase);
             TradeStatement saleTradedStatement = statements.First(x => !x.IsPurchase);
-            IsDealClosed = true;
+            IsSquared = true;
             InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
             InitializeSaleProperties(saleTradedStatement);
         }
 
-        public Deal(TradeStatement purchaseTradedStatement)
+        public SquarableStatement(TradeStatement purchaseStatement, TradeStatement saleStatement) : 
+            this(new TradeStatement[] {purchaseStatement, saleStatement})
         {
-            IsDealClosed = false;
+
+        }
+
+
+        public SquarableStatement(TradeStatement purchaseTradedStatement)
+        {
+            IsSquared = false;
             InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
         }
 
@@ -50,31 +57,31 @@ namespace Simplify.Books
         public double SaleValue { get; set; }
         public string SaleTransactionTax { get; set; }
         public string SaleTransactionDetail { get; set; }
-        public bool IsDealClosed { get; set; }
+        public bool IsSquared { get; set; }
     }
 
     public static class DealExtentions
     {
-        public static double GetProfit(this Deal deal)
+        public static double GetProfit(this SquarableStatement squarableStatement)
         {
-            return deal.SaleValue - deal.PurchaseValue;
+            return squarableStatement.SaleValue - squarableStatement.PurchaseValue;
         }
 
-        public static int GetNumberOfHoldingDays(this Deal deal)
+        public static int GetNumberOfHoldingDays(this SquarableStatement squarableStatement)
         {
-            var result = deal.SaleDate - deal.PurchaseDate;
+            var result = squarableStatement.SaleDate - squarableStatement.PurchaseDate;
             return (int)result.TotalDays;
         }
 
-        public static string GetOverallTransactionTax(this Deal deal)
+        public static string GetOverallTransactionTax(this SquarableStatement squarableStatement)
         {
-            var result = deal.SaleTransactionTax + " - "+ deal.PurchaseTransactionTax;
+            var result = squarableStatement.SaleTransactionTax + " - "+ squarableStatement.PurchaseTransactionTax;
             return result;
         }
 
-        public static string GetOverallTransactionDetail(this Deal deal)
+        public static string GetOverallTransactionDetail(this SquarableStatement squarableStatement)
         {
-            var result = deal.SaleTransactionDetail + " - " + deal.PurchaseTransactionDetail;
+            var result = squarableStatement.SaleTransactionDetail + " - " + squarableStatement.PurchaseTransactionDetail;
             return result;
         }
     }

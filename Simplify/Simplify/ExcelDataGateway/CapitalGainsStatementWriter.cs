@@ -31,7 +31,7 @@ namespace Simplify.ExcelDataGateway
 
         }
 
-        public void WriteCapitalGains(IList<Deal> deals)
+        public void WriteCapitalGains(IList<SquarableStatement> deals)
         {
             var index = 0;
             using (var writer = new ExcelWriter(_excelFileName, "CapitalGains"))
