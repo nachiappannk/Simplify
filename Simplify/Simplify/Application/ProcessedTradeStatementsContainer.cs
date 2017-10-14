@@ -5,18 +5,6 @@ using Simplify.Books;
 
 namespace Simplify.Application
 {
-    public class SquaredAndOpenTradeStatements
-    {
-        public List<SquaredStatement> SquaredStatements { get; set; }
-        public List<TradeStatement> OpenTradeStatements { get; set; }
-    }
-
-    public class CostStatement
-    {
-        public string Name { get; set; }
-        public double AverageCost { get; set; }
-    }
-
     public class ProcessedTradeStatementsContainer
     {
         public List<string> AssetNamesBook { get; private set; }
