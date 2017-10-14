@@ -34,7 +34,7 @@ namespace Simplify.ExcelDataGateway
         public void WriteBalanceSheet(BalanceSheetBook balanceSheet)
         {
             var index = 0;
-            using (var writer = new ExcelWriter(_excelFileName, "BS"))
+            using (var writer = new ExcelSheetWriter(_excelFileName, "BS"))
             {
                 writer.Write(index++, headings.ToArray<object>());
                 writer.SetColumnsWidth(6, 45, 12, 12, 12);

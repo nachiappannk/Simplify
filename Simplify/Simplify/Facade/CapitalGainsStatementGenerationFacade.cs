@@ -42,6 +42,19 @@ namespace Simplify.Facade
 
             var capitalGainsStatementWriter = new CapitalGainsStatementWriter(outputExcelFile);
             capitalGainsStatementWriter.WriteCapitalGains(processedTradeStatementsContainer.ProfitBook);
+
+            var Somethings = processedTradeStatementsContainer.AssetNamesBook.Select(x => new Something() {Name = x}).ToList();
+            ExcelWriter writer = new ExcelWriter(outputExcelFile);
+            writer.AddSheet("AssetName", Somethings);
+
         }
+    }
+
+
+    public class Something
+    {
+        [ExcelColumn(1,"Name", 30)]
+        public string Name { get; set; }
+        
     }
 }

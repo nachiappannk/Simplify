@@ -34,7 +34,7 @@ namespace Simplify.ExcelDataGateway
 
         public void WriteJournal(IList<DetailedDatedStatement> journalStatements)
         {
-            using (ExcelWriter writer = new ExcelWriter(_inputFile, "Journal"))
+            using (ExcelSheetWriter writer = new ExcelSheetWriter(_inputFile, "Journal"))
             {
                 int index = 0;
 

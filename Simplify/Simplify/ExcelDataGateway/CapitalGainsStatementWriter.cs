@@ -34,7 +34,7 @@ namespace Simplify.ExcelDataGateway
         public void WriteCapitalGains(IList<SquarableStatement> deals)
         {
             var index = 0;
-            using (var writer = new ExcelWriter(_excelFileName, "CapitalGains"))
+            using (var writer = new ExcelSheetWriter(_excelFileName, "CapitalGains"))
             {
                 writer.Write(index++, headings.ToArray<object>());
                 writer.SetColumnsWidth(6, 12,12, 8,30, 16, 16,12, 12, 12, 12);

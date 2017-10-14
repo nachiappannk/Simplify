@@ -42,8 +42,8 @@ namespace Simplify.ExcelDataGateway
         {
             foreach (var realAccountBook in realAccountBooks)
             {
-                using (ExcelWriter writer =
-                    new ExcelWriter(_outputExcelFileName, realAccountBook.AccountName))
+                using (ExcelSheetWriter writer =
+                    new ExcelSheetWriter(_outputExcelFileName, realAccountBook.AccountName))
                 {
                     int index = 0;
                     writer.Write(index++, "S.No.", "Date", "Description", "Credit", "Debit", "Net");
@@ -68,8 +68,8 @@ namespace Simplify.ExcelDataGateway
 
         private void WriteNotionalAccountSummary(NotionalAccountBook notionalAccountBook)
         {
-            using (ExcelWriter writer =
-                new ExcelWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName + "-Summary"))
+            using (ExcelSheetWriter writer =
+                new ExcelSheetWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName + "-Summary"))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Description", "Credit", "Debit", "Net");
@@ -94,7 +94,7 @@ namespace Simplify.ExcelDataGateway
 
         private void WriteNotionalAccount(NotionalAccountBook notionalAccountBook)
         {
-            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName))
+            using (ExcelSheetWriter writer = new ExcelSheetWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Date", "Tag", "Description", "Credit", "Debit", "Net");
@@ -122,7 +122,7 @@ namespace Simplify.ExcelDataGateway
 
         private void AddTrialBalance(TrialBalanceBook trialBalance )
         {
-            using (ExcelWriter writer = new ExcelWriter(_outputExcelFileName, "TRB"))
+            using (ExcelSheetWriter writer = new ExcelSheetWriter(_outputExcelFileName, "TRB"))
             {
                 int index = 0;
                 writer.Write(index++, "S.No.", "Ledger", "Credit", "Debit","Difference");

@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\CostStatement.cs" />
+    <Compile Include="Trade\CostStatement.cs" />
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
@@ -89,7 +89,7 @@
     <Compile Include="ExcelDataGateway\CapitalGainsStatementWriter.cs" />
     <Compile Include="ExcelDataGateway\ExcelReader.cs" />
     <Compile Include="ExcelDataGateway\ExcelSheetInfoProvider.cs" />
-    <Compile Include="ExcelDataGateway\ExcelWriter.cs" />
+    <Compile Include="ExcelDataGateway\ExcelSheetWriter.cs" />
     <Compile Include="Application\ILogger.cs" />
     <Compile Include="ExcelDataGateway\IRowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\JournalGateway.cs" />

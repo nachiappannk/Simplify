@@ -56,7 +56,7 @@ namespace Simplify.ExcelDataGateway
             
         var dealsSorted = deals.OrderBy(x => x.PurchaseDate).ToList();
 
-            using (var writer = new ExcelWriter(_excelFileName, "Summary"))
+            using (var writer = new ExcelSheetWriter(_excelFileName, "Summary"))
             {
                 writer.Write(index++, columnsHeadingOptions.ToArray<object>());
                 writer.SetColumnsWidth(30, 12, 16,16, 12, 12,12);
@@ -107,7 +107,7 @@ namespace Simplify.ExcelDataGateway
 
             var dealsSorted = deals.OrderBy(SortKey).ToList();
 
-            using (var writer = new ExcelWriter(_excelFileName, "OpenPositions"))
+            using (var writer = new ExcelSheetWriter(_excelFileName, "OpenPositions"))
             {
                 var comlumnsHeadingOptions = _columnsHeadingOptions.ToList();
                 comlumnsHeadingOptions.RemoveAt(comlumnsHeadingOptions.Count - 1);
