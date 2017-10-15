@@ -34,7 +34,7 @@ namespace Simplify.ExcelDataGateway
             }
             using (ExcelSheetWriter writer = new ExcelSheetWriter(_fileName, sheetName))
             {
-                writer.Write(0, columnNames);
+                writer.Write(0, columnNames.ToArray());
                 writer.SetColumnsWidth(columWidths.ToArray());
                 writer.ApplyHeadingFormat(columWidths.Count);
                 int rowIndex = 1;
@@ -45,7 +45,7 @@ namespace Simplify.ExcelDataGateway
                     {
                         objects.Add(propertyInfo.GetValue(rowElement,null));
                     }
-                    writer.Write(rowIndex++, objects);
+                    writer.Write(rowIndex++, objects.ToArray());
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace Simplify.ExcelDataGateway
             
         }
 
-        public void Write(int zeroBasedRowIndex, params object[] values)
+        public void Write(int zeroBasedRowIndex, object[] values)
         {
             for (int j = 0; j < values.Length; j++)
             {

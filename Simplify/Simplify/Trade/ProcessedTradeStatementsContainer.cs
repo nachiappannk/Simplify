@@ -30,9 +30,9 @@ namespace Simplify.Application
             foreach (var head in openPositionBookHeads)
             {
                 var statements = OpenPositionBook.Where(x => x.Name.Equals(head)).ToList();
-                var sum = statements.Select(x => x.Value * x.Quantity).Sum();
-                var quantity = statements.Select(x => x.Quantity).Sum();
-                EffectiveCostStatementBook.Add(new CostStatement() {Name = head, AverageCost = sum / quantity});
+                var sumOfValues = statements.Select(x => x.Value).Sum();
+                var sumOfQuantities = statements.Select(x => x.Quantity).Sum();
+                EffectiveCostStatementBook.Add(new CostStatement() {Name = head, AverageCost = sumOfValues / sumOfQuantities});
             }
         }
 

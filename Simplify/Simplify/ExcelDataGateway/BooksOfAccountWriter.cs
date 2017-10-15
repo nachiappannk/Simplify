@@ -46,7 +46,7 @@ namespace Simplify.ExcelDataGateway
                     new ExcelSheetWriter(_outputExcelFileName, realAccountBook.AccountName))
                 {
                     int index = 0;
-                    writer.Write(index++, "S.No.", "Date", "Description", "Credit", "Debit", "Net");
+                    writer.Write(index++, new object[] { "S.No.", "Date", "Description", "Credit", "Debit", "Net"});
                     writer.ApplyHeadingFormat(6);
                     writer.SetColumnsWidth(6, 12, 45, 12, 12, 12);
                     writer.WriteList(index, realAccountBook, (j, rowIndex) =>
@@ -59,9 +59,9 @@ namespace Simplify.ExcelDataGateway
                             j.GetDebitValue(),
                         });
                     index = index + realAccountBook.Count + 1;
-                    writer.Write(index, "", "", "Net " + realAccountBook.AccountName,
+                    writer.Write(index, new object[] { "", "", "Net " + realAccountBook.AccountName,
                         realAccountBook.GetCreditTotal(), realAccountBook.GetDebitTotal(),
-                        realAccountBook.GetTotal());
+                        realAccountBook.GetTotal()});
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace Simplify.ExcelDataGateway
                 new ExcelSheetWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName + "-Summary"))
             {
                 int index = 0;
-                writer.Write(index++, "S.No.", "Description", "Credit", "Debit", "Net");
+                writer.Write(index++, new object[] { "S.No.", "Description", "Credit", "Debit", "Net"});
                 writer.ApplyHeadingFormat(5);
                 writer.SetColumnsWidth(6, 45, 12, 12, 12);
 
@@ -86,9 +86,9 @@ namespace Simplify.ExcelDataGateway
                         j.GetDebitValue(),
                     });
                 index = index + summaryStatement.Count + 1;
-                writer.Write(index, "", "Net " + notionalAccountBook.Account.NotionalAccountName,
+                writer.Write(index, new object[] {"", "Net " + notionalAccountBook.Account.NotionalAccountName,
                     summaryStatement.GetCreditTotal(), summaryStatement.GetDebitTotal(),
-                    summaryStatement.GetTotal());
+                    summaryStatement.GetTotal()});
             }
         }
 
@@ -97,7 +97,7 @@ namespace Simplify.ExcelDataGateway
             using (ExcelSheetWriter writer = new ExcelSheetWriter(_outputExcelFileName, notionalAccountBook.Account.NotionalAccountName))
             {
                 int index = 0;
-                writer.Write(index++, "S.No.", "Date", "Tag", "Description", "Credit", "Debit", "Net");
+                writer.Write(index++, new object[] { "S.No.", "Date", "Tag", "Description", "Credit", "Debit", "Net"});
                 writer.ApplyHeadingFormat(7);
                 writer.SetColumnsWidth(6, 12, 30, 45, 12, 12, 12);
 
@@ -112,9 +112,9 @@ namespace Simplify.ExcelDataGateway
                         j.GetDebitValue(),
                     });
                 index = index + notionalAccountBook.Count + 1;
-                writer.Write(index, "", "", "", "Net " + notionalAccountBook.Account.NotionalAccountName,
+                writer.Write(index, new object[] {"", "", "", "Net " + notionalAccountBook.Account.NotionalAccountName,
                     notionalAccountBook.GetCreditTotal(), notionalAccountBook.GetDebitTotal(),
-                    notionalAccountBook.GetTotal());
+                    notionalAccountBook.GetTotal()});
             }
 
 
@@ -125,7 +125,7 @@ namespace Simplify.ExcelDataGateway
             using (ExcelSheetWriter writer = new ExcelSheetWriter(_outputExcelFileName, "TRB"))
             {
                 int index = 0;
-                writer.Write(index++, "S.No.", "Ledger", "Credit", "Debit","Difference");
+                writer.Write(index++, new object[] { "S.No.", "Ledger", "Credit", "Debit","Difference"});
                 writer.SetColumnsWidth(6, 45, 12, 12, 12);
                 writer.ApplyHeadingFormat(5);
                 writer.WriteList(index, trialBalance,
@@ -137,8 +137,8 @@ namespace Simplify.ExcelDataGateway
                         j.GetDebitValue(),
                     });
                 index = index + 1 +trialBalance.Count;
-                writer.Write(index,"", "Total", trialBalance.GetCreditTotal(), trialBalance.GetDebitTotal(), 
-                    trialBalance.GetTotal());
+                writer.Write(index, new object[] {"", "Total", trialBalance.GetCreditTotal(), trialBalance.GetDebitTotal(), 
+                    trialBalance.GetTotal()});
             }
         }
 

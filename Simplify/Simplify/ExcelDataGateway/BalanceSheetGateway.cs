@@ -47,8 +47,8 @@ namespace Simplify.ExcelDataGateway
                     b.GetDebitValue(),
                 });
                 index = index + 1 + balanceSheet.Count;
-                writer.Write(index, "", "Total", balanceSheet.GetCreditTotal(), balanceSheet.GetDebitTotal(), 
-                    balanceSheet.GetTotal());
+                writer.Write(index, new object[] { "", "Total", balanceSheet.GetCreditTotal(), balanceSheet.GetDebitTotal(), 
+                    balanceSheet.GetTotal()});
 
             }
         }

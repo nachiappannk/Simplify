@@ -25,36 +25,12 @@ namespace Simplify.Facade
             tradeLogs.AddRange(openingStock);
 
             ProcessedTradeStatementsContainer processedTradeStatementsContainer = new ProcessedTradeStatementsContainer(tradeLogs);
-            var writeLogGateway = new TradeLogGateway(outputExcelFile);
-            var openPositions = processedTradeStatementsContainer.OpenPositionBook.Select(x => new SquarableStatement(x)).ToList();
-            var namedBooks = processedTradeStatementsContainer.AssetSummaryBooks;
-            List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
-            foreach (var namedBook in namedBooks)
-            {
-                foreach (var statments in namedBook.Values)
-                {
-                    summaryStatements.AddRange(statments);
-                }
-                
-            }
-            writeLogGateway.WriteSummary(summaryStatements);
-            writeLogGateway.WriteOpenPositions(openPositions);
-
-            var capitalGainsStatementWriter = new CapitalGainsStatementWriter(outputExcelFile);
-            capitalGainsStatementWriter.WriteCapitalGains(processedTradeStatementsContainer.ProfitBook);
-
-            var Somethings = processedTradeStatementsContainer.AssetNamesBook.Select(x => new Something() {Name = x}).ToList();
-            ExcelWriter writer = new ExcelWriter(outputExcelFile);
-            writer.AddSheet("AssetName", Somethings);
-
+            var writer = new ProcessedTradeStatementsExcelGateway();
+            writer.Write(outputExcelFile, processedTradeStatementsContainer);
+            
+            
         }
     }
 
-
-    public class Something
-    {
-        [ExcelColumn(1,"Name", 30)]
-        public string Name { get; set; }
-        
-    }
+    
 }
