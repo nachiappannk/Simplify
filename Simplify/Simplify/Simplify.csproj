@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelDataGateway\ProcessedTradeStatementsExcelGateway.cs" />
+    <Compile Include="ExcelDataGateway\Trade\ProcessedTradeStatementsExcelGateway.cs" />
     <Compile Include="Trade\CostStatement.cs" />
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
