@@ -19,18 +19,17 @@ namespace Simplify.Facade
             ProcessedTradeStatementsExcelGateway gateway = new ProcessedTradeStatementsExcelGateway();
             var openingStock = gateway.ReadTradeLog(logger, openingStockFileName, openingStockSheetName);
 
-            if (File.Exists(outputExcelFile)) File.Delete(outputExcelFile);
-            TradeLogGateway tradeLogGateway = new TradeLogGateway(tradeLogFileName);
-            var tradeLogs = tradeLogGateway.ReadTradeLog(logger, tradeLogSheetName);
+            ProcessedTradeStatementsExcelGateway gateway1 = new ProcessedTradeStatementsExcelGateway();
+            var tradeLogs = gateway1.ReadTradeLog(logger, openingStockFileName, openingStockSheetName);
+
             tradeLogs.AddRange(openingStock);
+
 
             ProcessedTradeStatementsContainer processedTradeStatementsContainer = new ProcessedTradeStatementsContainer(tradeLogs);
             var writer = new ProcessedTradeStatementsExcelGateway();
+
+            if (File.Exists(outputExcelFile)) File.Delete(outputExcelFile);
             writer.Write(outputExcelFile, processedTradeStatementsContainer);
-            
-            
         }
     }
-
-    
 }

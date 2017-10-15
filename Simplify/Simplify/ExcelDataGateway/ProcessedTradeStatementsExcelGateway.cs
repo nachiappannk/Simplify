@@ -79,8 +79,101 @@ namespace Simplify.ExcelDataGateway
             public object Profit { get; set; } = string.Empty;
         }
 
+        public class EffectiveCostRecord
+        {
+            [ExcelColumn(1, "Name", 30)]
+            public string Name { get; set; }
+
+            [ExcelColumn(2, "Average Effective Cost", 16)]
+            public double Cost { get; set; }
+        }
+
+
         
 
+        public void Write(string fileName, ProcessedTradeStatementsContainer container)
+        {
+            ExcelWriter writer = new ExcelWriter(fileName);
+            WriteAssetNames(container, writer);
+            WriteSumary(container, writer);
+            WriteProfitBook(container, writer);
+            WriteOpenPositions(container, writer);
+            WriteEffectiveCostBook(container, writer);
+        }
+
+        private void WriteOpenPositions(ProcessedTradeStatementsContainer container, ExcelWriter writer)
+        {
+            var tradeLogGateway = new TradeLogGateway();
+            tradeLogGateway.WriteOpenPositions(container, writer);
+        }
+
+        public List<TradeStatement> ReadTradeLog(ILogger logger, string fileName, string sheetName)
+        {
+            var tradeLogGateway = new TradeLogGateway();
+            return tradeLogGateway.ReadTradeLog(logger,fileName, sheetName);
+        }
+
+        private static void WriteEffectiveCostBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
+        {
+            var effectiveCostStatements = container.EffectiveCostStatementBook
+                .Select(x => new EffectiveCostRecord {Name = x.Name, Cost = x.AverageCost}).ToList();
+            writer.AddSheet("EffectiveCost", effectiveCostStatements);
+        }
+
+        private static void WriteProfitBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
+        {
+            var profitBookRecords = container.ProfitBook.Select((x, i) => new ProfitBookRecord
+            {
+                SerialNumber = (i + 1).ToString(),
+                SaleDate = x.SaleDate,
+                PurchaseDate = x.PurchaseDate,
+                HoldingDays = x.GetNumberOfHoldingDays(),
+                Name = x.Name,
+                TransactionTax = x.GetOverallTransactionTax(),
+                TransactionDetail = x.GetOverallTransactionDetail(),
+                Quantity = x.Quantity,
+                Sale = x.SaleValue,
+                Cost = x.PurchaseValue,
+                Profit = x.GetProfit(),
+            }).ToList();
+
+            writer.AddSheet("ProfitBook", profitBookRecords);
+        }
+
+        private static void WriteSumary(ProcessedTradeStatementsContainer container, ExcelWriter writer)
+        {
+            List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
+            foreach (var namedBook in container.AssetSummaryBooks)
+            foreach (var statments in namedBook.Values)
+                summaryStatements.AddRange(statments);
+
+            var summaryRecords = summaryStatements.Select(x =>
+            {
+                var record = new SummaryRecord
+                {
+                    Name = x.Name,
+                    PurchaseDate = x.PurchaseDate,
+                    Cost = x.PurchaseValue,
+                    Quantity = x.Quantity
+                };
+                if (x.IsSquared) record.SaleDate = x.SaleDate;
+                if (x.IsSquared) record.Sale = x.SaleValue;
+                if (x.IsSquared) record.Profit = x.GetProfit();
+
+                return record;
+            }).ToList();
+            writer.AddSheet("Summary", summaryRecords);
+        }
+
+        private static void WriteAssetNames(ProcessedTradeStatementsContainer container, ExcelWriter writer)
+        {
+            var assetNameRecords = container.AssetNamesBook.Select(x => new AssetNameRecord {Name = x}).ToList();
+            writer.AddSheet("AssetName", assetNameRecords);
+        }
+    }
+
+    public class TradeLogGateway
+    {
         private const string SerialNumberString = "S.No.";
         private const string DateString = "Date";
         private const string NameString = "Name";
@@ -135,17 +228,27 @@ namespace Simplify.ExcelDataGateway
             return ColumnNames.IndexOf(s) + 1;
         }
 
-
-        public class EffectiveCostRecord
+        public void WriteOpenPositions(ProcessedTradeStatementsContainer container, ExcelWriter writer)
         {
-            [ExcelColumn(1, "Name", 30)]
-            public string Name { get; set; }
-
-            [ExcelColumn(2, "Average Effective Cost", 16)]
-            public double Cost { get; set; }
+            var openPositionRecords = container.OpenPositionBook.Select((x, i) =>
+            {
+                var record = new TradeRecord
+                {
+                    SerialNumber = i + 1,
+                    Date = x.Date,
+                    Name = x.Name,
+                    TransactionDetail = x.TransactionDetail,
+                    TransactionTax = x.TransactionTax,
+                    Quantity = x.Quantity,
+                    Cost = x.IsPurchase ? x.Value : 0,
+                    Sale = x.IsPurchase ? 0 : x.Value
+                };
+                return record;
+            }).ToList();
+            writer.AddSheet("OpenPosition", openPositionRecords);
         }
 
-        
+
         public List<TradeStatement> ReadTradeLog(ILogger logger, string fileName, string sheetName)
         {
             using (ExcelReader reader = new ExcelReader(fileName, sheetName, logger))
@@ -184,93 +287,6 @@ namespace Simplify.ExcelDataGateway
                 return tradeStatements.ToList();
             }
         }
-
-        public void Write(string fileName, ProcessedTradeStatementsContainer container)
-        {
-            ExcelWriter writer = new ExcelWriter(fileName);
-            WriteAssetNames(container, writer);
-            WriteSumary(container, writer);
-            WriteProfitBook(container, writer);
-            WriteOpenPositions(container, writer);
-            WriteEffectiveCostBook(container, writer);
-        }
-
-        private static void WriteEffectiveCostBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var effectiveCostStatements = container.EffectiveCostStatementBook
-                .Select(x => new EffectiveCostRecord {Name = x.Name, Cost = x.AverageCost}).ToList();
-            writer.AddSheet("EffectiveCost", effectiveCostStatements);
-        }
-
-        private static void WriteOpenPositions(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var openPositionRecords = container.OpenPositionBook.Select((x, i) =>
-            {
-                var record = new TradeRecord
-                {
-                    SerialNumber = i + 1,
-                    Date = x.Date,
-                    Name = x.Name,
-                    TransactionDetail = x.TransactionDetail,
-                    TransactionTax = x.TransactionTax,
-                    Quantity = x.Quantity,
-                    Cost = x.IsPurchase ? x.Value : 0,
-                    Sale = x.IsPurchase ? 0 : x.Value
-                };
-                return record;
-            }).ToList();
-            writer.AddSheet("OpenPosition", openPositionRecords);
-        }
-
-        private static void WriteProfitBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var profitBookRecords = container.ProfitBook.Select((x, i) => new ProfitBookRecord
-            {
-                SerialNumber = (i + 1).ToString(),
-                SaleDate = x.SaleDate,
-                PurchaseDate = x.PurchaseDate,
-                HoldingDays = x.GetNumberOfHoldingDays(),
-                Name = x.Name,
-                TransactionTax = x.GetOverallTransactionTax(),
-                TransactionDetail = x.GetOverallTransactionDetail(),
-                Quantity = x.Quantity,
-                Sale = x.SaleValue,
-                Cost = x.PurchaseValue,
-                Profit = x.GetProfit(),
-            }).ToList();
-
-            writer.AddSheet("ProfitBook", profitBookRecords);
-        }
-
-        private static void WriteSumary(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
-            foreach (var namedBook in container.AssetSummaryBooks)
-            foreach (var statments in namedBook.Values)
-                summaryStatements.AddRange(statments);
-
-            var summaryRecords = summaryStatements.Select(x =>
-            {
-                var record = new SummaryRecord
-                {
-                    Name = x.Name,
-                    PurchaseDate = x.PurchaseDate,
-                    Cost = x.PurchaseValue,
-                    Quantity = x.Quantity
-                };
-                if (x.IsSquared) record.SaleDate = x.SaleDate;
-                if (x.IsSquared) record.Sale = x.SaleValue;
-                if (x.IsSquared) record.Profit = x.GetProfit();
-
-                return record;
-            }).ToList();
-            writer.AddSheet("Summary", summaryRecords);
-        }
-
-        private static void WriteAssetNames(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var assetNameRecords = container.AssetNamesBook.Select(x => new AssetNameRecord {Name = x}).ToList();
-            writer.AddSheet("AssetName", assetNameRecords);
-        }
     }
+
 }

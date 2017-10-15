@@ -87,7 +87,6 @@
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />
     <Compile Include="ExcelDataGateway\BooksOfAccountWriter.cs" />
-    <Compile Include="ExcelDataGateway\CapitalGainsStatementWriter.cs" />
     <Compile Include="ExcelDataGateway\ExcelReader.cs" />
     <Compile Include="ExcelDataGateway\ExcelSheetInfoProvider.cs" />
     <Compile Include="ExcelDataGateway\ExcelSheetWriter.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="ExcelDataGateway\JournalGateway.cs" />
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\SheetHeadingVerifier.cs" />
-    <Compile Include="ExcelDataGateway\TradeLogGateway.cs" />
     <Compile Include="Facade\BooksOfAccountStatementGenerationFacade.cs" />
     <Compile Include="Facade\CapitalGainsStatementGenerationFacade.cs" />
     <Compile Include="Properties\Annotations.cs" />
