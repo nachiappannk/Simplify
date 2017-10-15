@@ -16,8 +16,8 @@ namespace Simplify.Facade
             string openingStockSheetName, string tradeLogFileName, string tradeLogSheetName,
             string outputExcelFile, ILogger logger)
         {
-            TradeLogGateway openStockGateway = new TradeLogGateway(openingStockFileName);
-            var openingStock = openStockGateway.ReadTradeLog(logger, openingStockSheetName);
+            ProcessedTradeStatementsExcelGateway gateway = new ProcessedTradeStatementsExcelGateway();
+            var openingStock = gateway.ReadTradeLog(logger, openingStockFileName, openingStockSheetName);
 
             if (File.Exists(outputExcelFile)) File.Delete(outputExcelFile);
             TradeLogGateway tradeLogGateway = new TradeLogGateway(tradeLogFileName);

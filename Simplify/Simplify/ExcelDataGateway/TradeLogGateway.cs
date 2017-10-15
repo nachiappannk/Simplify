@@ -38,55 +38,7 @@ namespace Simplify.ExcelDataGateway
 
         }
         
-        public void WriteSummary(IList<SquarableStatement> deals)
-        {
-            var index = 0;
-
-            List<List<string>> columnsHeadingOptions = new List<List<string>>()
-            {
-                new List<string>() {"Name" },
-                new List<string>(){ "Quantity"},
-                new List<string>() {"Purchase Date" },
-                new List<string>(){"Cost"},
-                new List<string>() {"Sale Date" },
-                new List<string>(){ "Sale"},
-                new List<string>(){ "Profit"}
-            };
-
-            
-        var dealsSorted = deals.OrderBy(x => x.PurchaseDate).ToList();
-
-            using (var writer = new ExcelSheetWriter(_excelFileName, "Summary"))
-            {
-                writer.Write(index++, columnsHeadingOptions.ToArray<object>());
-                writer.SetColumnsWidth(30, 12, 16,16, 12, 12,12);
-                writer.ApplyHeadingFormat(columnsHeadingOptions.Count);
-                writer.WriteList(index, dealsSorted,
-                    (b, rowIndex) =>
-                    {
-                        if(b.IsSquared)
-                        return new object[]
-                        {
-                            b.Name,
-                            b.Quantity,
-                            b.PurchaseDate,
-                            b.PurchaseValue,
-                            b.SaleDate,
-                            b.SaleValue,
-                            b.SaleValue - b.PurchaseValue
-                        };
-                        else
-                            return new object[]
-                            {
-                                b.Name,
-                                b.Quantity,
-                                b.PurchaseDate,
-                                b.PurchaseValue,
-                            };
-                    });
-            }
-        }
-
+     
         private string SortKey(SquarableStatement squarableStatement)
         {
             StringBuilder builder = new StringBuilder();
@@ -101,32 +53,7 @@ namespace Simplify.ExcelDataGateway
             return builder.ToString();
         }
 
-        public void WriteOpenPositions(IList<SquarableStatement> deals)
-        {
-            var index = 0;
-
-            var dealsSorted = deals.OrderBy(SortKey).ToList();
-
-            using (var writer = new ExcelSheetWriter(_excelFileName, "OpenPositions"))
-            {
-                var comlumnsHeadingOptions = _columnsHeadingOptions.ToList();
-                comlumnsHeadingOptions.RemoveAt(comlumnsHeadingOptions.Count - 1);
-                writer.Write(index++, comlumnsHeadingOptions.ToArray<object>());
-                writer.SetColumnsWidth(6, 12, 30, 16, 16, 12, 12);
-                writer.ApplyHeadingFormat(_columnsHeadingOptions.Count);
-                writer.WriteList(index, dealsSorted, (b, rowIndex) => new object[]
-                {
-                    rowIndex - 1,
-                    b.PurchaseDate,
-                    b.Name,
-                    b.PurchaseTransactionDetail,
-                    b.PurchaseTransactionTax,
-                    b.Quantity,
-                    b.PurchaseValue,
-                });
-            }
-        }
-
+   
         public List<TradeStatement> ReadTradeLog(ILogger logger, string sheetName)
         {
             using (ExcelReader reader = new ExcelReader(_excelFileName, sheetName, logger))

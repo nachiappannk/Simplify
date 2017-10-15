@@ -79,32 +79,62 @@ namespace Simplify.ExcelDataGateway
             public object Profit { get; set; } = string.Empty;
         }
 
+        
+
+        private const string SerialNumberString = "S.No.";
+        private const string DateString = "Date";
+        private const string NameString = "Name";
+        private const string TransactionDetailString = "Transaction Detail";
+        private const string TransactionTaxString = "Transaction Tax";
+        private const string QuantityString = "Quantity";
+        private const string CostString = "Cost";
+        private const string SaleString = "Sale";
+
+        private static readonly List<string> ColumnNames = new List<string>
+        {
+            SerialNumberString,
+            DateString,
+            NameString,
+            TransactionDetailString,
+            TransactionTaxString,
+            QuantityString,
+            CostString,
+            SaleString
+        };
+
+
         private class TradeRecord
         {
-            [ExcelColumn(1, "S.No.", 6)]
+            [ExcelColumn(1, SerialNumberString, 6)]
             public int SerialNumber { get; set; }
 
-            [ExcelColumn(2, "Date", 12)]
+            [ExcelColumn(2, DateString, 12)]
             public DateTime Date { get; set; }
 
-            [ExcelColumn(3, "Name", 30)]
+            [ExcelColumn(3, NameString, 30)]
             public string Name { get; set; }
 
-            [ExcelColumn(4, "Transaction Detail", 16)]
+            [ExcelColumn(4, TransactionDetailString, 16)]
             public string TransactionDetail { get; set; }
 
-            [ExcelColumn(5, "Transaction Tax", 16)]
+            [ExcelColumn(5, TransactionTaxString, 16)]
             public string TransactionTax { get; set; }
 
-            [ExcelColumn(6, "Quantity", 12)]
+            [ExcelColumn(6, QuantityString, 12)]
             public double Quantity { get; set; }
 
-            [ExcelColumn(7, "Cost", 12)]
+            [ExcelColumn(7, CostString, 12)]
             public double Cost { get; set; }
 
-            [ExcelColumn(8, "Sale", 12)]
+            [ExcelColumn(8, SaleString, 12)]
             public double Sale { get; set; }
         }
+
+        private int GetExcelIndex(string s)
+        {
+            return ColumnNames.IndexOf(s) + 1;
+        }
+
 
         public class EffectiveCostRecord
         {
@@ -115,6 +145,45 @@ namespace Simplify.ExcelDataGateway
             public double Cost { get; set; }
         }
 
+        
+        public List<TradeStatement> ReadTradeLog(ILogger logger, string fileName, string sheetName)
+        {
+            using (ExcelReader reader = new ExcelReader(fileName, sheetName, logger))
+            {
+                SheetHeadingVerifier.VerifyHeadingNames(logger, reader, ColumnNames);
+                var tradeStatements = reader.ReadAllLines(1, (r) =>
+                {
+                    var isCostAvailable = r.IsValueAvailable(GetExcelIndex(CostString));
+                    var cost = isCostAvailable ? r.ReadDouble(GetExcelIndex(CostString)) : 0;
+                    var isSaleAvailable = r.IsValueAvailable(GetExcelIndex(SaleString));
+                    var sale = isSaleAvailable ? r.ReadDouble(GetExcelIndex(SaleString)) : 0;
+                    if (isCostAvailable && isSaleAvailable)
+                    {
+                        logger.Log(MessageType.IgnorableError, $"In file{r.FileName}, " +
+                                                               $"in sheet{r.SheetName}, " +
+                                                               $"in line no. {r.LineNumber}, " +
+                                                               "both cost and sale is mentioned. Taking the sum as value");
+                    }
+
+                    bool isPurchase = cost > sale;
+                    if (cost < 0.001 && sale < 0.001)
+                        isPurchase = true;//Bonus Case
+                    var value = cost + sale;
+                    return new TradeStatement()
+                    {
+                        SerialNumber = r.ReadInteger(GetExcelIndex(SerialNumberString)),
+                        Date = r.ReadDate(GetExcelIndex(DateString)),
+                        Name = r.ReadString(GetExcelIndex(NameString)),
+                        TransactionDetail = r.ReadString(GetExcelIndex(TransactionDetailString)),
+                        TransactionTax = r.ReadString(GetExcelIndex(TransactionTaxString)),
+                        Quantity = r.ReadDouble(GetExcelIndex(QuantityString)),
+                        Value = value,
+                        IsPurchase = isPurchase,
+                    };
+                }).ToList();
+                return tradeStatements.ToList();
+            }
+        }
 
         public void Write(string fileName, ProcessedTradeStatementsContainer container)
         {

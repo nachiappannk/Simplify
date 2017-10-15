@@ -25,6 +25,23 @@ namespace Simplify.ExcelDataGateway
                 });
         }
 
+        public static void VerifyHeadingNames(ILogger logger, ExcelReader reader, List<string> columnNames)
+        {
+            reader.ReadLine(0,
+                r =>
+                {
+                    string[] ret = new string[columnNames.Count];
+                    for (int i = 0; i < columnNames.Count; i++)
+                    {
+                        var readColumnName = r.ReadString(i);
+                        ret[i] = readColumnName;
+                        var columnNameOptions = columnNames[i];
+                        LogUnmatchedColumnName(logger, r.FileName, r.SheetName, readColumnName, new List<string> { columnNameOptions});
+                    }
+                    return ret;
+                });
+        }
+
         public static void LogUnmatchedColumnName(ILogger logger, string fileName, string sheetName, string columnName, List<string> columnNameOptions)
         {
             var columnNameLower = columnName.ToLower();
