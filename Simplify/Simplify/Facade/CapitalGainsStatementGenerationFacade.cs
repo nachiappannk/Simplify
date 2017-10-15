@@ -12,19 +12,12 @@ namespace Simplify.Facade
 {
     public class CapitalGainsStatementGenerationFacade
     {
-        public void GenerateStatements(string openingStockFileName, 
-            string openingStockSheetName, string tradeLogFileName, string tradeLogSheetName,
+        public void GenerateStatements(string tradeLogFileName, string tradeLogSheetName,
             string outputExcelFile, ILogger logger)
         {
             ProcessedTradeStatementsExcelGateway gateway = new ProcessedTradeStatementsExcelGateway();
-            var openingStock = gateway.ReadTradeLog(logger, openingStockFileName, openingStockSheetName);
-
-            ProcessedTradeStatementsExcelGateway gateway1 = new ProcessedTradeStatementsExcelGateway();
-            var tradeLogs = gateway1.ReadTradeLog(logger, openingStockFileName, openingStockSheetName);
-
-            tradeLogs.AddRange(openingStock);
-
-
+            var tradeLogs = gateway.ReadTradeLog(logger, tradeLogFileName, tradeLogSheetName);
+            
             ProcessedTradeStatementsContainer processedTradeStatementsContainer = new ProcessedTradeStatementsContainer(tradeLogs);
             var writer = new ProcessedTradeStatementsExcelGateway();
 

@@ -23,13 +23,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
             _completionCallBack = completionCallBack;
 
-            OpeningStockSelectorViewModel = new ExcelSheetSelectorViewModel();
-            OpeningStockSelectorViewModel.Title = "Please provide opening stock";
-            OpeningStockSelectorViewModel.ValidityChanged += () =>
-            {
-                GenerateCommand.RaiseCanExecuteChanged();
-            };
-
             TradeLogExcelSheetSelectorViewModel = new ExcelSheetSelectorViewModel();
             TradeLogExcelSheetSelectorViewModel.Title = "Please provide trade log";
             TradeLogExcelSheetSelectorViewModel.ValidityChanged += () =>
@@ -56,8 +49,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             {
                 CapitalGainsStatementGenerationFacade facade = new CapitalGainsStatementGenerationFacade();
                 facade.GenerateStatements(
-                    OpeningStockSelectorViewModel.InputFileName,
-                    OpeningStockSelectorViewModel.SelectedSheet,
                     TradeLogExcelSheetSelectorViewModel.InputFileName,
                     TradeLogExcelSheetSelectorViewModel.SelectedSheet,
                     fullPath, logger);
@@ -78,11 +69,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
         private bool CanGenerate()
         {
-            return (OpeningStockSelectorViewModel.IsValid && TradeLogExcelSheetSelectorViewModel.IsValid);
+            return TradeLogExcelSheetSelectorViewModel.IsValid;
         }
 
         public DelegateCommand GenerateCommand { get; set; }
-        public ExcelSheetSelectorViewModel OpeningStockSelectorViewModel { get; set; }
         public ExcelSheetSelectorViewModel TradeLogExcelSheetSelectorViewModel { get; set; }
 
     }
