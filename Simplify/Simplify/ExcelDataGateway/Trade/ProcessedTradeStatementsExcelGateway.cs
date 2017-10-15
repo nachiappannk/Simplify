@@ -225,7 +225,7 @@ namespace Simplify.ExcelDataGateway
 
         private int GetExcelIndex(string s)
         {
-            return ColumnNames.IndexOf(s) + 1;
+            return ColumnNames.IndexOf(s);
         }
 
         public void WriteOpenPositions(ProcessedTradeStatementsContainer container, ExcelWriter writer)
