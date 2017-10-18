@@ -12,8 +12,10 @@ using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
-    public class CapitalGainWorkflowViewModel : INotifyPropertyChanged
+    public class CapitalGainWorkflowViewModel : WorkflowViewModel, INotifyPropertyChanged
     {
+        public override string Name => "Trade Statements";
+
         private object _workflowStepViewModel;
         public object WorkflowStepViewModel
         {
@@ -51,5 +53,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        
     }
 }

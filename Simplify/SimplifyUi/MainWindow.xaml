@@ -45,21 +45,21 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem>
+            <TabItem DataContext="{Binding BooksOfAccountGenerationWorkflowViewModel}">
                 <TabItem.Header>
-                    <TextBlock Text="Books of Account" TextWrapping="Wrap" MaxWidth="80"  Height="40" FontSize="14"
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="80"  Height="40" FontSize="14"
                                FontWeight="Bold"/>
                 </TabItem.Header>
                 <booksOfAccountGeneration:BooksOfAccountGenerationWorkflowUserControl 
-                    DataContext="{Binding BooksOfAccountGenerationWorkflowViewModel}"/>
+                    DataContext="{Binding}"/>
             </TabItem>
-            <TabItem>
+            <TabItem DataContext="{Binding CapitalGainWorkflowViewModel}">
                 <TabItem.Header>
-                    <TextBlock Text="Capital Gains" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
                                FontWeight="Bold"/>
                 </TabItem.Header>
                 <capitalGainsGeneration:CapitalGainsWorkflowUserControl
-                    DataContext="{Binding CapitalGainWorkflowViewModel}"/>
+                    DataContext="{Binding}"/>
             </TabItem>
         </TabControl>
     </Grid>

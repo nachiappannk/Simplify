@@ -91,6 +91,7 @@
       <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="Common\DisplayInformationUserControl.xaml.cs">
       <DependentUpon>DisplayInformationUserControl.xaml</DependentUpon>
     </Compile>

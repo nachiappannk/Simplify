@@ -7,8 +7,10 @@ using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
-    public class BooksOfAccountGenerationWorkflowViewModel : INotifyPropertyChanged
+    public class BooksOfAccountGenerationWorkflowViewModel : WorkflowViewModel, INotifyPropertyChanged
     {
+        public override string Name  => "Books of Account";
+
         private object _workflowStepViewModel;
         public object WorkflowStepViewModel
         {
