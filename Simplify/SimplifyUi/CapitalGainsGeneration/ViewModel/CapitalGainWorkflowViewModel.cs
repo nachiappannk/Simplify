@@ -14,8 +14,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
     public class CapitalGainWorkflowViewModel : WorkflowViewModel, INotifyPropertyChanged
     {
-        public override string Name => "Trade Statements";
-
         private object _workflowStepViewModel;
         public object WorkflowStepViewModel
         {
@@ -41,7 +39,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             WorkflowStepViewModel = new CapitalGainsInputViewModel(GotoInformationStep);
         }
 
-        public CapitalGainWorkflowViewModel()
+        public CapitalGainWorkflowViewModel() : base("Trade Statements")
         {
             GotoGatherInput();  
         }

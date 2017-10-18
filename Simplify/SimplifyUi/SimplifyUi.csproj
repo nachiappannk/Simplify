@@ -91,7 +91,7 @@
       <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\WorkflowViewModel.cs" />
+    <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="Common\DisplayInformationUserControl.xaml.cs">
       <DependentUpon>DisplayInformationUserControl.xaml</DependentUpon>
     </Compile>
@@ -107,6 +107,9 @@
     <Compile Include="Common\ViewModel\DisplayInformationViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainsInputViewModel.cs" />
+    <Compile Include="Common\WorkFlowUserControl.xaml.cs">
+      <DependentUpon>WorkFlowUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountGenerationWorkflowViewModel.cs" />
     <Compile Include="Common\ViewModelTools\Logger.cs" />
@@ -135,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\MessageUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\WorkFlowUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

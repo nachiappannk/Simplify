@@ -9,6 +9,7 @@
         xmlns:viewModel="clr-namespace:SimplifyUi.Common.ViewModel"
         Icon="if_money_299107.ico"
         xmlns:common="clr-namespace:SimplifyUi.Common"
+        xmlns:viewModel1="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel"
 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
@@ -18,7 +19,10 @@
             <DataTemplate DataType="{x:Type viewModel:DisplayInformationViewModel}">
                 <common:DisplayInformationUserControl/>
             </DataTemplate>
-        </Grid.Resources>
+                <DataTemplate DataType="{x:Type viewModel:WorkflowViewModel}">
+                    <common:WorkFlowUserControl/>
+                </DataTemplate>
+            </Grid.Resources>
         <TabControl TabStripPlacement="Left">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
@@ -60,6 +64,13 @@
                 </TabItem.Header>
                 <capitalGainsGeneration:CapitalGainsWorkflowUserControl
                     DataContext="{Binding}"/>
+            </TabItem>
+            <TabItem DataContext="{Binding WorkflowViewModel}">
+                <TabItem.Header>
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
+                               FontWeight="Bold"/>
+                </TabItem.Header>
+                    <ContentPresenter Content="{Binding}"/>
             </TabItem>
         </TabControl>
     </Grid>

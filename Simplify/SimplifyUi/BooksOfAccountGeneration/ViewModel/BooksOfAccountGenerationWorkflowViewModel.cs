@@ -9,8 +9,6 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
     public class BooksOfAccountGenerationWorkflowViewModel : WorkflowViewModel, INotifyPropertyChanged
     {
-        public override string Name  => "Books of Account";
-
         private object _workflowStepViewModel;
         public object WorkflowStepViewModel
         {
@@ -36,7 +34,7 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
             WorkflowStepViewModel = new BooksOfAccountInputViewModel(GotoInformationStep);
         }
 
-        public BooksOfAccountGenerationWorkflowViewModel()
+        public BooksOfAccountGenerationWorkflowViewModel() : base("Books Of Account")
         {
             GotoGatherInput();
         }
@@ -48,6 +46,5 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
