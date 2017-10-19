@@ -19,8 +19,9 @@ namespace Simplify.Facade
             var tradeLogs = gateway.ReadTradeLog(logger, tradeLogFileName, tradeLogSheetName);
             
             ProcessedTradeStatementsContainer processedTradeStatementsContainer = new ProcessedTradeStatementsContainer(tradeLogs);
-            var writer = new ProcessedTradeStatementsExcelGateway();
 
+
+            var writer = new ProcessedTradeStatementsExcelGateway();
             if (File.Exists(outputExcelFile)) File.Delete(outputExcelFile);
             writer.Write(outputExcelFile, processedTradeStatementsContainer);
         }
