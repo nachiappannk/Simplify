@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing;
-using Simplify.Books;
 
-namespace Simplify.Application
+namespace Simplify.Trade
 {
     public class ProcessedTradeStatementsContainer
     {

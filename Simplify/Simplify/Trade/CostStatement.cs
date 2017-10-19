@@ -1,4 +1,4 @@
-namespace Simplify.Application
+namespace Simplify.Trade
 {
     public class CostStatement
     {

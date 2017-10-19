@@ -96,7 +96,6 @@
     <Compile Include="ExcelDataGateway\RowCellsReader.cs" />
     <Compile Include="ExcelDataGateway\SheetHeadingVerifier.cs" />
     <Compile Include="Facade\BooksOfAccountStatementGenerationFacade.cs" />
-    <Compile Include="Facade\CapitalGainsStatementGenerationFacade.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Books\Statement.cs" />

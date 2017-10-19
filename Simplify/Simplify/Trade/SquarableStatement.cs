@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 
-namespace Simplify.Books
+namespace Simplify.Trade
 {
     public class SquarableStatement
     {

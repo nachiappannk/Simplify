@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using SimplifyUi.CapitalGainsGeneration.ViewModel;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
+using SimplifyUi.Properties;
 
 namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 {
@@ -41,7 +42,7 @@ namespace SimplifyUi.BooksOfAccountGeneration.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [Annotations.NotifyPropertyChangedInvocator]
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

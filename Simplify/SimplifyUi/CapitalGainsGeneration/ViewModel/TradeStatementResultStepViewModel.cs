@@ -9,8 +9,10 @@ using Prism.Interactivity.InteractionRequest;
 using Simplify.Application;
 using Simplify.Books;
 using Simplify.ExcelDataGateway;
-using SimplifyUi.Annotations;
+using Simplify.ExcelDataGateway.Trade;
+using Simplify.Trade;
 using SimplifyUi.Common.ViewModel;
+using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {

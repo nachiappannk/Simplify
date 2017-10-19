@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Simplify.Application;
-using Simplify.Books;
+using Simplify.Trade;
 
-namespace Simplify.ExcelDataGateway
+namespace Simplify.ExcelDataGateway.Trade
 {
     public class ProcessedTradeStatementsExcelGateway
     {

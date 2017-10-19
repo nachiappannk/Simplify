@@ -1,6 +1,6 @@
 using System;
 
-namespace SimplifyUi.CapitalGainsGeneration.ViewModel
+namespace SimplifyUi.Common.ViewModelTools
 {
     public class OutputNameComputer
     {

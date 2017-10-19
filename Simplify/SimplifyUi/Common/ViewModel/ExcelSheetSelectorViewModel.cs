@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Simplify.ExcelDataGateway;
-using SimplifyUi.Annotations;
+using SimplifyUi.Properties;
 
 namespace SimplifyUi.Common.ViewModel
 {

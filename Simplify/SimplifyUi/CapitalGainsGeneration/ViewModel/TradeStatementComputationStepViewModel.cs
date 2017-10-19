@@ -5,9 +5,11 @@ using System.Runtime.CompilerServices;
 using Prism.Commands;
 using Simplify.Application;
 using Simplify.ExcelDataGateway;
-using SimplifyUi.Annotations;
+using Simplify.ExcelDataGateway.Trade;
+using Simplify.Trade;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
+using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 {
