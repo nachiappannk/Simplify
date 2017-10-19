@@ -38,7 +38,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
         public TradeStatementComputationStepViewModel()
         {
-            Name = "Statement Computation";
+            Name = "Error(s) in Processing";
             RefreshCommand = new NamedCommand("Refresh", new DelegateCommand(Compute));
             AddCommand(RefreshCommand);
         }

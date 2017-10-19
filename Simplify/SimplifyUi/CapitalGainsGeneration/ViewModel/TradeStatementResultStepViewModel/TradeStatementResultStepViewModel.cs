@@ -80,6 +80,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         public TradeStatementResultStepViewModel()
         {
+            CanGoToNext = false;
+            CanGoToHome = true;
+            CanGoToPrevious = true;
+            Name = "Result";
             FileSaveAsRequest = new InteractionRequest<FileSaveAsNotification>();
             SaveCommand = new NamedCommand("Save", new DelegateCommand(SaveOutputFile));
             AddCommand(SaveCommand);

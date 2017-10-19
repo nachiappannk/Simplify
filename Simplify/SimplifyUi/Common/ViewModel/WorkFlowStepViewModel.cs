@@ -12,9 +12,9 @@ namespace SimplifyUi.Common.ViewModel
 
         public event Action StateChanged;
         public List<NamedCommand> AdditionalCommands { get; set; } 
-        public virtual bool CanGoToNext { get; set; }
-        public virtual bool CanGoToHome { get; set; }
-        public virtual bool CanGoToPrevious { get; set; }
+        public bool CanGoToNext { get; set; }
+        public bool CanGoToHome { get; set; }
+        public bool CanGoToPrevious { get; set; }
 
         public string Name { get; set; }
         protected virtual void FireStateChanged()
