@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
+using SimplifyUi.Common;
 using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
@@ -66,16 +67,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public AssetSummaryRecord(SquarableStatement x)
         {
             Name = x.Name;
-            Quantity = x.Quantity;
-            PurchaseDate = x.PurchaseDate.ToString("dd-MM-yyyy");
-            PurchaseValue = x.PurchaseValue.ToString("N2");
-            SaleDate = x.IsSquared? x.SaleDate.ToString("dd-MM-yyyy"):String.Empty;
-            SaleValue = x.IsSquared ? x.SaleValue.ToString("N2"):String.Empty;
-            Profit = x.IsSquared ? x.GetProfit().ToString("N2") : String.Empty;
+            Quantity = x.Quantity.ToStringWithNumberOfDecimals(2);
+            PurchaseDate = x.PurchaseDate.ToStringDisplayable();
+            PurchaseValue = x.PurchaseValue.ToStringWithNumberOfDecimals(2);
+            SaleDate = x.IsSquared? x.SaleDate.ToStringDisplayable(): String.Empty;
+            SaleValue = x.IsSquared ? x.SaleValue.ToStringWithNumberOfDecimals(2) : String.Empty;
+            Profit = x.IsSquared ? x.GetProfit().ToStringWithNumberOfDecimals(2) : String.Empty;
         }
 
         public string Name { get; set; }
-        public double Quantity { get; set; }
+        public string Quantity { get; set; }
 
         [DisplayName("Purchase Date")]
         public string PurchaseDate { get; set; }

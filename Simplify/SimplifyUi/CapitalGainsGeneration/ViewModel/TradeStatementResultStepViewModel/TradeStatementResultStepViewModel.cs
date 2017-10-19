@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -61,16 +59,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
-        private List<CostStatement> _effectiveCostBook;
+        private CostBookViewModel _constBookViewModel;
 
-        public List<CostStatement> EffectiveCostBook
+        public CostBookViewModel ConstBookViewModel
         {
-            get { return _effectiveCostBook; }
+            get { return _constBookViewModel; }
             set
             {
-                if (_effectiveCostBook != value)
+                if (_constBookViewModel != value)
                 {
-                    _effectiveCostBook = value;
+                    _constBookViewModel = value;
                     FirePropertyChanged();
                 }
             }
@@ -93,10 +91,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
             OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
-
             AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
-            EffectiveCostBook = new List<CostStatement>();
-            EffectiveCostBook.AddRange(_statementsContainer.EffectiveCostStatementBook.Select(x => x));
+            ConstBookViewModel = new CostBookViewModel(_statementsContainer);
+
         }
 
         

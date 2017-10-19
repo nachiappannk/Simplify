@@ -58,7 +58,7 @@
             </TabItem>
             <TabItem Header="Average Cost">
                 <Grid>
-                    <DataGrid ItemsSource="{Binding EffectiveCostBook}"/>
+                    <DataGrid ItemsSource="{Binding ConstBookViewModel.CostBookRecords}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
                 </Grid>
             </TabItem>
         </TabControl>

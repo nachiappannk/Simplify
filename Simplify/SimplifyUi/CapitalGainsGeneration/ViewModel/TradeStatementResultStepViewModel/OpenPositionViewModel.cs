@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Simplify.Trade;
+using SimplifyUi.Common;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
@@ -13,7 +14,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             OpenPositions = new List<OpenPositionTableRecord>();
             OpenPositions.AddRange(container.OpenPositionBook.Select(x => new OpenPositionTableRecord
             {
-                Date = x.Date.ToString("dd-MM-yyyy"),
+                Date = x.Date.ToStringDisplayable(),
                 Name = x.Name,
                 Quantity = x.Quantity,
                 Cost = x.Value,

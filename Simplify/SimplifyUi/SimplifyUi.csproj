@@ -98,6 +98,7 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\CostBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenPositionViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ProfitBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ToStringExtentionMethods.cs" />
     <Compile Include="Common\ViewModel\NamedCommand.cs" />
     <Compile Include="Common\ViewModel\WorkFlowStepViewModel.cs" />
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />

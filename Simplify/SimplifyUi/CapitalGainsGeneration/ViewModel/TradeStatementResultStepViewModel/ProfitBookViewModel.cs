@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Simplify.Trade;
+using SimplifyUi.Common;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
@@ -16,11 +17,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             {
                 Name = x.Name,
                 Quantity = x.Quantity,
-                PurchaseDate = x.PurchaseDate.ToString("dd-MM-yyyy"),
+                PurchaseDate = x.PurchaseDate.ToStringDisplayable(),
                 PurchaseValue = x.PurchaseValue,
                 PurchaseTransactionTax = x.PurchaseTransactionTax,
                 PurchaseTransactionDetail = x.PurchaseTransactionDetail,
-                SaleDate = x.SaleDate.ToString("dd-MM-yyyy"),
+                SaleDate = x.SaleDate.ToStringDisplayable(),
                 SaleValue = x.SaleValue,
                 SaleTransactionDetail = x.SaleTransactionDetail,
                 SaleTransactionTax = x.SaleTransactionTax,
