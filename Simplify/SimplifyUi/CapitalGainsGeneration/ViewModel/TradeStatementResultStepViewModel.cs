@@ -63,6 +63,21 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             }
         }
 
+        private List<CostStatement> _effectiveCostBook;
+
+        public List<CostStatement> EffectiveCostBook
+        {
+            get { return _effectiveCostBook; }
+            set
+            {
+                if (_effectiveCostBook != value)
+                {
+                    _effectiveCostBook = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
+
         public AssetSummary AssetSummary { get; set; }
 
         private NamedCommand SaveCommand;
@@ -105,7 +120,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
                 SaleTransactionDetail = x.SaleTransactionDetail,
                 SaleTransactionTax = x.SaleTransactionTax,
             }));
-           // AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
+            AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
+            EffectiveCostBook = new List<CostStatement>();
+            EffectiveCostBook.AddRange(_statementsContainer.EffectiveCostStatementBook.Select(x => x));
         }
 
         
@@ -175,6 +192,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
                 if (_records != value)
                 {
                     _records = value;
+                    FirePropertyChanged();
                 }
             }
         }

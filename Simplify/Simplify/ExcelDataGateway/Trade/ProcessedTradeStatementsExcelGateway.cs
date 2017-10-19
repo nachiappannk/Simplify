@@ -144,8 +144,7 @@ namespace Simplify.ExcelDataGateway
         {
             List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
             foreach (var namedBook in container.AssetSummaryBooks)
-            foreach (var statments in namedBook.Values)
-                summaryStatements.AddRange(statments);
+                summaryStatements.AddRange(namedBook.Value);
 
             var summaryRecords = summaryStatements.Select(x =>
             {

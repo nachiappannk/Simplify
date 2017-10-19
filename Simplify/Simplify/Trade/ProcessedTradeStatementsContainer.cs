@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing;
 using Simplify.Books;
 
 namespace Simplify.Application
@@ -10,7 +11,7 @@ namespace Simplify.Application
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
         public List<SquarableStatement> ProfitBook { get; set; }
-        public List<Dictionary<string, List<SquarableStatement>>> AssetSummaryBooks { get; private set; }
+        public Dictionary<string, List<SquarableStatement>> AssetSummaryBooks { get; private set; }
         public List<CostStatement> EffectiveCostStatementBook { get; private set; }
 
 
@@ -40,13 +41,11 @@ namespace Simplify.Application
         {
             var allStatements = ProfitBook.ToList();
             allStatements.AddRange(OpenPositionBook.Select(x => new SquarableStatement(x)));
-            AssetSummaryBooks = new List<Dictionary<string, List<SquarableStatement>>>();
+            AssetSummaryBooks = new Dictionary<string, List<SquarableStatement>>();
             foreach (var name in AssetNamesBook)
             {
-                var book = new Dictionary<string, List<SquarableStatement>>();
                 var bookStatements = allStatements.Where(x => x.Name.Equals(name)).ToList();
-                book.Add(name, bookStatements);
-                AssetSummaryBooks.Add(book);
+                AssetSummaryBooks.Add(name, bookStatements);
             }
         }
 

@@ -37,6 +37,9 @@
                     <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" IsReadOnly="True" ColumnWidth="Auto"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Average Cost">
+                <DataGrid  ItemsSource="{Binding EffectiveCostBook}" IsReadOnly="True" ColumnWidth="Auto"></DataGrid>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>
