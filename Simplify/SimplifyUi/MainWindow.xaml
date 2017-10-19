@@ -10,6 +10,7 @@
         Icon="if_money_299107.ico"
         xmlns:common="clr-namespace:SimplifyUi.Common"
         xmlns:viewModel1="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel"
+        xmlns:tradeStatementResultStepViewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel"
 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
@@ -28,7 +29,7 @@
             <DataTemplate DataType="{x:Type viewModel1:TradeStatementComputationStepViewModel}">
                 <capitalGainsGeneration:TradeStatementComputationStepUserControl/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel1:TradeStatementResultStepViewModel}">
+            <DataTemplate DataType="{x:Type tradeStatementResultStepViewModel:TradeStatementResultStepViewModel}">
                 <capitalGainsGeneration:TradeStatementResultStepUserControl/>
             </DataTemplate>
         </Grid.Resources>

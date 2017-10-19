@@ -6,15 +6,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
-using Simplify.Application;
-using Simplify.Books;
-using Simplify.ExcelDataGateway;
 using Simplify.ExcelDataGateway.Trade;
 using Simplify.Trade;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Properties;
 
-namespace SimplifyUi.CapitalGainsGeneration.ViewModel
+namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
     public class TradeStatementResultStepViewModel : WorkFlowStepViewModel, INotifyPropertyChanged
     {
@@ -94,9 +91,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         public void SetStatements(ProcessedTradeStatementsContainer statementsContainer)
         {
             _statementsContainer = statementsContainer;
-            AssetNamesViewModel = new AssetNamesViewModel();
-            AssetNamesViewModel.AssetNames = new List<AssetNameTableRecord>();
-            AssetNamesViewModel.AssetNames.AddRange(_statementsContainer.AssetNamesBook.Select(x => new AssetNameTableRecord {AssetName = x}));
+            AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
+            
             OpenPositions = new List<OpenPositionTableRecord>();
             OpenPositions.AddRange(_statementsContainer.OpenPositionBook.Select(x => new OpenPositionTableRecord
             {
@@ -152,10 +148,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         }
     }
 
-    public class AssetNameTableRecord
-    {
-        public string AssetName { get; set; }
-    }
+    
 
     public class AssetSummary : INotifyPropertyChanged
     {
@@ -209,13 +202,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         }
     }
 
-    
-
-
-    public class AssetNamesViewModel
-    {
-        public List<AssetNameTableRecord> AssetNames { get; set; }
-    }
 
     public class OpenPositionTableRecord
     {

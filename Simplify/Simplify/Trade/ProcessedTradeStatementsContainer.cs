@@ -58,7 +58,7 @@ namespace Simplify.Trade
 
         private void InitializeAssetNamesBook(List<TradeStatement> tradeStatements)
         {
-            AssetNamesBook = tradeStatements.Select(x => x.Name).Distinct().ToList();
+            AssetNamesBook = tradeStatements.Select(x => x.Name).Distinct().OrderBy(x => x).ToList();
         }
         
         private void ProcessTradeStatements(List<TradeStatement> tradeStatements)

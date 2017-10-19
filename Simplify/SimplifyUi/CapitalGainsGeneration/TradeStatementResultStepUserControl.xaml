@@ -8,9 +8,10 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:interactionRequest="http://prismlibrary.com/"
              xmlns:common="clr-namespace:SimplifyUi.Common"
+             xmlns:tradeStatementResultStepViewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModel:TradeStatementResultStepViewModel}">
+             d:DataContext="{d:DesignInstance tradeStatementResultStepViewModel:TradeStatementResultStepViewModel}">
     <Grid>
         <i:Interaction.Triggers>
             <interactionRequest:InteractionRequestTrigger SourceObject="{Binding FileSaveAsRequest}">
@@ -24,11 +25,12 @@
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="IsReadOnly" Value="True"/>
                     <Setter Property="ColumnWidth" Value="Auto"/>
+                    <Setter Property="Margin" Value="4"/>
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Asset Names">
                 <Grid>
-                    <DataGrid  ItemsSource="{Binding AssetNamesViewModel.AssetNames}"></DataGrid>
+                    <DataGrid  ItemsSource="{Binding AssetNamesViewModel.AssetNames}" AutoGeneratingColumn="OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
             <TabItem Header="Open Positions">

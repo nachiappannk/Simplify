@@ -96,7 +96,8 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>

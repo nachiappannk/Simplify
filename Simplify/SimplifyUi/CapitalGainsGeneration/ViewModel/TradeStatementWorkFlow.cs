@@ -12,7 +12,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         {
             var inputStep = new TradeStatementInputStepViewModel();
             var statementComputingStep = new TradeStatementComputationStepViewModel();
-            var resultStep = new TradeStatementResultStepViewModel();
+            var resultStep = new TradeStatementResultStepViewModel.TradeStatementResultStepViewModel();
             inputStep.InputChanged += (x) => statementComputingStep.Compute(x.FileName, x.SheetName);
             statementComputingStep.StatementComputed += (x) => resultStep.SetStatements(x);
             AddWorkFlowStep(inputStep);
