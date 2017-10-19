@@ -16,11 +16,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             {
                 Name = x.Name,
                 Quantity = x.Quantity,
-                PurchaseDate = x.PurchaseDate,
+                PurchaseDate = x.PurchaseDate.ToString("dd-MM-yyyy"),
                 PurchaseValue = x.PurchaseValue,
                 PurchaseTransactionTax = x.PurchaseTransactionTax,
                 PurchaseTransactionDetail = x.PurchaseTransactionDetail,
-                SaleDate = x.SaleDate,
+                SaleDate = x.SaleDate.ToString("dd-MM-yyyy"),
                 SaleValue = x.SaleValue,
                 SaleTransactionDetail = x.SaleTransactionDetail,
                 SaleTransactionTax = x.SaleTransactionTax,
@@ -35,10 +35,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public double Quantity { get; set; }
 
         [DisplayName("Purchase Date")]
-        public DateTime PurchaseDate { get; set; }
+        public string PurchaseDate { get; set; }
 
         [DisplayName("Sale Date")]
-        public DateTime SaleDate { get; set; }
+        public string SaleDate { get; set; }
 
         [DisplayName("Cost")]
         public double PurchaseValue { get; set; }
@@ -47,16 +47,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public double SaleValue { get; set; }
         public double Profit { get; set; }
 
-        [DisplayName("Purchase Transaction Tax")]
+        [DisplayName("Purchase TT")]
         public string PurchaseTransactionTax { get; set; }
 
-        [DisplayName("Purchase Transaction Detail")]
+        [DisplayName("Purchase TD")]
         public string PurchaseTransactionDetail { get; set; }
 
-        [DisplayName("Sale Transaction Tax")]
+        [DisplayName("Sale TT")]
         public string SaleTransactionTax { get; set; }
 
-        [DisplayName("Sale Transaction Detail")]
+        [DisplayName("Sale TD")]
         public string SaleTransactionDetail { get; set; }
 
     }

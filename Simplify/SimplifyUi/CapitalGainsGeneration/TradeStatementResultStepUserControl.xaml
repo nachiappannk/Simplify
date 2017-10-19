@@ -46,11 +46,14 @@
             <TabItem Header="Summary" DataContext="{Binding AssetSummary}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <ComboBox Height="25" VerticalAlignment="Top" Grid.Row="0" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}"></ComboBox>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Records}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,10,0,10">
+                        <TextBlock Text="Asset Name: " Width="Auto" Height="25" VerticalAlignment="Top" Foreground="Blue" FontWeight="Bold"/>
+                        <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}" Width="Auto"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Average Cost">

@@ -92,8 +92,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             _statementsContainer = statementsContainer;
             AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
             OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
-            
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
+
             AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
             EffectiveCostBook = new List<CostStatement>();
             EffectiveCostBook.AddRange(_statementsContainer.EffectiveCostStatementBook.Select(x => x));
@@ -123,61 +123,4 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    
-
-    public class AssetSummary : INotifyPropertyChanged
-    {
-        private readonly Dictionary<string, List<SquarableStatement>> _dictionary;
-
-        public AssetSummary(Dictionary<string,List<SquarableStatement>> dictionary)
-        {
-            _dictionary = dictionary;
-            AssetNames = dictionary.Keys.ToList();
-            SelectedAsset = AssetNames.ElementAt(0);
-
-        }
-        public List<string> AssetNames { get; set; }
-
-        private string _selectedAsset;
-
-        public string SelectedAsset
-        {
-            get { return _selectedAsset; }
-            set
-            {
-                if (_selectedAsset != value)
-                {
-                    _selectedAsset = value;
-                    Records = _dictionary[_selectedAsset];
-                }
-            }
-        }
-
-        private List<SquarableStatement> _records;
-        public List<SquarableStatement> Records
-        {
-            get { return _records; }
-            set
-            {
-                if (_records != value)
-                {
-                    _records = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        }
-    }
-
-
-    
 }
