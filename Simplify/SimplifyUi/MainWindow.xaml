@@ -25,7 +25,10 @@
             <DataTemplate DataType="{x:Type viewModel1:TradeStatementInputStepViewModel}">
                 <capitalGainsGeneration:TradeStatementInputStepUserControl/>
             </DataTemplate>
-            </Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModel1:TradeStatementComputationStepViewModel}">
+                <capitalGainsGeneration:TradeStatementComputationStepUserControl/>
+            </DataTemplate>
+        </Grid.Resources>
         <TabControl TabStripPlacement="Left">
             <TabControl.Resources>
                 <Style TargetType="TabItem">

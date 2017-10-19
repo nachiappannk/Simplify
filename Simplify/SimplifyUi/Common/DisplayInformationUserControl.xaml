@@ -16,23 +16,6 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type viewModelTools:Message}">
-                <common:MessageUserControl MessageBrush="Yellow"></common:MessageUserControl>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelTools:InformationMessage}">
-                <common:MessageUserControl MessageBrush="LawnGreen"></common:MessageUserControl>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelTools:WarningMessage}">
-                <common:MessageUserControl MessageBrush="Yellow"></common:MessageUserControl>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelTools:IgnorableErrorMessage}">
-                <common:MessageUserControl MessageBrush="LightPink"></common:MessageUserControl>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModelTools:ErrorMessage}">
-                <common:MessageUserControl MessageBrush="DeepPink"></common:MessageUserControl>
-            </DataTemplate>
-        </Grid.Resources>
         <Label Grid.Row="0"
             Height="35" Content="{Binding Title}" HorizontalAlignment="Stretch"
                VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
@@ -51,10 +34,7 @@
             </ScrollViewer>
         </DockPanel>
         <DockPanel Grid.Row="2">
-            <Label DockPanel.Dock="Top" Content="Additional Information" FontSize="12"/>
-            <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <ItemsControl  ItemsSource="{Binding AdditionalInformation}"/>
-            </ScrollViewer>
+            <common:MessageDisplayingUserControl DataContext="{Binding AdditionalInformation}"></common:MessageDisplayingUserControl>
         </DockPanel>
         <Border Grid.Row="3" Background="LightSkyBlue" Height="40" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
             <DockPanel LastChildFill="False">

@@ -14,6 +14,17 @@ namespace SimplifyUi.Common.ViewModel
         private int _selectedStepIndex = 0;
         public string Name { get; set; }
 
+        private List<NamedCommand> _commands;
+
+        public List<NamedCommand> Commands
+        {
+            get { return _commands; }
+            set {
+                if (_commands == value) return;
+                _commands = value;
+                FirePropertyChanged();
+            }
+        }
         public DelegateCommand GoToNextCommand { get; set; }
 
         public DelegateCommand GoToPreviousCommand { get; set; }
@@ -56,6 +67,14 @@ namespace SimplifyUi.Common.ViewModel
             if(CurrentWorkflowStep != null) CurrentWorkflowStep.StateChanged -= RaiseAllCanExecutes;
             CurrentWorkflowStep = _viewModels.ElementAt(_selectedStepIndex);
             CurrentWorkflowStep.StateChanged += RaiseAllCanExecutes;
+            var commands = new List<NamedCommand>
+            {
+                new NamedCommand("Next", GoToNextCommand),
+                new NamedCommand("Previous", GoToPreviousCommand),
+                new NamedCommand("Home", GoToHomeCommand)
+            };
+            commands.AddRange(CurrentWorkflowStep.AdditionalCommands);
+            Commands = commands;
             RaiseAllCanExecutes();
         }
 
@@ -110,9 +129,26 @@ namespace SimplifyUi.Common.ViewModel
         }
     }
 
+    public class NamedCommand
+    {
+        public NamedCommand(string name, DelegateCommand command)
+        {
+            Name = name;
+            Command = command;
+        }
+        public string Name { get; set; }
+        public DelegateCommand Command { get; set; }
+    }
+
     public class WorkFlowStepViewModel
     {
+        public WorkFlowStepViewModel()
+        {
+            AdditionalCommands = new List<NamedCommand>();
+        }
+
         public event Action StateChanged;
+        public List<NamedCommand> AdditionalCommands { get; set; } 
         public virtual bool CanGoToNext { get; set; }
         public virtual bool CanGoToHome { get; set; }
         public virtual bool CanGoToPrevious { get; set; }
@@ -122,5 +158,11 @@ namespace SimplifyUi.Common.ViewModel
         {
             StateChanged?.Invoke();
         }
+
+        protected void AddCommand(NamedCommand command)
+        {
+            AdditionalCommands.Add(command);
+        }
+
     }
 }

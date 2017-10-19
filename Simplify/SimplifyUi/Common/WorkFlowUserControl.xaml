@@ -32,12 +32,21 @@
         </Grid>
         
         
-        <StackPanel Grid.Row="2"
+        <Grid Grid.Row="2"
                Height="35" HorizontalAlignment="Stretch"
-               VerticalAlignment="Top" Background="Blue" Orientation="Horizontal">
-            <Button Command="{Binding GoToNextCommand}" Width="60" Height="25" Margin="10,0,10,0" Content="Next"/>
-            <Button Command="{Binding GoToPreviousCommand}" Width="60" Height="25" Margin="10,0,10,0" Content="Previous"/>
-            <Button Command="{Binding GoToHomeCommand}" Width="60" Height="25" Margin="10,0,10,0" Content="Home"/>
-        </StackPanel>
+               VerticalAlignment="Top" Background="Blue">
+            <ItemsControl ItemsSource="{Binding Commands}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModel1:NamedCommand}">
+                        <Button Command="{Binding Command}" Width="60" Height="25" Margin="10,0,10,0" Content="{Binding Name}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" FlowDirection ="RightToLeft"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </UserControl>

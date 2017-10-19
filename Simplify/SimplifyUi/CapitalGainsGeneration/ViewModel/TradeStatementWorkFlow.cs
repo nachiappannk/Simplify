@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Commands;
 using Simplify.Application;
 using Simplify.ExcelDataGateway;
 using Simplify.Facade;
+using SimplifyUi.Annotations;
 using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 
@@ -62,18 +66,34 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
         }
     }
 
-    public class TradeStatementComputationStepViewModel : WorkFlowStepViewModel
+    public class TradeStatementComputationStepViewModel : WorkFlowStepViewModel, INotifyPropertyChanged
     {
         public event Action<ProcessedTradeStatementsContainer> StatementComputed;
         private string FileName { get; set; }
         private string SheetName { get; set; }
 
-        public List<Message> Messages { get; set; }
+        private List<Message> _messages;
 
+        public List<Message> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                if (_messages != value)
+                {
+                    _messages = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
+
+        private NamedCommand RefreshCommand { get; set; }
 
         public TradeStatementComputationStepViewModel()
         {
             Name = "Statement Computation";
+            RefreshCommand = new NamedCommand("Refresh", new DelegateCommand(Compute));
+            AddCommand(RefreshCommand);
         }
         public void Compute(string fileName, string sheetName)
         {
@@ -91,6 +111,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
 
             ProcessedTradeStatementsContainer processedTradeStatementsContainer =
                 new ProcessedTradeStatementsContainer(tradeLogs);
+
             Messages = logger.GetLogMessages();
 
             CanGoToHome = true;
@@ -100,6 +121,14 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             StatementComputed?.Invoke(processedTradeStatementsContainer);
 
             FireStateChanged();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

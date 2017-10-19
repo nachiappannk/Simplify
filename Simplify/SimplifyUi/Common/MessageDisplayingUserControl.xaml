@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="SimplifyUi.Common.MessageDisplayingUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimplifyUi.Common"
+             xmlns:viewModelTools="clr-namespace:SimplifyUi.Common.ViewModelTools"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance local:Messages}">
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModelTools:Message}">
+                <local:MessageUserControl MessageBrush="Yellow"></local:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:InformationMessage}">
+                <local:MessageUserControl MessageBrush="LawnGreen"></local:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:WarningMessage}">
+                <local:MessageUserControl MessageBrush="Yellow"></local:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:IgnorableErrorMessage}">
+                <local:MessageUserControl MessageBrush="LightPink"></local:MessageUserControl>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModelTools:ErrorMessage}">
+                <local:MessageUserControl MessageBrush="DeepPink"></local:MessageUserControl>
+            </DataTemplate>
+        </Grid.Resources>
+        <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Label DockPanel.Dock="Top" Content="Additional Information" FontSize="12"/>
+            <ScrollViewer Margin="10,0,0,0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl  ItemsSource="{Binding}"/>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
