@@ -14,15 +14,12 @@ namespace SimplifyUi
         public MainWindowViewModel()
         {
             BooksOfAccountGenerationWorkflowViewModel = new BooksOfAccountGenerationWorkflowViewModel();
-            CapitalGainWorkflowViewModel = new CapitalGainWorkflowViewModel();
             
-            WorkflowViewModel = new TradeStatementWorkFlow();
+            TradeStatementWorkFlow = new TradeStatementWorkFlow();
         }
 
         public BooksOfAccountGenerationWorkflowViewModel BooksOfAccountGenerationWorkflowViewModel { get; set; }
-
-        public CapitalGainWorkflowViewModel CapitalGainWorkflowViewModel { get; set; }
-
-        public WorkflowViewModel WorkflowViewModel { get; set; }
+        
+        public TradeStatementWorkFlow TradeStatementWorkFlow { get; set; }
     }
 }

@@ -66,15 +66,7 @@
                 <booksOfAccountGeneration:BooksOfAccountGenerationWorkflowUserControl 
                     DataContext="{Binding}"/>
             </TabItem>
-            <TabItem DataContext="{Binding CapitalGainWorkflowViewModel}">
-                <TabItem.Header>
-                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
-                               FontWeight="Bold"/>
-                </TabItem.Header>
-                <capitalGainsGeneration:CapitalGainsWorkflowUserControl
-                    DataContext="{Binding}"/>
-            </TabItem>
-            <TabItem DataContext="{Binding WorkflowViewModel}">
+            <TabItem DataContext="{Binding TradeStatementWorkFlow}">
                 <TabItem.Header>
                     <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="80" Height="40" FontSize="14" 
                                FontWeight="Bold"/>

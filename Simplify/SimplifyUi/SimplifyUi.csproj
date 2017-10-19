@@ -84,12 +84,6 @@
       <DependentUpon>BooksOfAccountInputUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountInputViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\CapitalGainsInputUserControl.xaml.cs">
-      <DependentUpon>CapitalGainsInputUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml.cs">
-      <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CapitalGainsGeneration\TradeStatementComputationStepUserControl.xaml.cs">
       <DependentUpon>TradeStatementComputationStepUserControl.xaml</DependentUpon>
     </Compile>
@@ -123,8 +117,6 @@
     </Compile>
     <Compile Include="Common\ViewModel\ExcelSheetSelectorViewModel.cs" />
     <Compile Include="Common\ViewModel\DisplayInformationViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainWorkflowViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\CapitalGainsInputViewModel.cs" />
     <Compile Include="Common\WorkFlowUserControl.xaml.cs">
       <DependentUpon>WorkFlowUserControl.xaml</DependentUpon>
     </Compile>
@@ -136,14 +128,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BooksOfAccountGeneration\BooksOfAccountInputUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CapitalGainsGeneration\CapitalGainsInputUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
