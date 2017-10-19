@@ -19,7 +19,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         private ProcessedTradeStatementsContainer _statementsContainer;
 
         private AssetNamesViewModel _assetNamesViewModel;
-
         public AssetNamesViewModel AssetNamesViewModel
         {
             get { return _assetNamesViewModel; }
@@ -33,30 +32,30 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
-        private List<OpenPositionTableRecord> _openPositions;
-        public List<OpenPositionTableRecord> OpenPositions
+        private OpenPositionViewModel _openPositionViewModel;
+        public OpenPositionViewModel OpenPositionViewModel
         {
-            get { return _openPositions; }
+            get { return _openPositionViewModel; }
             set
             {
-                if (_openPositions != value)
+                if (_openPositionViewModel != value)
                 {
-                    _openPositions = value;
+                    _openPositionViewModel = value;
                     FirePropertyChanged();
                 }
             } 
         }
 
-        private List<ProfitBookTableRecord> _profitBook;
+        private ProfitBookViewModel _profitBookViewModel;
 
-        public List<ProfitBookTableRecord> ProfitBook
+        public ProfitBookViewModel ProfitBookViewModel
         {
-            get { return _profitBook; }
+            get { return _profitBookViewModel; }
             set
             {
-                if (_profitBook != value)
+                if (_profitBookViewModel != value)
                 {
-                    _profitBook = value;
+                    _profitBookViewModel = value;
                     FirePropertyChanged();
                 }
             }
@@ -92,32 +91,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
             _statementsContainer = statementsContainer;
             AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
+            OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
             
-            OpenPositions = new List<OpenPositionTableRecord>();
-            OpenPositions.AddRange(_statementsContainer.OpenPositionBook.Select(x => new OpenPositionTableRecord
-            {
-                SerialNumber = x.SerialNumber,
-                Date = x.Date,
-                Name = x.Name,
-                Quantity = x.Quantity,
-                Value = x.Value,
-                TransactionTax = x.TransactionTax,
-                TransactionDetail = x.TransactionDetail,
-            }));
-            ProfitBook = new List<ProfitBookTableRecord>();
-            ProfitBook.AddRange(_statementsContainer.ProfitBook.Select(x => new ProfitBookTableRecord()
-            {
-                Name = x.Name,
-                Quantity = x.Quantity,
-                PurchaseDate = x.PurchaseDate,
-                PurchaseValue = x.PurchaseValue,
-                PurchaseTransactionTax = x.PurchaseTransactionTax,
-                PurchaseTransactionDetail = x.PurchaseTransactionDetail,
-                SaleDate = x.SaleDate,
-                SaleValue = x.SaleValue,
-                SaleTransactionDetail = x.SaleTransactionDetail,
-                SaleTransactionTax = x.SaleTransactionTax,
-            }));
+            ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
             AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
             EffectiveCostBook = new List<CostStatement>();
             EffectiveCostBook.AddRange(_statementsContainer.EffectiveCostStatementBook.Select(x => x));
@@ -203,29 +179,5 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
     }
 
 
-    public class OpenPositionTableRecord
-    {
-        public int SerialNumber { get; set; }
-        public DateTime Date { get; set; }
-        public string Name { get; set; }
-        public double Quantity { get; set; }
-        public double Value { get; set; }
-        public string TransactionTax { get; set; }
-        public string TransactionDetail { get; set; }
-    }
-
-    public class ProfitBookTableRecord
-    {
-        public string Name { get; set; }
-        public double Quantity { get; set; }
-        public DateTime PurchaseDate { get; set; }
-        public double PurchaseValue { get; set; }
-        public string PurchaseTransactionTax { get; set; }
-        public string PurchaseTransactionDetail { get; set; }
-        public DateTime SaleDate { get; set; }
-        public double SaleValue { get; set; }
-        public string SaleTransactionTax { get; set; }
-        public string SaleTransactionDetail { get; set; }
-    }
-
+    
 }

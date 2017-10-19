@@ -35,12 +35,12 @@
             </TabItem>
             <TabItem Header="Open Positions">
                 <Grid>
-                    <DataGrid ItemsSource="{Binding OpenPositions}"/>
+                    <DataGrid ItemsSource="{Binding OpenPositionViewModel.OpenPositions}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
-                    <DataGrid  ItemsSource="{Binding ProfitBook}"/>
+                    <DataGrid  ItemsSource="{Binding ProfitBookViewModel.ProfitBook }" AutoGeneratingColumn="OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
             <TabItem Header="Summary" DataContext="{Binding AssetSummary}">
