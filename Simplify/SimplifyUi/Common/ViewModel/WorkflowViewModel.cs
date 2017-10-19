@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -127,42 +126,5 @@ namespace SimplifyUi.Common.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class NamedCommand
-    {
-        public NamedCommand(string name, DelegateCommand command)
-        {
-            Name = name;
-            Command = command;
-        }
-        public string Name { get; set; }
-        public DelegateCommand Command { get; set; }
-    }
-
-    public class WorkFlowStepViewModel
-    {
-        public WorkFlowStepViewModel()
-        {
-            AdditionalCommands = new List<NamedCommand>();
-        }
-
-        public event Action StateChanged;
-        public List<NamedCommand> AdditionalCommands { get; set; } 
-        public virtual bool CanGoToNext { get; set; }
-        public virtual bool CanGoToHome { get; set; }
-        public virtual bool CanGoToPrevious { get; set; }
-
-        public string Name { get; set; }
-        protected virtual void FireStateChanged()
-        {
-            StateChanged?.Invoke();
-        }
-
-        protected void AddCommand(NamedCommand command)
-        {
-            AdditionalCommands.Add(command);
-        }
-
     }
 }

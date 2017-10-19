@@ -100,10 +100,15 @@
       <DependentUpon>TradeStatementResultStepUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ViewModel\NamedCommand.cs" />
+    <Compile Include="Common\ViewModel\WorkFlowStepViewModel.cs" />
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="Common\DisplayInformationUserControl.xaml.cs">
       <DependentUpon>DisplayInformationUserControl.xaml</DependentUpon>
