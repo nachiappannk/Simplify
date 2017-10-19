@@ -17,5 +17,26 @@
                 <common:SaveFileAction/>
             </interactionRequest:InteractionRequestTrigger>
         </i:Interaction.Triggers>
+        <TabControl>
+            <TabItem Header="Asset Names">
+                <DataGrid  ItemsSource="{Binding AssetNamesViewModel.AssetNames}" IsReadOnly="True" ColumnWidth="Auto"></DataGrid>
+            </TabItem>
+            <TabItem Header="Open Positions">
+                <DataGrid ItemsSource="{Binding OpenPositions}" IsReadOnly="True" ColumnWidth="Auto"></DataGrid>
+            </TabItem>
+            <TabItem Header="Profit book">
+                <DataGrid  ItemsSource="{Binding ProfitBook}" IsReadOnly="True" ColumnWidth="Auto"></DataGrid>
+            </TabItem>
+            <TabItem Header="Summary" DataContext="{Binding AssetSummary}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <ComboBox Grid.Row="0" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}"></ComboBox>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" IsReadOnly="True" ColumnWidth="Auto"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>
