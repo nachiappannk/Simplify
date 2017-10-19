@@ -19,9 +19,12 @@
             <DataTemplate DataType="{x:Type viewModel:DisplayInformationViewModel}">
                 <common:DisplayInformationUserControl/>
             </DataTemplate>
-                <DataTemplate DataType="{x:Type viewModel:WorkflowViewModel}">
-                    <common:WorkFlowUserControl/>
-                </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:WorkflowViewModel}">
+                <common:WorkFlowUserControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel1:TradeStatementInputStepViewModel}">
+                <capitalGainsGeneration:TradeStatementInputStepUserControl/>
+            </DataTemplate>
             </Grid.Resources>
         <TabControl TabStripPlacement="Left">
             <TabControl.Resources>

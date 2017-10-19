@@ -15,21 +15,8 @@ namespace SimplifyUi
         {
             BooksOfAccountGenerationWorkflowViewModel = new BooksOfAccountGenerationWorkflowViewModel();
             CapitalGainWorkflowViewModel = new CapitalGainWorkflowViewModel();
-
-            var test1 = new WorkFlowStepViewModel()
-            {
-                CanGoToNext = true,
-                CanGoToPrevious = false,
-                CanGoToHome = true,
-            };
-
-            var test2 = new WorkFlowStepViewModel()
-            {
-                CanGoToNext = false,
-                CanGoToPrevious = true,
-                CanGoToHome = true,
-            };
-            WorkflowViewModel = new WorkflowViewModel("Test", test1, test2);
+            
+            WorkflowViewModel = new TradeStatementWorkFlow();
         }
 
         public BooksOfAccountGenerationWorkflowViewModel BooksOfAccountGenerationWorkflowViewModel { get; set; }

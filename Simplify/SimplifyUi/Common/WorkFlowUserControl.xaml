@@ -19,7 +19,19 @@
                Height="35" Content="{Binding Name}" HorizontalAlignment="Stretch"
                VerticalAlignment="Top" Background="Blue" FontWeight="Bold" FontSize="18" Foreground="White" 
                VerticalContentAlignment="Center"/>
-
+        <Grid Grid.Row="1" DataContext="{Binding CurrentWorkflowStep}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Height="35" Content="{Binding Name}" HorizontalAlignment="Stretch"
+                   VerticalAlignment="Top" Background="LightSkyBlue" FontWeight="Bold" FontSize="18" Foreground="White" 
+                   VerticalContentAlignment="Center"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding}"/>
+        </Grid>
+        
+        
         <StackPanel Grid.Row="2"
                Height="35" HorizontalAlignment="Stretch"
                VerticalAlignment="Top" Background="Blue" Orientation="Horizontal">

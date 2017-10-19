@@ -90,7 +90,11 @@
     <Compile Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml.cs">
       <DependentUpon>CapitalGainsWorkflowUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CapitalGainsGeneration\TradeStatementInputStepUserControl.xaml.cs">
+      <DependentUpon>TradeStatementInputStepUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />
     <Compile Include="Common\DisplayInformationUserControl.xaml.cs">
       <DependentUpon>DisplayInformationUserControl.xaml</DependentUpon>
@@ -126,6 +130,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CapitalGainsGeneration\CapitalGainsWorkflowUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapitalGainsGeneration\TradeStatementInputStepUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

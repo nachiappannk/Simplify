@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,7 @@ namespace SimplifyUi.Common.ViewModel
 {
     public class WorkflowViewModel : INotifyPropertyChanged
     {
-        private readonly WorkFlowStepViewModel[] _viewModels;
+        private readonly List<WorkFlowStepViewModel> _viewModels;
         private int _selectedStepIndex = 0;
         public string Name { get; set; }
 
@@ -33,18 +34,20 @@ namespace SimplifyUi.Common.ViewModel
             }
         }
 
-        public WorkflowViewModel(string workflowName, params WorkFlowStepViewModel[] viewModels )
+        public WorkflowViewModel(string workflowName)
         {
-            _viewModels = viewModels;
+            _viewModels = new List<WorkFlowStepViewModel>();
             Name = workflowName;
-
-
-
             GoToNextCommand = new DelegateCommand(GoToNext, CanGotoNext);
             GoToPreviousCommand = new DelegateCommand(GoToPrevious, CanGoToPrevious);
             GoToHomeCommand = new DelegateCommand(GoToHome, CanGoToHome);
+        }
 
-            if(viewModels.Length != 0) SelectWorkflowStep(0);
+        protected void AddWorkFlowStep(WorkFlowStepViewModel stepViewModel)
+        {
+            _viewModels.Add(stepViewModel);
+            SelectWorkflowStep(0);
+
         }
 
         private void SelectWorkflowStep(int index)
@@ -114,6 +117,7 @@ namespace SimplifyUi.Common.ViewModel
         public virtual bool CanGoToHome { get; set; }
         public virtual bool CanGoToPrevious { get; set; }
 
+        public string Name { get; set; }
         protected virtual void FireStateChanged()
         {
             StateChanged?.Invoke();
