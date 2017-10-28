@@ -30,17 +30,17 @@
             </TabControl.Resources>
             <TabItem Header="Asset Names">
                 <Grid>
-                    <DataGrid  ItemsSource="{Binding AssetNamesViewModel.AssetNames}" AutoGeneratingColumn="OnAutoGeneratingColumn" />
+                    <common:FormatableDataGrid  ItemsSource="{Binding AssetNamesViewModel.AssetNames}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Open Positions">
                 <Grid>
-                    <DataGrid ItemsSource="{Binding OpenPositionViewModel.OpenPositions}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
+                    <common:FormatableDataGrid ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
-                    <DataGrid  ItemsSource="{Binding ProfitBookViewModel.ProfitBook }" AutoGeneratingColumn="OnAutoGeneratingColumn" />
+                    <common:FormatableDataGrid  ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Summary" DataContext="{Binding AssetSummary}">
@@ -53,12 +53,12 @@
                         <TextBlock Text="Asset Name: " Width="Auto" Height="25" VerticalAlignment="Top" Foreground="Blue" FontWeight="Bold"/>
                         <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}" Width="Auto"/>
                     </StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
+                    <common:FormatableDataGrid Grid.Row="1" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Average Cost">
                 <Grid>
-                    <DataGrid ItemsSource="{Binding ConstBookViewModel.CostBookRecords}" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
+                    <common:FormatableDataGrid ItemsSource="{Binding ConstBookViewModel.CostBookRecords}"/>
                 </Grid>
             </TabItem>
         </TabControl>
