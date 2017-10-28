@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
@@ -64,40 +65,62 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
     public class AssetSummaryRecord
     {
+
         public AssetSummaryRecord(SquarableStatement x)
         {
             Name = x.Name;
-            Quantity = x.Quantity.ToStringWithNumberOfDecimals(2);
-            PurchaseDate = x.PurchaseDate.ToStringDisplayable();
-            PurchaseValue = x.PurchaseValue.ToStringWithNumberOfDecimals(2);
-            PurchasePerUnit = x.GetCostPerUnit().ToStringWithNumberOfDecimals(2);
-            SaleDate = x.IsSquared? x.SaleDate.ToStringDisplayable(): String.Empty;
-            SaleValue = x.IsSquared ? x.SaleValue.ToStringWithNumberOfDecimals(2) : String.Empty;
-            SalePerUnit = x.IsSquared ? x.GetSalePerUnit().ToStringWithNumberOfDecimals(2) : String.Empty;
-            Profit = x.IsSquared ? x.GetProfit().ToStringWithNumberOfDecimals(2) : String.Empty;
+            Quantity = x.Quantity;
+            PurchaseDate = x.PurchaseDate;
+            PurchaseValue = x.PurchaseValue;
+            PurchasePerUnit = x.GetCostPerUnit();
+
+            if (x.IsSquared)
+            {
+                SaleDate = x.SaleDate;
+                SaleValue = x.SaleValue;
+                SalePerUnit = x.GetSalePerUnit();
+                Profit = x.GetProfit();
+            }
+            else
+            {
+                SaleDate = null;
+                SaleValue = null;
+                SalePerUnit =null;
+                Profit = null;
+            }
         }
 
         public string Name { get; set; }
-        public string Quantity { get; set; }
+
+        [DisplayFormat(DataFormatString = "#.###")]
+        public double Quantity { get; set; }
 
         [DisplayName("Purchase Date")]
-        public string PurchaseDate { get; set; }
+        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
+        public DateTime? PurchaseDate { get; set; }
 
         [DisplayName("Cost")]
-        public string PurchaseValue { get; set; }
+        [DisplayFormat(DataFormatString = "N2")]
+        public double PurchaseValue { get; set; }
 
 
+        [DisplayFormat(DataFormatString = "N2")]
         [DisplayName("Cost per Unit")]
-        public string PurchasePerUnit { get; set; }
+        public double PurchasePerUnit { get; set; }
 
+        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
         [DisplayName("Sale Date")]
-        public string SaleDate { get; set; }
+        public DateTime? SaleDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "N2")]
         [DisplayName("Sale Value")]
-        public string SaleValue { get; set; }
+        public double? SaleValue { get; set; }
 
         [DisplayName("Sale per Unit")]
-        public string SalePerUnit { get; set; }
-        public string Profit { get; set; }
+        [DisplayFormat(DataFormatString = "N2")]
+        public double? SalePerUnit { get; set; }
+
+        [DisplayFormat(DataFormatString = "N2")]
+        public double? Profit { get; set; }
     }
 }
