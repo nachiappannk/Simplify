@@ -70,8 +70,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             Quantity = x.Quantity.ToStringWithNumberOfDecimals(2);
             PurchaseDate = x.PurchaseDate.ToStringDisplayable();
             PurchaseValue = x.PurchaseValue.ToStringWithNumberOfDecimals(2);
+            PurchasePerUnit = x.GetCostPerUnit().ToStringWithNumberOfDecimals(2);
             SaleDate = x.IsSquared? x.SaleDate.ToStringDisplayable(): String.Empty;
             SaleValue = x.IsSquared ? x.SaleValue.ToStringWithNumberOfDecimals(2) : String.Empty;
+            SalePerUnit = x.IsSquared ? x.GetSalePerUnit().ToStringWithNumberOfDecimals(2) : String.Empty;
             Profit = x.IsSquared ? x.GetProfit().ToStringWithNumberOfDecimals(2) : String.Empty;
         }
 
@@ -84,11 +86,18 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayName("Cost")]
         public string PurchaseValue { get; set; }
 
+
+        [DisplayName("Cost per Unit")]
+        public string PurchasePerUnit { get; set; }
+
         [DisplayName("Sale Date")]
         public string SaleDate { get; set; }
 
         [DisplayName("Sale Value")]
         public string SaleValue { get; set; }
+
+        [DisplayName("Sale per Unit")]
+        public string SalePerUnit { get; set; }
         public string Profit { get; set; }
     }
 }

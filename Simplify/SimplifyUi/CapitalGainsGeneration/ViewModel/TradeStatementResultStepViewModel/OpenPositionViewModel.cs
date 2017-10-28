@@ -20,6 +20,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 Cost = x.Value,
                 TransactionTax = x.TransactionTax,
                 TransactionDetail = x.TransactionDetail,
+                CostPerUnit = x.GetAverageValue(),
             }));
         }
     }
@@ -30,6 +31,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public string Name { get; set; }
         public double Quantity { get; set; }
         public double Cost { get; set; }
+
+        [DisplayName("Cost Per Unit")]
+        public double CostPerUnit { get; set; }
 
         [DisplayName("Transaction Detail")]
         public string TransactionDetail { get; set; }

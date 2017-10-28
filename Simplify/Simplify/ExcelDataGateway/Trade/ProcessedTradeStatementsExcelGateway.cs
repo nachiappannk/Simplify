@@ -67,13 +67,20 @@ namespace Simplify.ExcelDataGateway.Trade
             [ExcelColumn(4, "Cost", 16)]
             public double Cost { get; set; }
 
-            [ExcelColumn(5, "Sale Date", 16)] 
+
+            [ExcelColumn(5, "Average Cost", 16)]
+            public double CostPerUnit { get; set; }
+
+            [ExcelColumn(6, "Sale Date", 16)] 
             public Object SaleDate { get; set; } = string.Empty;
 
-            [ExcelColumn(6, "Sale", 16)]
+            [ExcelColumn(7, "Sale", 16)]
             public object Sale { get; set; } = string.Empty;
 
-            [ExcelColumn(7, "Profit", 16)]
+            [ExcelColumn(8, "Average Sale", 16)]
+            public object SalePerUnit { get; set; } = string.Empty;
+
+            [ExcelColumn(9, "Profit", 16)]
             public object Profit { get; set; } = string.Empty;
         }
 
@@ -151,10 +158,13 @@ namespace Simplify.ExcelDataGateway.Trade
                     Name = x.Name,
                     PurchaseDate = x.PurchaseDate,
                     Cost = x.PurchaseValue,
-                    Quantity = x.Quantity
+                    Quantity = x.Quantity,
+                    CostPerUnit = x.GetCostPerUnit(),
+                    
                 };
                 if (x.IsSquared) record.SaleDate = x.SaleDate;
                 if (x.IsSquared) record.Sale = x.SaleValue;
+                if (x.IsSquared) record.SalePerUnit = x.GetSalePerUnit();
                 if (x.IsSquared) record.Profit = x.GetProfit();
 
                 return record;

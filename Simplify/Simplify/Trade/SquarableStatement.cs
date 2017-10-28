@@ -66,6 +66,16 @@ namespace Simplify.Trade
             return squarableStatement.SaleValue - squarableStatement.PurchaseValue;
         }
 
+        public static double GetSalePerUnit(this SquarableStatement squarableStatement)
+        {
+            return squarableStatement.SaleValue / squarableStatement.Quantity;
+        }
+
+        public static double GetCostPerUnit(this SquarableStatement squarableStatement)
+        {
+            return squarableStatement.PurchaseValue / squarableStatement.Quantity;
+        }
+
         public static int GetNumberOfHoldingDays(this SquarableStatement squarableStatement)
         {
             var result = squarableStatement.SaleDate - squarableStatement.PurchaseDate;

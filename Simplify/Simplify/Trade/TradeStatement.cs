@@ -13,4 +13,12 @@ namespace Simplify.Trade
         public string TransactionTax { get; set; }
         public string TransactionDetail { get; set; }
     }
+
+    public static class TradeStatementExtentions
+    {
+        public static double GetAverageValue(this TradeStatement tradeStatement)
+        {
+            return tradeStatement.Value / tradeStatement.Quantity;
+        }
+    }
 }
