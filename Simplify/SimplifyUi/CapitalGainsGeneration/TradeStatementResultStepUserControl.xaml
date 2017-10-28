@@ -20,7 +20,7 @@
         </i:Interaction.Triggers>
         <TabControl>
             <TabControl.Resources>
-                <Style TargetType="{x:Type DataGrid}">
+                <Style TargetType="{x:Type common:FormatableDataGrid}">
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="IsReadOnly" Value="True"/>
