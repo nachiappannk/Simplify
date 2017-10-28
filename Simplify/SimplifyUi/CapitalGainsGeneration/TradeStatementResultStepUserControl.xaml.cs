@@ -42,66 +42,73 @@ namespace SimplifyUi.CapitalGainsGeneration
             }
         }
 
+
+        public static bool IsObjectOfType<T>(object obj) where T:class
+        {
+            var propertyDescriptor = obj as T;
+            return propertyDescriptor != null;
+        }
+
+        public static T GetObjectAsType<T>(object obj) where T : class
+        {
+            var propertyDescriptor = obj as T;
+            return propertyDescriptor;
+        }
+
+        public static bool TryGetAttribute<T>(PropertyDescriptor propertyDescriptor, out T t) where T:class
+        {
+            var attribute = propertyDescriptor.Attributes[typeof(T)] as T;
+            t = attribute;
+            return attribute != null;
+        }
+
+        public static bool TryGetAttribute<T>(PropertyInfo propertyInfo, out T t) where T : class
+        {
+            var attributes = propertyInfo.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+            if (attributes.Length == 0)
+            {
+                t = default(T);
+                return false;
+            }
+            t = attributes.ElementAt(0) as T;
+            return true;
+        }
+
         public static string GetColumnName(object descriptor)
         {
-            var propertyDescriptor = descriptor as PropertyDescriptor;
-
-            if (propertyDescriptor != null)
+            
+            if (IsObjectOfType<PropertyDescriptor>(descriptor))
             {
-                var displayNameAttribute = propertyDescriptor.Attributes[typeof(DisplayNameAttribute)] as DisplayNameAttribute;
-
-                if (displayNameAttribute != null && !Equals(displayNameAttribute, DisplayNameAttribute.Default))
-                {
-                    return displayNameAttribute.DisplayName;
-                }
-                return String.Empty;
+                var propertyDescriptor = GetObjectAsType<PropertyDescriptor>(descriptor);
+                DisplayNameAttribute displayNameAttribute = null;
+                return TryGetAttribute(propertyDescriptor, out displayNameAttribute) ? displayNameAttribute.DisplayName : string.Empty;
             }
-            var propertyInfo = descriptor as PropertyInfo;
-            if (propertyInfo != null)
+            
+            if (IsObjectOfType<PropertyInfo>(descriptor))
             {
-                Object[] attributes = propertyInfo.GetCustomAttributes(typeof(DisplayNameAttribute), true);
-                for (int i = 0; i < attributes.Length; ++i)
-                {
-                    var displayName = attributes[i] as DisplayNameAttribute;
-                    if (displayName != null && !Equals(displayName, DisplayNameAttribute.Default))
-                    {
-                        return displayName.DisplayName;
-                    }
-                }
-                return String.Empty;
+                var propertyInfo = GetObjectAsType<PropertyInfo>(descriptor);
+                DisplayNameAttribute displayNameAttribute = null;
+                return TryGetAttribute(propertyInfo, out displayNameAttribute) ? displayNameAttribute.DisplayName : string.Empty;
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         public static string GetColumnFormat(object descriptor)
         {
-            var propertyDescriptor = descriptor as PropertyDescriptor;
-
-            if (propertyDescriptor != null)
+            if (IsObjectOfType<PropertyDescriptor>(descriptor))
             {
-                var displayFormatAttribute = propertyDescriptor.Attributes[typeof(DisplayFormatAttribute)] as DisplayFormatAttribute;
+                var propertyDescriptor = GetObjectAsType<PropertyDescriptor>(descriptor);
+                DisplayFormatAttribute displayFormatAttribute = null;
+                return TryGetAttribute(propertyDescriptor, out displayFormatAttribute) ? displayFormatAttribute.DataFormatString : string.Empty;
+            }
 
-                if (displayFormatAttribute != null)
-                {
-                    return displayFormatAttribute.DataFormatString;
-                }
-                return String.Empty;
-            }
-            var propertyInfo = descriptor as PropertyInfo;
-            if (propertyInfo != null)
+            if (IsObjectOfType<PropertyInfo>(descriptor))
             {
-                Object[] attributes = propertyInfo.GetCustomAttributes(typeof(DisplayFormatAttribute), true);
-                for (int i = 0; i < attributes.Length; ++i)
-                {
-                    var displayName = attributes[i] as DisplayFormatAttribute;
-                    if (displayName != null)
-                    {
-                        return displayName.DataFormatString;
-                    }
-                }
-                return String.Empty;
+                var propertyInfo = GetObjectAsType<PropertyInfo>(descriptor);
+                DisplayFormatAttribute displayFormatAttribute = null;
+                return TryGetAttribute(propertyInfo, out displayFormatAttribute) ? displayFormatAttribute.DataFormatString : string.Empty;
             }
-            return String.Empty;
+            return string.Empty;
         }
     }
 }
