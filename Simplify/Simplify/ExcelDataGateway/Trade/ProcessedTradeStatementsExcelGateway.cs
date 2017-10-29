@@ -148,7 +148,7 @@ namespace Simplify.ExcelDataGateway.Trade
         private static void WriteSumary(ProcessedTradeStatementsContainer container, ExcelWriter writer)
         {
             List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
-            foreach (var namedBook in container.AssetSummaryBooks)
+            foreach (var namedBook in container.OpenAssetSummaryBooks)
                 summaryStatements.AddRange(namedBook.Value);
 
             var summaryRecords = summaryStatements.Select(x =>
