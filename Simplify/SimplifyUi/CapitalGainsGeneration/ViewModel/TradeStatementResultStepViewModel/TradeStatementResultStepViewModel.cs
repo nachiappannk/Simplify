@@ -74,7 +74,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
-        public AssetSummary AssetSummary { get; set; }
+        public AssetSummary HoldingAssetSummary { get; set; }
+
+        public AssetSummary ClosedAssetSummary { get; set; }
 
         private NamedCommand SaveCommand;
 
@@ -95,7 +97,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
             OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
-            AssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
+            HoldingAssetSummary = new AssetSummary(_statementsContainer.AssetSummaryBooks);
+            ClosedAssetSummary = new AssetSummary(_statementsContainer.ZeroPositionSummaryBooks);
             ConstBookViewModel = new CostBookViewModel(_statementsContainer);
 
         }

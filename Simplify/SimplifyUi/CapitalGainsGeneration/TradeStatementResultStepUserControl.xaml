@@ -43,7 +43,20 @@
                     <common:FormatableDataGrid  ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Summary" DataContext="{Binding AssetSummary}">
+            <TabItem Header="Summary" DataContext="{Binding HoldingAssetSummary}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,10,0,10">
+                        <TextBlock Text="Asset Name: " Width="Auto" Height="25" VerticalAlignment="Top" Foreground="Blue" FontWeight="Bold"/>
+                        <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}" Width="Auto"/>
+                    </StackPanel>
+                    <common:FormatableDataGrid Grid.Row="1" ItemsSource="{Binding Records}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Summary (0)" DataContext="{Binding ClosedAssetSummary}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

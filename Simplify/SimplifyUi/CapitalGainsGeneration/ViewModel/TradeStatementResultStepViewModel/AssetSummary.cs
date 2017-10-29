@@ -18,7 +18,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
             _dictionary = dictionary;
             AssetNames = dictionary.Keys.ToList();
-            SelectedAsset = AssetNames.ElementAt(0);
+            if(AssetNames.Count >0) SelectedAsset = AssetNames.ElementAt(0);
 
         }
         public List<string> AssetNames { get; set; }
