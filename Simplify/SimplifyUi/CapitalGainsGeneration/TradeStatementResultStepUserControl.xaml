@@ -26,6 +26,14 @@
                     <Setter Property="IsReadOnly" Value="True"/>
                     <Setter Property="ColumnWidth" Value="Auto"/>
                     <Setter Property="Margin" Value="4"/>
+                    <Setter Property="AlternationCount" Value="2" />
+                </Style>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="AliceBlue"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </TabControl.Resources>
             <TabItem Header="Asset Names">
