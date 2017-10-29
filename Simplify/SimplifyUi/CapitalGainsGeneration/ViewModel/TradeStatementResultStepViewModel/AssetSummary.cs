@@ -10,17 +10,26 @@ using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public class AssetSummary : INotifyPropertyChanged
+    public abstract class AssetSummary<T> : INotifyPropertyChanged
     {
-        private readonly Dictionary<string, List<SquarableStatement>> _dictionary;
+        protected readonly Dictionary<string, T> _dictionary;
 
-        public AssetSummary(Dictionary<string,List<SquarableStatement>> dictionary)
+        protected AssetSummary(Dictionary<string,T> dictionary)
         {
             _dictionary = dictionary;
             AssetNames = dictionary.Keys.ToList();
-            if(AssetNames.Count >0) SelectedAsset = AssetNames.ElementAt(0);
-
+            if (AssetNames.Count > 0)
+            {
+                SelectedAsset = AssetNames.ElementAt(0);
+                IsEnabled = true;
+            }
+            else
+            {
+                IsEnabled = false;
+            }
         }
+
+        public bool IsEnabled { get; set; }
         public List<string> AssetNames { get; set; }
 
         private string _selectedAsset;
@@ -33,11 +42,13 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 if (_selectedAsset != value)
                 {
                     _selectedAsset = value;
-                    var records = _dictionary[_selectedAsset];
-                    Records = records.Select(x => new AssetSummaryRecord(x)).ToList();
+                    OnAssetSelectedChanged(_selectedAsset);
                 }
             }
         }
+
+        protected abstract void OnAssetSelectedChanged(string selectedAsset);
+
 
         private List<AssetSummaryRecord> _records;
         public List<AssetSummaryRecord> Records
