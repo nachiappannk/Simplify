@@ -33,5 +33,16 @@ namespace Simplify.Trade
                 return  openPositions.Sum(x => x.PurchaseValue);
             }
         }
+
+        public double RealizedProfit
+        {
+            get
+            {
+                var closedPartOfStatement = this.Where(x => x.IsSquared).ToList();
+                return closedPartOfStatement.Sum(x => x.SaleValue - x.PurchaseValue);
+            }
+        }
+
+        
     }
 }

@@ -18,6 +18,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             OpenQuantity = openAssetSummaryBook.QuanityOfOpenPosition;
             AverageCost = openAssetSummaryBook.AverageCost;
             OpenPositionCost = openAssetSummaryBook.OpenPositionCost;
+            RealizedProfit = openAssetSummaryBook.RealizedProfit;
         }
 
 
@@ -59,6 +60,20 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 if (Math.Abs(_openPositionCost - value) > 0.001)
                 {
                     _openPositionCost = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
+
+        private double _realizedProfit;
+        public double RealizedProfit
+        {
+            get { return _realizedProfit; }
+            set
+            {
+                if (Math.Abs(_realizedProfit - value) > 0.001)
+                {
+                    _realizedProfit = value;
                     FirePropertyChanged();
                 }
             }
