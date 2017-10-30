@@ -66,6 +66,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -78,6 +79,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Effective Cost" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AverageCost, StringFormat=N2}" Width="Auto"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Open Position Cost" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding OpenPositionCost, StringFormat=N2}" Width="Auto"/>
                     </Grid>
                     <common:FormatableDataGrid Grid.Row="2" ItemsSource="{Binding Records}" />
                 </Grid>

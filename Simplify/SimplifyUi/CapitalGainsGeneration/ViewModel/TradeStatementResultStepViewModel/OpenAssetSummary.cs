@@ -17,6 +17,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             Records = openAssetSummaryBook.Select(x => new AssetSummaryRecord(x)).ToList();
             OpenQuantity = openAssetSummaryBook.QuanityOfOpenPosition;
             AverageCost = openAssetSummaryBook.AverageCost;
+            OpenPositionCost = openAssetSummaryBook.OpenPositionCost;
         }
 
 
@@ -49,5 +50,18 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
+        private double _openPositionCost;
+        public double OpenPositionCost
+        {
+            get { return _openPositionCost; }
+            set
+            {
+                if (Math.Abs(_openPositionCost - value) > 0.001)
+                {
+                    _openPositionCost = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
     }
 }

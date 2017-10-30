@@ -25,5 +25,13 @@ namespace Simplify.Trade
             }
         }
 
+        public double OpenPositionCost
+        {
+            get
+            {
+                var openPositions = this.Where(x => x.IsSquared == false).ToList();
+                return  openPositions.Sum(x => x.PurchaseValue);
+            }
+        }
     }
 }
