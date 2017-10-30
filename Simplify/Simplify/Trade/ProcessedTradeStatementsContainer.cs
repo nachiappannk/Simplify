@@ -9,7 +9,7 @@ namespace Simplify.Trade
         public List<TradeStatement> OpenPositionBook { get; private set; }
         public List<SquarableStatement> ProfitBook { get; set; }
         public Dictionary<string, OpenAssetSummaryBook> OpenAssetSummaryBooks { get; private set; }
-        public Dictionary<string, List<SquarableStatement>> ClosedAssetSummaryBooks { get; private set; }
+        public Dictionary<string, ClosedAssetSummaryBook> ClosedAssetSummaryBooks { get; private set; }
         public List<CostStatement> EffectiveCostStatementBook { get; private set; }
 
 
@@ -40,7 +40,7 @@ namespace Simplify.Trade
             var allStatements = ProfitBook.ToList();
             allStatements.AddRange(OpenPositionBook.Select(x => new SquarableStatement(x)));
             OpenAssetSummaryBooks = new Dictionary<string, OpenAssetSummaryBook>();
-            ClosedAssetSummaryBooks = new Dictionary<string, List<SquarableStatement>>();
+            ClosedAssetSummaryBooks = new Dictionary<string, ClosedAssetSummaryBook>();
             foreach (var name in AssetNamesBook)
             {
                 var bookStatements = allStatements.Where(x => x.Name.Equals(name)).ToList();
@@ -52,7 +52,9 @@ namespace Simplify.Trade
                 }
                 else
                 {
-                    ClosedAssetSummaryBooks.Add(name, bookStatements);
+                    var book = new ClosedAssetSummaryBook();
+                    book.AddRange(bookStatements);
+                    ClosedAssetSummaryBooks.Add(name, book);
                 }
             }
         }
