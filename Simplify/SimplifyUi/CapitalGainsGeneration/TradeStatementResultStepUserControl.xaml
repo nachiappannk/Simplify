@@ -55,8 +55,6 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
@@ -64,18 +62,24 @@
                         <TextBlock Text="Asset Name: " Width="Auto" Height="25" VerticalAlignment="Top" Foreground="Blue" FontWeight="Bold"/>
                         <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}" Width="Auto"/>
                     </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,10,0,10">
-                        <TextBlock Text="Available Quantity" Width="Auto" Height="25" VerticalAlignment="Top"/>
-                        <TextBlock Height="25" VerticalAlignment="Top" Text="{Binding OpenQuantity}" Width="Auto"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,10,0,10">
-                        <TextBlock Text="Effective Cost" Width="Auto" Height="25" VerticalAlignment="Top"/>
-                        <TextBlock Height="25" VerticalAlignment="Top" Text="{Binding AverageCost}" Width="Auto"/>
-                    </StackPanel>
-                    
-                    <common:FormatableDataGrid Grid.Row="4" ItemsSource="{Binding Records}" />
+                    <Grid Grid.Row="1" Margin="0,10,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Available Quantity" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OpenQuantity, StringFormat=#.##}" Width="Auto"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Effective Cost" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AverageCost, StringFormat=N2}" Width="Auto"/>
+                    </Grid>
+                    <common:FormatableDataGrid Grid.Row="2" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Summary (0)" DataContext="{Binding ClosedAssetSummary}">
