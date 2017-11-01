@@ -85,6 +85,9 @@
       <DependentUpon>BooksOfAccountInputUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountInputViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\AssetPurchaseInformationUserControl.xaml.cs">
+      <DependentUpon>AssetPurchaseInformationUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CapitalGainsGeneration\TradeStatementComputationStepUserControl.xaml.cs">
       <DependentUpon>TradeStatementComputationStepUserControl.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BooksOfAccountGeneration\BooksOfAccountInputUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapitalGainsGeneration\AssetPurchaseInformationUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,9 +17,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         public AssetEvaluationBookViewModel(AssetEvalutionBook book)
         {
-            TotalCostOfOpenPosition = new ViewModelProperty<double>();
-            CurrentValueOfOpenPosition = new ViewModelProperty<double?>();
-            UnrealizedProfit = new ViewModelProperty<double?>();
+            TotalCostOfOpenPosition = new ViewModelDoubleProperty();
+            CurrentValueOfOpenPosition = new ViewModelNullableDoubleProperty();
+            UnrealizedProfit = new ViewModelNullableDoubleProperty();
 
             _book = book;
             Statements = book.Statements.Select(y => new AssetEvaluationRecord(y)).ToList();
@@ -39,12 +39,20 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         public List<AssetEvaluationRecord> Statements { get; set; }
 
-        public ViewModelProperty<double> TotalCostOfOpenPosition { get; set; }
+        public ViewModelDoubleProperty TotalCostOfOpenPosition { get; set; }
 
-        public ViewModelProperty<double?> CurrentValueOfOpenPosition { get; set; }
+        public ViewModelNullableDoubleProperty CurrentValueOfOpenPosition { get; set; }
 
-        public ViewModelProperty<double?> UnrealizedProfit { get; set; }
+        public ViewModelNullableDoubleProperty UnrealizedProfit { get; set; }
 
+    }
+
+    public class ViewModelDoubleProperty : ViewModelProperty<double>
+    {
+    }
+
+    public class ViewModelNullableDoubleProperty : ViewModelProperty<double?>
+    {
     }
 
     public class AssetEvaluationRecord : INotifyPropertyChanged
