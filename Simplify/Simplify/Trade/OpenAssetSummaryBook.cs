@@ -3,13 +3,15 @@ using System.Linq;
 
 namespace Simplify.Trade
 {
-    public class OpenAssetSummaryBook : List<SquarableStatement>
+    public class OpenAssetSummaryBook
     {
+        public List<SquarableStatement> Statements;
+
         public double QuanityOfOpenPosition
         {
             get
             {
-                var openPositions = this.Where(x => x.IsSquared == false);
+                var openPositions = Statements.Where(x => x.IsSquared == false);
                 return openPositions.Sum(x => x.Quantity);
             }
         }
@@ -18,7 +20,7 @@ namespace Simplify.Trade
         {
             get
             {
-                var openPositions = this.Where(x => x.IsSquared == false).ToList();
+                var openPositions = Statements.Where(x => x.IsSquared == false).ToList();
                 var quantity = openPositions.Sum(x => x.Quantity);
                 var value = openPositions.Sum(x => x.PurchaseValue);
                 return value / quantity;
@@ -29,7 +31,7 @@ namespace Simplify.Trade
         {
             get
             {
-                var openPositions = this.Where(x => x.IsSquared == false).ToList();
+                var openPositions = Statements.Where(x => x.IsSquared == false).ToList();
                 return  openPositions.Sum(x => x.PurchaseValue);
             }
         }
@@ -38,7 +40,7 @@ namespace Simplify.Trade
         {
             get
             {
-                var closedPartOfStatement = this.Where(x => x.IsSquared).ToList();
+                var closedPartOfStatement = Statements.Where(x => x.IsSquared).ToList();
                 return closedPartOfStatement.Sum(x => x.SaleValue - x.PurchaseValue);
             }
         }

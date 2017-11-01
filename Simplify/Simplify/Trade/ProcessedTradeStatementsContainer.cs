@@ -84,7 +84,8 @@ namespace Simplify.Trade
                 if (bookStatements.Any(x => x.IsSquared == false))
                 {
                     var book = new OpenAssetSummaryBook();
-                    book.AddRange(bookStatements);
+                    book.Statements = new List<SquarableStatement>();
+                    book.Statements.AddRange(bookStatements);
                     OpenAssetSummaryBooks.Add(name, book);
                 }
                 else

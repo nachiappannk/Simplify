@@ -141,7 +141,7 @@ namespace Simplify.ExcelDataGateway.Trade
         {
             List<SquarableStatement> summaryStatements = new List<SquarableStatement>();
             foreach (var namedBook in container.OpenAssetSummaryBooks)
-                summaryStatements.AddRange(namedBook.Value);
+                summaryStatements.AddRange(namedBook.Value.Statements);
 
             var summaryRecords = summaryStatements.Select(x =>
             {

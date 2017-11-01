@@ -14,7 +14,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         protected override void OnAssetSelectedChanged(string selectedAsset)
         {
             var openAssetSummaryBook = _dictionary[selectedAsset];
-            Records = openAssetSummaryBook.Select(x => new AssetSummaryRecord(x)).ToList();
+            Records = openAssetSummaryBook.Statements.Select(x => new AssetSummaryRecord(x)).ToList();
             OpenQuantity = openAssetSummaryBook.QuanityOfOpenPosition;
             AverageCost = openAssetSummaryBook.AverageCost;
             OpenPositionCost = openAssetSummaryBook.OpenPositionCost;
