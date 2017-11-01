@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
 using SimplifyUi.Common;
+using SimplifyUi.Common.ViewModelTools;
 using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
@@ -103,35 +104,35 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         public string Name { get; set; }
 
-        [DisplayFormat(DataFormatString = "#.###")]
+        [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
         public double Quantity { get; set; }
 
         [DisplayName("Purchase Date")]
-        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         public DateTime? PurchaseDate { get; set; }
 
         [DisplayName("Cost")]
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double PurchaseValue { get; set; }
 
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost per Unit")]
         public double PurchasePerUnit { get; set; }
 
-        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         [DisplayName("Sale Date")]
         public DateTime? SaleDate { get; set; }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Sale Value")]
         public double? SaleValue { get; set; }
 
         [DisplayName("Sale per Unit")]
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? SalePerUnit { get; set; }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? Profit { get; set; }
     }
 }

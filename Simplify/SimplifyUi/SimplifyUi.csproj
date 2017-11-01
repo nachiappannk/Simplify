@@ -112,6 +112,7 @@
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ToStringExtentionMethods.cs" />
+    <Compile Include="Common\ViewModelTools\CommonDefinition.cs" />
     <Compile Include="Common\ViewModel\NamedCommand.cs" />
     <Compile Include="Common\ViewModel\WorkFlowStepViewModel.cs" />
     <Compile Include="Common\ViewModel\WorkflowViewModel.cs" />

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
 using SimplifyUi.Annotations;
+using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
@@ -71,7 +72,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             return properties.Select(x => x.Name).ToList();
         }
 
-        [DisplayFormat(DataFormatString = "dd/MMM/yyy")]
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         public DateTime Date { get; set; }
         public string Name { get; set; }
 
@@ -81,20 +82,20 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayName("Transaction Tax")]
         public string TransactionTax { get; set; }
 
-        [DisplayFormat(DataFormatString = "#.###")]
+        [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
         public double Quantity { get; set; }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost/Unit")]
         public double ValuePerUnit { get; set; }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost")]
         public double Value { get; set; }
 
         private double? currentValuePerUnit;
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [Editable(true)]
         [DisplayName(@"Current Price/Unit")]
         public double? CurrentValuePerUnit
@@ -112,11 +113,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Current Price")]
         public double? CurrentValue { get; set; }
 
-        [DisplayFormat(DataFormatString = "N2")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Unrealized Profit")]
         public double? UnrealizedProfit { get; set; }
 
