@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Simplify.Trade
 {
     public class AssetEvaluationStatement
     {
+        public event Action Changed;
         public DateTime Date { get; set; }
         public string Name { get; set; }
         public double Quantity { get; set; }
@@ -11,6 +13,12 @@ namespace Simplify.Trade
         public string TransactionTax { get; set; }
         public string TransactionDetail { get; set; }
         public double? CurrentValuePerUnit { get; set; }
+
+        public void SetCurrentValuePerUnit(double? currentValuePerUnit)
+        {
+            CurrentValuePerUnit = currentValuePerUnit;
+            Changed?.Invoke();
+        }
     }
 
     public static class AssetEvaluationStatementExtentions

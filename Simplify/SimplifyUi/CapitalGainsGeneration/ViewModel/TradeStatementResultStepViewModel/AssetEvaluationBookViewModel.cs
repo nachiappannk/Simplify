@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
 using SimplifyUi.Annotations;
@@ -11,29 +12,63 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 {
     public class AssetEvaluationBookViewModel
     {
+        private readonly AssetEvalutionBook _book;
+
         public AssetEvaluationBookViewModel(AssetEvalutionBook book)
         {
+            TotalCostOfOpenPosition = new ViewModelProperty<double>();
+            CurrentValueOfOpenPosition = new ViewModelProperty<double?>();
+            UnrealizedProfit = new ViewModelProperty<double?>();
+
+            _book = book;
             Statements = book.Statements.Select(y => new AssetEvaluationRecord(y)).ToList();
-            TotalCostOfOpenPosition = book.TotalCostOfOpenPosition;
-            CurrentValueOfOpenPosition = book.CurrentValueOfOpenPosition;
-            UnrealizedProfit = book.UnrealizedProfit;
+            foreach (var statement in book.Statements)
+            {
+                statement.Changed += InitializeCommonProperties;
+            }
+            InitializeCommonProperties();
+        }
+
+        private void InitializeCommonProperties()
+        {
+            TotalCostOfOpenPosition.Property = _book.TotalCostOfOpenPosition;
+            CurrentValueOfOpenPosition.Property = _book.CurrentValueOfOpenPosition;
+            UnrealizedProfit.Property = _book.UnrealizedProfit;
         }
 
         public List<AssetEvaluationRecord> Statements { get; set; }
 
-        public double TotalCostOfOpenPosition { get; set; }
+        public ViewModelProperty<double> TotalCostOfOpenPosition { get; set; }
 
-        public double? CurrentValueOfOpenPosition { get; set; }
+        public ViewModelProperty<double?> CurrentValueOfOpenPosition { get; set; }
 
-        public double? UnrealizedProfit { get; set; }
+        public ViewModelProperty<double?> UnrealizedProfit { get; set; }
 
     }
 
-    public class AssetEvaluationRecord
+    public class AssetEvaluationRecord : INotifyPropertyChanged
     {
+        private readonly AssetEvaluationStatement _statement;
+
         public AssetEvaluationRecord(AssetEvaluationStatement statement)
         {
+            _statement = statement;
+            _statement.Changed += () =>
+            {
+                this.InitializeFromAssetEvaluationStatement(_statement);
+                var propertyNames = GetAllPublicPropertyNames();
+                foreach (var propertyName in propertyNames)
+                {
+                    FirePropertyChanged(propertyName);
+                }
+            };
             this.InitializeFromAssetEvaluationStatement(statement);
+        }
+
+        public List<string> GetAllPublicPropertyNames()
+        {
+            var properties = this.GetType().GetProperties();
+            return properties.Select(x => x.Name).ToList();
         }
 
         [DisplayFormat(DataFormatString = "dd/MMM/yyy")]
@@ -57,10 +92,25 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayName("Cost")]
         public double Value { get; set; }
 
+        private double? currentValuePerUnit;
+
         [DisplayFormat(DataFormatString = "N2")]
         [Editable(true)]
         [DisplayName(@"Current Price/Unit")]
-        public double? CurrentValuePerUnit { get; set; }
+        public double? CurrentValuePerUnit
+        {
+            get { return currentValuePerUnit; }
+            set
+            {
+                if ((value == null) && (currentValuePerUnit == null)) return;
+                if (value.HasValue && currentValuePerUnit.HasValue &&
+                    Math.Abs(value.Value - currentValuePerUnit.Value) < 0.001) return;
+                {
+                    currentValuePerUnit = value;
+                    _statement.SetCurrentValuePerUnit(currentValuePerUnit);
+                }
+            }
+        }
 
         [DisplayFormat(DataFormatString = "N2")]
         [DisplayName("Current Price")]
@@ -69,6 +119,14 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayFormat(DataFormatString = "N2")]
         [DisplayName("Unrealized Profit")]
         public double? UnrealizedProfit { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void FirePropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public static class AssetEvaluationRecordExtentions

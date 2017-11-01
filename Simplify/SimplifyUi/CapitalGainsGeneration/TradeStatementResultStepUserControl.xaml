@@ -153,15 +153,15 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Cost of Open Position" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding TotalCostOfOpenPosition, StringFormat=#.##}" Width="Auto"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding TotalCostOfOpenPosition.Property, StringFormat=#.##}" Width="Auto"/>
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Current Value" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding CurrentValueOfOpenPosition, StringFormat=#.##}" Width="Auto"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding CurrentValueOfOpenPosition.Property, StringFormat=#.##}" Width="Auto"/>
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Unrealized Profit" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding UnrealizedProfit, StringFormat=#.##}" Width="Auto"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding UnrealizedProfit.Property, StringFormat=#.##}" Width="Auto"/>
 
                     </Grid>
                     <common:FormatableDataGrid Grid.Row="1" ItemsSource="{Binding Statements}" Style="{StaticResource WritableFormatableDataGrid}" />

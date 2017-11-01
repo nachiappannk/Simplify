@@ -40,18 +40,6 @@ namespace Simplify.Trade
                     : CommonDefinition.DoubleNull;
                 statements.Add(assetEvaluationStatement);
             }
-            AssetEvalutionBook.TotalCostOfOpenPosition = statements.Sum(x => x.Value);
-            var isAnyCurrentValueNotAvailable = statements.Any(x => x.CurrentValuePerUnit == null);
-            if (isAnyCurrentValueNotAvailable)
-            {
-                AssetEvalutionBook.CurrentValueOfOpenPosition = null;
-                AssetEvalutionBook.UnrealizedProfit = null;
-            }
-            else
-            {
-                AssetEvalutionBook.CurrentValueOfOpenPosition = statements.Sum(x => x.CurrentValuePerUnit);
-                AssetEvalutionBook.UnrealizedProfit = statements.Sum(x => x.GetUnrealizedProfit());
-            }
         }
 
 
