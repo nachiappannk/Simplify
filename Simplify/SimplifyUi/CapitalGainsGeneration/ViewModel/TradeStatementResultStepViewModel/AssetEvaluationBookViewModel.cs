@@ -107,7 +107,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                     Math.Abs(value.Value - currentValuePerUnit.Value) < 0.001) return;
                 {
                     currentValuePerUnit = value;
-                    _statement.SetCurrentValuePerUnit(currentValuePerUnit);
+                    _statement.CurrentValuePerUnit = currentValuePerUnit;
                 }
             }
         }

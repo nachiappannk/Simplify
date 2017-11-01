@@ -77,7 +77,8 @@
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
-    <Compile Include="Trade\EvaluationStatement.cs" />
+    <Compile Include="Trade\QuotationRepository.cs" />
+    <Compile Include="Trade\QuotationStatement.cs" />
     <Compile Include="Trade\OpenAssetSummaryBook.cs" />
     <Compile Include="Trade\SquarableStatement.cs" />
     <Compile Include="Books\NotionalAccount.cs" />

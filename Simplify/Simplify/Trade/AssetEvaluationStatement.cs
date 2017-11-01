@@ -5,6 +5,20 @@ namespace Simplify.Trade
 {
     public class AssetEvaluationStatement
     {
+        private readonly Quote _quote;
+
+        public AssetEvaluationStatement(Quote quote)
+        {
+            _quote = quote;
+            SetCurrentValuePerUnit(quote);
+            quote.Changed += () => SetCurrentValuePerUnit(quote);
+        }
+
+        private void SetCurrentValuePerUnit(Quote quote)
+        {
+            CurrentValuePerUnit = quote.QuotedValue;
+        }
+
         public event Action Changed;
         public DateTime Date { get; set; }
         public string Name { get; set; }
@@ -12,12 +26,20 @@ namespace Simplify.Trade
         public double Value { get; set; }
         public string TransactionTax { get; set; }
         public string TransactionDetail { get; set; }
-        public double? CurrentValuePerUnit { get; set; }
 
-        public void SetCurrentValuePerUnit(double? currentValuePerUnit)
+
+        private double? _currentValuePerUnit;
+        public double? CurrentValuePerUnit
         {
-            CurrentValuePerUnit = currentValuePerUnit;
-            Changed?.Invoke();
+            get { return _currentValuePerUnit; }
+            set
+            {
+                if(_currentValuePerUnit == null && value == null)return;
+                if(_currentValuePerUnit.HasValue && value.HasValue && Math.Abs(value.Value - _currentValuePerUnit.Value) < 0.001) return;
+                _currentValuePerUnit = value;
+                _quote.QuotedValue = _currentValuePerUnit;
+                Changed?.Invoke();
+            }
         }
     }
 

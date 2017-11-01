@@ -1,6 +1,6 @@
 ﻿namespace Simplify.Trade
 {
-    public class EvaluationStatement
+    public class QuotationStatement
     {
         public string Name { get; set; }
 

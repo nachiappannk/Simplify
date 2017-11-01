@@ -15,29 +15,27 @@ namespace Simplify.Trade
         public List<CostStatement> EffectiveCostStatementBook { get; private set; }
         public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
-        public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<EvaluationStatement> evaluationStatements)
+        private QuotationRepository repository;
+
+        public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<QuotationStatement> quotationStatements)
         {
+            repository = new QuotationRepository(quotationStatements);
             InitializeAssetNamesBook(tradeStatements);
             InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
             InitializeEffectiveCostStatementBook();
-            var evaluationDictionary = evaluationStatements.ToDictionary(x => x.Name, x => x.CurrentValue);
-            InitializeAssetEvaluationBook(OpenPositionBook, evaluationDictionary);
+            InitializeAssetEvaluationBook(OpenPositionBook);
         }
 
-        private void InitializeAssetEvaluationBook(List<TradeStatement> openPositionBook,
-            Dictionary<string, double> evaluationDictionary)
+        private void InitializeAssetEvaluationBook(List<TradeStatement> openPositionBook)
         {
             AssetEvalutionBook = new AssetEvalutionBook();
             List<AssetEvaluationStatement> statements = new List<AssetEvaluationStatement>();
             AssetEvalutionBook.Statements = statements;
             foreach (var openPosition in openPositionBook)
             {
-                var assetEvaluationStatement = new AssetEvaluationStatement();
+                var assetEvaluationStatement = new AssetEvaluationStatement(repository.GetQuote(openPosition.Name));
                 assetEvaluationStatement.InitializeFromTradeStatement(openPosition);
-                assetEvaluationStatement.CurrentValuePerUnit = evaluationDictionary.ContainsKey(openPosition.Name)
-                    ? evaluationDictionary[openPosition.Name]
-                    : CommonDefinition.DoubleNull;
                 statements.Add(assetEvaluationStatement);
             }
         }
