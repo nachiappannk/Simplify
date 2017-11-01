@@ -106,14 +106,9 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Profit" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Profit, StringFormat=#.##}" Width="Auto"/>
-                        
+
                     </Grid>
                     <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" Grid.Row="2" ItemsSource="{Binding Records}" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Average Cost">
-                <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ConstBookViewModel.CostBookRecords}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationBookViewModel}">

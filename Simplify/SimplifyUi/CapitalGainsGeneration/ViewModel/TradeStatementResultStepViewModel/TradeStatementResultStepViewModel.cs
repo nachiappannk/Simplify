@@ -58,22 +58,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 }
             }
         }
-
-        private CostBookViewModel _constBookViewModel;
-
-        public CostBookViewModel ConstBookViewModel
-        {
-            get { return _constBookViewModel; }
-            set
-            {
-                if (_constBookViewModel != value)
-                {
-                    _constBookViewModel = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-
+        
         private AssetEvaluationBookViewModel _assetEvaluationBookViewModel;
         public AssetEvaluationBookViewModel AssetEvaluationBookViewModel
         {
@@ -115,7 +100,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
             HoldingAssetSummary = new OpenAssetSummary(_statementsContainer.OpenAssetSummaryBooks);
             ClosedAssetSummary = new ClosedAssetSummary(_statementsContainer.ClosedAssetSummaryBooks);
-            ConstBookViewModel = new CostBookViewModel(_statementsContainer);
             AssetEvaluationBookViewModel = new AssetEvaluationBookViewModel(_statementsContainer.AssetEvalutionBook);
             AssetEvaluationAggregatedBookViewModel = new AssetEvaluationAggregatedBookViewModel(_statementsContainer.AssetEvaluationAggregatedBook);
         }

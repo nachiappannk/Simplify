@@ -108,7 +108,6 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ClosedAssetSummary.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\CostBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenAssetSummary.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenPositionViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ProfitBookViewModel.cs" />

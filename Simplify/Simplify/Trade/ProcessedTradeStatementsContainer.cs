@@ -12,7 +12,6 @@ namespace Simplify.Trade
         public List<SquarableStatement> ProfitBook { get; set; }
         public Dictionary<string, OpenAssetSummaryBook> OpenAssetSummaryBooks { get; private set; }
         public Dictionary<string, ClosedAssetSummaryBook> ClosedAssetSummaryBooks { get; private set; }
-        public List<CostStatement> EffectiveCostStatementBook { get; private set; }
         public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
         public AssetEvaluationAggregatedBook AssetEvaluationAggregatedBook { get; set; }
@@ -25,7 +24,6 @@ namespace Simplify.Trade
             InitializeAssetNamesBook(tradeStatements);
             InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
-            InitializeEffectiveCostStatementBook();
             InitializeAssetEvaluationBook(OpenPositionBook);
             InitializeAssetEvaluationAggregatedBook(OpenPositionBook);
         }
@@ -72,20 +70,6 @@ namespace Simplify.Trade
             separator.SeparateStatementsAsClosedAndOpen(tradeStatements, out openStatements, out closedStatements);
             OpenPositionBook = openStatements;
             ProfitBook = closedStatements;
-        }
-
-        private void InitializeEffectiveCostStatementBook()
-        {
-            EffectiveCostStatementBook = new List<CostStatement>();
-            var openPositionBookHeads = OpenPositionBook.Select(x => x.Name).Distinct().ToList();
-
-            foreach (var head in openPositionBookHeads)
-            {
-                var statements = OpenPositionBook.Where(x => x.Name.Equals(head)).ToList();
-                var sumOfValues = statements.Select(x => x.Value).Sum();
-                var sumOfQuantities = statements.Select(x => x.Quantity).Sum();
-                EffectiveCostStatementBook.Add(new CostStatement() {Name = head, AverageCost = sumOfValues / sumOfQuantities});
-            }
         }
 
         private void InitializeSummaryBooks()

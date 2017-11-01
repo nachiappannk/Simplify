@@ -75,7 +75,6 @@
     <Compile Include="Trade\AssetEvalutionBook.cs" />
     <Compile Include="Trade\AssetStatement.cs" />
     <Compile Include="Trade\ClosedAssetSummaryBook.cs" />
-    <Compile Include="Trade\CostStatement.cs" />
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
