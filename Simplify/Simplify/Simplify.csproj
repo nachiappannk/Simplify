@@ -67,12 +67,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonDefinitions\CommonDefinition.cs" />
     <Compile Include="ExcelDataGateway\Trade\ProcessedTradeStatementsExcelGateway.cs" />
+    <Compile Include="Trade\AssetEvaluationStatement.cs" />
+    <Compile Include="Trade\AssetEvalutionBook.cs" />
+    <Compile Include="Trade\AssetStatement.cs" />
     <Compile Include="Trade\ClosedAssetSummaryBook.cs" />
     <Compile Include="Trade\CostStatement.cs" />
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
+    <Compile Include="Trade\EvaluationStatement.cs" />
     <Compile Include="Trade\OpenAssetSummaryBook.cs" />
     <Compile Include="Trade\SquarableStatement.cs" />
     <Compile Include="Books\NotionalAccount.cs" />
@@ -85,7 +90,7 @@
     <Compile Include="Books\DatedStatement.cs" />
     <Compile Include="Books\DetailedDatedStatement.cs" />
     <Compile Include="Books\RealAccountBook.cs" />
-    <Compile Include="Trade\StatementsSeparator.cs" />
+    <Compile Include="Trade\Internal\StatementsSeparator.cs" />
     <Compile Include="Trade\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />

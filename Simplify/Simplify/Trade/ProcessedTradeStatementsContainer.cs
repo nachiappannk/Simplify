@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
+using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
@@ -11,15 +13,48 @@ namespace Simplify.Trade
         public Dictionary<string, OpenAssetSummaryBook> OpenAssetSummaryBooks { get; private set; }
         public Dictionary<string, ClosedAssetSummaryBook> ClosedAssetSummaryBooks { get; private set; }
         public List<CostStatement> EffectiveCostStatementBook { get; private set; }
+        public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
-
-        public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements)
+        public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<EvaluationStatement> evaluationStatements)
         {
             InitializeAssetNamesBook(tradeStatements);
             InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
             InitializeEffectiveCostStatementBook();
+            var evaluationDictionary = evaluationStatements.ToDictionary(x => x.Name, x => x.CurrentValue);
+            InitializeAssetEvaluationBook(OpenPositionBook, evaluationDictionary);
         }
+
+        private void InitializeAssetEvaluationBook(List<TradeStatement> openPositionBook,
+            Dictionary<string, double> evaluationDictionary)
+        {
+            AssetEvalutionBook = new AssetEvalutionBook();
+            List<AssetEvaluationStatement> statements = new List<AssetEvaluationStatement>();
+            AssetEvalutionBook.Statements = statements;
+            foreach (var openPosition in openPositionBook)
+            {
+                var assetEvaluationStatement = new AssetEvaluationStatement();
+                assetEvaluationStatement.InitializeFromTradeStatement(openPosition);
+                assetEvaluationStatement.CurrentValue = evaluationDictionary.ContainsKey(openPosition.Name)
+                    ? evaluationDictionary[openPosition.Name]
+                    : CommonDefinition.DoubleNull;
+                statements.Add(assetEvaluationStatement);
+            }
+            AssetEvalutionBook.TotalCostOfOpenPosition = statements.Sum(x => x.Value);
+            var isAnyCurrentValueNotAvailable = statements.Any(x => x.CurrentValue == null);
+            if (isAnyCurrentValueNotAvailable)
+            {
+                AssetEvalutionBook.CurrentValueOfOpenPosition = null;
+                AssetEvalutionBook.UnrealizedProfit = null;
+            }
+            else
+            {
+                AssetEvalutionBook.CurrentValueOfOpenPosition = statements.Sum(x => x.CurrentValue);
+                AssetEvalutionBook.UnrealizedProfit = statements.Sum(x => x.GetUnrealizedProfit());
+            }
+        }
+
+
 
         private void InitializeOpenPositionAndProfitBook(List<TradeStatement> tradeStatements)
         {

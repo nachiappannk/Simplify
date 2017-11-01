@@ -74,6 +74,20 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
+        private AssetEvaluationBookViewModel _assetEvaluationBookViewModel;
+        public AssetEvaluationBookViewModel AssetEvaluationBookViewModel
+        {
+            get{ return _assetEvaluationBookViewModel;}
+            set
+            {
+                if (value != _assetEvaluationBookViewModel)
+                {
+                    _assetEvaluationBookViewModel = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
+
         public OpenAssetSummary HoldingAssetSummary { get; set; }
 
         public ClosedAssetSummary ClosedAssetSummary { get; set; }
@@ -100,6 +114,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             HoldingAssetSummary = new OpenAssetSummary(_statementsContainer.OpenAssetSummaryBooks);
             ClosedAssetSummary = new ClosedAssetSummary(_statementsContainer.ClosedAssetSummaryBooks);
             ConstBookViewModel = new CostBookViewModel(_statementsContainer);
+            AssetEvaluationBookViewModel = new AssetEvaluationBookViewModel(_statementsContainer.AssetEvalutionBook);
 
         }
 

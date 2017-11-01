@@ -123,6 +123,39 @@
                     <common:FormatableDataGrid ItemsSource="{Binding ConstBookViewModel.CostBookRecords}"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Asset Evaluation" DataContext="{Binding AssetEvaluationBookViewModel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="0,10,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Cost of Open Position" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding TotalCostOfOpenPosition, StringFormat=#.##}" Width="Auto"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Current Value" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding CurrentValueOfOpenPosition, StringFormat=#.##}" Width="Auto"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Unrealized Profit" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding UnrealizedProfit, StringFormat=#.##}" Width="Auto"/>
+
+                    </Grid>
+                    <common:FormatableDataGrid Grid.Row="1" ItemsSource="{Binding Statements}" />
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

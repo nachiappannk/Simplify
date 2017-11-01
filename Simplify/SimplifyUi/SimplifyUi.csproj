@@ -97,6 +97,7 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ClosedAssetSummary.cs" />

@@ -57,7 +57,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel
             var tradeLogs = gateway.ReadTradeLog(logger, FileName, SheetName);
 
             ProcessedTradeStatementsContainer processedTradeStatementsContainer =
-                new ProcessedTradeStatementsContainer(tradeLogs);
+                new ProcessedTradeStatementsContainer(tradeLogs, new List<EvaluationStatement>());
 
             Messages = logger.GetLogMessages();
 
