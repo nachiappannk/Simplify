@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Simplify.CommonDefinitions;
 using Simplify.Trade;
 using SimplifyUi.Annotations;
 using SimplifyUi.Common.ViewModelTools;
@@ -111,13 +112,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             get { return currentValuePerUnit; }
             set
             {
-                if ((value == null) && (currentValuePerUnit == null)) return;
-                if (value.HasValue && currentValuePerUnit.HasValue &&
-                    Math.Abs(value.Value - currentValuePerUnit.Value) < 0.001) return;
-                {
-                    currentValuePerUnit = value;
-                    _statement.CurrentValuePerUnit = currentValuePerUnit;
-                }
+                if(currentValuePerUnit.IsNullableDoubleEqual(value))return;
+                currentValuePerUnit = value;
+                _statement.CurrentValuePerUnit = currentValuePerUnit;
+                
             }
         }
 

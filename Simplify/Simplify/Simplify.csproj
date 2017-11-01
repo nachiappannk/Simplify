@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonDefinitions\CommonDefinition.cs" />
+    <Compile Include="CommonDefinitions\CommonDefinitions.cs" />
     <Compile Include="ExcelDataGateway\Trade\ProcessedTradeStatementsExcelGateway.cs" />
     <Compile Include="Trade\AssetEvaluationStatement.cs" />
     <Compile Include="Trade\AssetEvalutionBook.cs" />

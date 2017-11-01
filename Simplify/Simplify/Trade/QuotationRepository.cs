@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
@@ -45,8 +46,7 @@ namespace Simplify.Trade
             get { return _quotedValue; }
             set
             {
-                if (_quotedValue == null && value == null) return;
-                if (value.HasValue && _quotedValue.HasValue && Math.Abs(value.Value - _quotedValue.Value) < 0.001) return;
+                if (_quotedValue.IsNullableDoubleEqual(value)) return;
                 _quotedValue = value;
                 Changed?.Invoke();
             }

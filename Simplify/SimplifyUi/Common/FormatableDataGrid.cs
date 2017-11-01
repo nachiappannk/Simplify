@@ -71,6 +71,8 @@ namespace SimplifyUi.Common
             if(isEditable)
             {
                 e.Column.Header = e.Column.Header + Environment.NewLine + "(Editable)";
+                e.Column.CellStyle = new Style(typeof(DataGridCell));
+                e.Column.CellStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Colors.PeachPuff)));
             }
         }
 

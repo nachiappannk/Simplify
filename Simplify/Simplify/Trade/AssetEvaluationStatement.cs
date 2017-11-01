@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
@@ -34,8 +35,7 @@ namespace Simplify.Trade
             get { return _currentValuePerUnit; }
             set
             {
-                if(_currentValuePerUnit == null && value == null)return;
-                if(_currentValuePerUnit.HasValue && value.HasValue && Math.Abs(value.Value - _currentValuePerUnit.Value) < 0.001) return;
+                if (_currentValuePerUnit.IsNullableDoubleEqual(value)) return;
                 _currentValuePerUnit = value;
                 _quote.QuotedValue = _currentValuePerUnit;
                 Changed?.Invoke();
