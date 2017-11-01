@@ -58,8 +58,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public double Value { get; set; }
 
         [DisplayFormat(DataFormatString = "N2")]
-        [DisplayName(@"Current Price/Unit
-(Editable)")]
+        [Editable(true)]
+        [DisplayName(@"Current Price/Unit")]
         public double? CurrentValuePerUnit { get; set; }
 
         [DisplayFormat(DataFormatString = "N2")]

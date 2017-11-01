@@ -66,6 +66,12 @@ namespace SimplifyUi.Common
             {
                 ((DataGridTextColumn) e.Column).Binding.StringFormat = displayFormat;
             }
+            var isEditable = IsColumnEditable(e.PropertyDescriptor);
+            e.Column.IsReadOnly = !isEditable;
+            if(isEditable)
+            {
+                e.Column.Header = e.Column.Header + Environment.NewLine + "(Editable)";
+            }
         }
 
 
@@ -117,6 +123,25 @@ namespace SimplifyUi.Common
                 return TryGetAttribute(propertyInfo, out displayNameAttribute) ? displayNameAttribute.DisplayName : string.Empty;
             }
             return string.Empty;
+        }
+
+        public static bool IsColumnEditable(object descriptor)
+        {
+
+            if (IsObjectOfType<PropertyDescriptor>(descriptor))
+            {
+                var propertyDescriptor = GetObjectAsType<PropertyDescriptor>(descriptor);
+                EditableAttribute editableAttribute = null;
+                return TryGetAttribute(propertyDescriptor, out editableAttribute) && editableAttribute.AllowEdit;
+            }
+
+            if (IsObjectOfType<PropertyInfo>(descriptor))
+            {
+                var propertyInfo = GetObjectAsType<PropertyInfo>(descriptor);
+                EditableAttribute editableAttribute = null;
+                return TryGetAttribute(propertyInfo, out editableAttribute) && editableAttribute.AllowEdit;
+            }
+            return false;
         }
 
         public static string GetColumnFormat(object descriptor)
