@@ -75,18 +75,34 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             return properties.Select(x => x.Name).ToList();
         }
 
-
-        public DateTime PurchaseStartDate { get; set; }
-        public DateTime PurchaseEndDate { get; set; }
         public string Name { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
+        [DisplayName("First Purchase Date")]
+        public DateTime PurchaseStartDate { get; set; }
+
+        [DisplayName("Last Purchase Date")]
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
+        public DateTime PurchaseEndDate { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
         public double Quantity { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Cost/Unit")]
+
+        public double ValuePerUnit { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Cost")]
         public double Value { get; set; }
+
 
         private double? _currentValuePerUnit;
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [Editable(true)]
-        [DisplayName(@"Current Price/Unit")]
+        [DisplayName("Current Price/Unit")]
         public double? CurrentValuePerUnit
         {
             get { return _currentValuePerUnit; }
@@ -99,9 +115,12 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             }
         }
 
-        public double ValuePerUnit { get; set; }
+        [DisplayName("Current Price")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? CurrentValue { get; set; }
 
+        [DisplayName("Unrealized Profit")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? UnrealizedProfit { get; set; }
 
         [NotifyPropertyChangedInvocator]
