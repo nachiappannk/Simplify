@@ -15,16 +15,38 @@ namespace Simplify.Trade
         public List<CostStatement> EffectiveCostStatementBook { get; private set; }
         public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
-        private QuotationRepository repository;
+        public AssetEvaluationAggregatedBook AssetEvaluationAggregatedBook { get; set; }
+
+        private readonly QuotationRepository _repository;
 
         public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<QuotationStatement> quotationStatements)
         {
-            repository = new QuotationRepository(quotationStatements);
+            _repository = new QuotationRepository(quotationStatements);
             InitializeAssetNamesBook(tradeStatements);
             InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
             InitializeEffectiveCostStatementBook();
             InitializeAssetEvaluationBook(OpenPositionBook);
+            InitializeAssetEvaluationAggregatedBook(OpenPositionBook);
+        }
+
+        private void InitializeAssetEvaluationAggregatedBook(List<TradeStatement> openPositionBook)
+        {
+            AssetEvaluationAggregatedBook = new AssetEvaluationAggregatedBook();
+            var result = openPositionBook.GroupBy(x => x.Name, x => x, (name, statements) =>
+            {
+                var statementList = statements.ToList();
+                var r = new AssetEvaluationAggregatedStatement(_repository.GetQuote(name))
+                {
+                    Name = name,
+                    Value = statementList.Sum(x => x.Value),
+                    Quantity = statementList.Sum(x => x.Quantity),
+                    PurchaseStartDate = statementList.Select(x => x.Date).Min(),
+                    PurchaseEndDate = statementList.Select(x => x.Date).Max()
+                };
+                return r;
+            });
+            AssetEvaluationAggregatedBook.Statements = result.ToList();
         }
 
         private void InitializeAssetEvaluationBook(List<TradeStatement> openPositionBook)
@@ -34,7 +56,7 @@ namespace Simplify.Trade
             AssetEvalutionBook.Statements = statements;
             foreach (var openPosition in openPositionBook)
             {
-                var assetEvaluationStatement = new AssetEvaluationStatement(repository.GetQuote(openPosition.Name));
+                var assetEvaluationStatement = new AssetEvaluationStatement(_repository.GetQuote(openPosition.Name));
                 assetEvaluationStatement.InitializeFromTradeStatement(openPosition);
                 statements.Add(assetEvaluationStatement);
             }

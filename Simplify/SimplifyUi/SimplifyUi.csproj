@@ -85,6 +85,9 @@
       <DependentUpon>BooksOfAccountInputUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountInputViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\AssetPurchaseAggregatedInformationUserControl.xaml.cs">
+      <DependentUpon>AssetPurchaseAggregatedInformationUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CapitalGainsGeneration\AssetPurchaseInformationUserControl.xaml.cs">
       <DependentUpon>AssetPurchaseInformationUserControl.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,7 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationAggregatedBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenPositionViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ProfitBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
+    <Compile Include="Common\ViewModelTools\ViewModelProperty.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
     <Compile Include="Common\FormatableDataGrid.cs" />
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
@@ -143,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BooksOfAccountGeneration\BooksOfAccountInputUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapitalGainsGeneration\AssetPurchaseAggregatedInformationUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,57 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using Simplify.CommonDefinitions;
 using Simplify.Trade;
 using SimplifyUi.Annotations;
 using SimplifyUi.Common.ViewModelTools;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public class AssetEvaluationBookViewModel
+    public class AssetEvaluationAggregatedBookViewModel
     {
-        private readonly AssetEvalutionBook _book;
+        private readonly AssetEvaluationAggregatedBook _book;
 
-        public AssetEvaluationBookViewModel(AssetEvalutionBook book)
+        public AssetEvaluationAggregatedBookViewModel(AssetEvaluationAggregatedBook book)
         {
+
             TotalCostOfOpenPosition = new ViewModelDoubleProperty();
             CurrentValueOfOpenPosition = new ViewModelNullableDoubleProperty();
             UnrealizedProfit = new ViewModelNullableDoubleProperty();
 
             _book = book;
-            Statements = book.Statements.Select(y => new AssetEvaluationRecord(y)).ToList();
+
+            Records = book.Statements.Select(x => new AssetEvaluationAggregatedRecord(x)).ToList();
             foreach (var statement in book.Statements)
             {
-                statement.Changed += InitializeCommonProperties;
+                statement.Changed += InitializeProperties;
             }
-            InitializeCommonProperties();
+            InitializeProperties();
         }
 
-        private void InitializeCommonProperties()
+        private void InitializeProperties()
         {
             TotalCostOfOpenPosition.Property = _book.TotalCostOfOpenPosition;
             CurrentValueOfOpenPosition.Property = _book.CurrentValueOfOpenPosition;
             UnrealizedProfit.Property = _book.UnrealizedProfit;
         }
 
-        public List<AssetEvaluationRecord> Statements { get; set; }
+        public List<AssetEvaluationAggregatedRecord> Records { get; set; }
 
         public ViewModelDoubleProperty TotalCostOfOpenPosition { get; set; }
 
         public ViewModelNullableDoubleProperty CurrentValueOfOpenPosition { get; set; }
 
         public ViewModelNullableDoubleProperty UnrealizedProfit { get; set; }
-
     }
 
-    public class AssetEvaluationRecord : INotifyPropertyChanged
+    public class AssetEvaluationAggregatedRecord : INotifyPropertyChanged
     {
-        private readonly AssetEvaluationStatement _statement;
+        private readonly AssetEvaluationAggregatedStatement _statement;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public AssetEvaluationRecord(AssetEvaluationStatement statement)
+
+        public AssetEvaluationAggregatedRecord(AssetEvaluationAggregatedStatement statement)
         {
             _statement = statement;
             _statement.Changed += () =>
@@ -72,76 +75,56 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             return properties.Select(x => x.Name).ToList();
         }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
-        public DateTime Date { get; set; }
+
+        public DateTime PurchaseStartDate { get; set; }
+        public DateTime PurchaseEndDate { get; set; }
         public string Name { get; set; }
-
-        [DisplayName("Transaction Detail")]
-        public string TransactionDetail { get; set; }
-
-        [DisplayName("Transaction Tax")]
-        public string TransactionTax { get; set; }
-
-        [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
         public double Quantity { get; set; }
-
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Cost/Unit")]
-        public double ValuePerUnit { get; set; }
-
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Cost")]
         public double Value { get; set; }
 
-        private double? currentValuePerUnit;
+        private double? _currentValuePerUnit;
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [Editable(true)]
         [DisplayName(@"Current Price/Unit")]
         public double? CurrentValuePerUnit
         {
-            get { return currentValuePerUnit; }
+            get { return _currentValuePerUnit; }
             set
             {
-                if(currentValuePerUnit.IsNullableDoubleEqual(value))return;
-                currentValuePerUnit = value;
-                _statement.CurrentValuePerUnit = currentValuePerUnit;
-                
+                if (_currentValuePerUnit.IsNullableDoubleEqual(value)) return;
+                _currentValuePerUnit = value;
+                _statement.CurrentValuePerUnit = _currentValuePerUnit;
+
             }
         }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Current Price")]
+        public double ValuePerUnit { get; set; }
         public double? CurrentValue { get; set; }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Unrealized Profit")]
         public double? UnrealizedProfit { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
-        protected virtual void FirePropertyChanged(string propertyName)
+        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    public static class AssetEvaluationRecordExtentions
+    public static class AssetEvaluationAggregatedRecordExtentions
     {
-        public static void InitializeFromAssetEvaluationStatement(this AssetEvaluationRecord record,
-            AssetEvaluationStatement statement)
+        public static void InitializeFromAssetEvaluationStatement(this AssetEvaluationAggregatedRecord record,
+            AssetEvaluationAggregatedStatement statement)
         {
             record.Name = statement.Name;
-            record.Date = statement.Date;
-            record.Quantity = statement.Quantity;
-            record.TransactionDetail = statement.TransactionDetail;
-            record.TransactionTax = statement.TransactionTax;
-            record.Value = statement.Value;
-            record.CurrentValuePerUnit = statement.CurrentValuePerUnit;
-            record.ValuePerUnit = statement.GetValuePerUnit();
-            record.UnrealizedProfit = statement.GetUnrealizedProfit();
             record.CurrentValue = statement.GetCurrentValue();
+            record.CurrentValuePerUnit = statement.CurrentValuePerUnit;
+            record.Value = statement.Value;
+            record.ValuePerUnit = statement.GetValuePerUnit();
+            record.Quantity = statement.Quantity;
+            record.PurchaseStartDate = statement.PurchaseStartDate;
+            record.PurchaseEndDate = statement.PurchaseEndDate;
+            record.UnrealizedProfit = statement.GetUnrealizedProfit();
         }
     }
 }

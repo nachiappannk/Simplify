@@ -1,14 +1,13 @@
 ﻿using System;
-using System.ComponentModel;
 using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
-    public class AssetEvaluationStatement
+    public class AssetEvaluationAggregatedStatement
     {
         private readonly Quote _quote;
 
-        public AssetEvaluationStatement(Quote quote)
+        public AssetEvaluationAggregatedStatement(Quote quote)
         {
             _quote = quote;
             SetCurrentValuePerUnit(quote);
@@ -21,13 +20,11 @@ namespace Simplify.Trade
         }
 
         public event Action Changed;
-        public DateTime Date { get; set; }
+        public DateTime PurchaseStartDate { get; set; }
+        public DateTime PurchaseEndDate { get; set; }
         public string Name { get; set; }
         public double Quantity { get; set; }
         public double Value { get; set; }
-        public string TransactionTax { get; set; }
-        public string TransactionDetail { get; set; }
-
 
         private double? _currentValuePerUnit;
         public double? CurrentValuePerUnit
@@ -43,32 +40,22 @@ namespace Simplify.Trade
         }
     }
 
-    public static class AssetEvaluationStatementExtentions
-    {
-        public static void InitializeFromTradeStatement(this AssetEvaluationStatement assetEvaluationStatement,
-            TradeStatement openPosition)
-        {
-            assetEvaluationStatement.Name = openPosition.Name;
-            assetEvaluationStatement.Date = openPosition.Date;
-            assetEvaluationStatement.Quantity = openPosition.Quantity;
-            assetEvaluationStatement.TransactionDetail = openPosition.TransactionDetail;
-            assetEvaluationStatement.TransactionTax = openPosition.TransactionTax;
-            assetEvaluationStatement.Value = openPosition.Value;
-        }
 
-        public static double? GetUnrealizedProfit(this AssetEvaluationStatement statement)
+    public static class AssetEvaluationAggregatedStatementExtentions
+    {
+        public static double? GetUnrealizedProfit(this AssetEvaluationAggregatedStatement statement)
         {
             if (statement.CurrentValuePerUnit == null) return null;
             return statement.GetCurrentValue() - statement.Value;
         }
 
-        public static double? GetCurrentValue(this AssetEvaluationStatement statement)
+        public static double? GetCurrentValue(this AssetEvaluationAggregatedStatement statement)
         {
             if (statement.CurrentValuePerUnit == null) return null;
             return statement.CurrentValuePerUnit * statement.Quantity;
         }
 
-        public static double GetValuePerUnit(this AssetEvaluationStatement statement)
+        public static double GetValuePerUnit(this AssetEvaluationAggregatedStatement statement)
         {
             return statement.Value / statement.Quantity;
         }

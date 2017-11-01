@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="CommonDefinitions\CommonDefinitions.cs" />
     <Compile Include="ExcelDataGateway\Trade\ProcessedTradeStatementsExcelGateway.cs" />
+    <Compile Include="Trade\AssetEvaluationAggregatedBook.cs" />
+    <Compile Include="Trade\AssetEvaluationAggregatedStatement.cs" />
     <Compile Include="Trade\AssetEvaluationStatement.cs" />
     <Compile Include="Trade\AssetEvalutionBook.cs" />
     <Compile Include="Trade\AssetStatement.cs" />
