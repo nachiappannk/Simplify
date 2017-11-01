@@ -35,13 +35,13 @@ namespace Simplify.Trade
             {
                 var assetEvaluationStatement = new AssetEvaluationStatement();
                 assetEvaluationStatement.InitializeFromTradeStatement(openPosition);
-                assetEvaluationStatement.CurrentValue = evaluationDictionary.ContainsKey(openPosition.Name)
+                assetEvaluationStatement.CurrentValuePerUnit = evaluationDictionary.ContainsKey(openPosition.Name)
                     ? evaluationDictionary[openPosition.Name]
                     : CommonDefinition.DoubleNull;
                 statements.Add(assetEvaluationStatement);
             }
             AssetEvalutionBook.TotalCostOfOpenPosition = statements.Sum(x => x.Value);
-            var isAnyCurrentValueNotAvailable = statements.Any(x => x.CurrentValue == null);
+            var isAnyCurrentValueNotAvailable = statements.Any(x => x.CurrentValuePerUnit == null);
             if (isAnyCurrentValueNotAvailable)
             {
                 AssetEvalutionBook.CurrentValueOfOpenPosition = null;
@@ -49,7 +49,7 @@ namespace Simplify.Trade
             }
             else
             {
-                AssetEvalutionBook.CurrentValueOfOpenPosition = statements.Sum(x => x.CurrentValue);
+                AssetEvalutionBook.CurrentValueOfOpenPosition = statements.Sum(x => x.CurrentValuePerUnit);
                 AssetEvalutionBook.UnrealizedProfit = statements.Sum(x => x.GetUnrealizedProfit());
             }
         }

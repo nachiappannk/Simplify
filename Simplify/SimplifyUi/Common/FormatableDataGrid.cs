@@ -64,7 +64,7 @@ namespace SimplifyUi.Common
             var displayFormat = GetColumnFormat(e.PropertyDescriptor);
             if (!string.IsNullOrEmpty(displayFormat))
             {
-                (e.Column as DataGridTextColumn).Binding.StringFormat = displayFormat;
+                ((DataGridTextColumn) e.Column).Binding.StringFormat = displayFormat;
             }
         }
 

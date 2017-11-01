@@ -10,7 +10,7 @@ namespace Simplify.Trade
         public double Value { get; set; }
         public string TransactionTax { get; set; }
         public string TransactionDetail { get; set; }
-        public double? CurrentValue { get; set; }
+        public double? CurrentValuePerUnit { get; set; }
     }
 
     public static class AssetEvaluationStatementExtentions
@@ -28,8 +28,19 @@ namespace Simplify.Trade
 
         public static double? GetUnrealizedProfit(this AssetEvaluationStatement statement)
         {
-            if (statement.CurrentValue == null) return null;
-            return statement.CurrentValue - statement.Value;
+            if (statement.CurrentValuePerUnit == null) return null;
+            return statement.GetCurrentValue() - statement.Value;
+        }
+
+        public static double? GetCurrentValue(this AssetEvaluationStatement statement)
+        {
+            if (statement.CurrentValuePerUnit == null) return null;
+            return statement.CurrentValuePerUnit * statement.Quantity;
+        }
+
+        public static double GetValuePerUnit(this AssetEvaluationStatement statement)
+        {
+            return statement.Value / statement.Quantity;
         }
 
     }
