@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -5,6 +6,43 @@ using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
+
+    public class TradeSummary
+    {
+        public double CostOfOpenPosition { get; set; }
+        public double Profit { get; set; }
+        public double? ValueOfOpenPosition { get; set; }
+        public double? UnrealizedProfit { get; set; }
+    }
+
+    public class AssetQuotation
+    {
+        public string Name { get; set; }
+        public bool IsClosed { get; set; }
+        public double? QuotePerUnit { get; set; }
+    }
+
+    public class PurchasedAssetEvaluationStatement
+    {
+        public DateTime Date { get; set; }
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public double Value { get; set; }
+        public string TransactionTax { get; set; }
+        public string TransactionDetail { get; set; }
+        public double? QuotePerUnit { get; set; }
+    }
+
+    public class PurchasedAssetEvaluationSummarizedStatement
+    {
+        public string Name { get; set; }
+        public DateTime PurchaseStartDate { get; set; }
+        public DateTime PurchaseEndDate { get; set; }
+        public double Quantity { get; set; }
+        public double Value { get; set; }
+        public double? QuotePerUnit { get; set; }
+    }
+
     public class ProcessedTradeStatementsContainer
     {
         public List<string> AssetNamesBook { get; private set; }

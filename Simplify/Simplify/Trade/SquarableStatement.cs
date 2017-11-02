@@ -5,45 +5,45 @@ namespace Simplify.Trade
 {
     public class SquarableStatement
     {
-        public SquarableStatement(TradeStatement[] statements)
+        public SquarableStatement(TradeStatement statement1, TradeStatement statement2)
         {
-            TradeStatement purchaseTradedStatement = statements.First(x => x.IsPurchase);
-            TradeStatement saleTradedStatement = statements.First(x => !x.IsPurchase);
             IsSquared = true;
-            InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
+            TradeStatement purchaseTradedStatement = statement1.IsPurchase? statement1 : statement2;
+            TradeStatement saleTradedStatement = statement1.IsPurchase ? statement2 : statement1;
+            InitializeCommonProperties(purchaseTradedStatement);
+            InitializePurchaseProperties(purchaseTradedStatement);
             InitializeSaleProperties(saleTradedStatement);
         }
 
-        public SquarableStatement(TradeStatement purchaseStatement, TradeStatement saleStatement) : 
-            this(new TradeStatement[] {purchaseStatement, saleStatement})
-        {
-
-        }
-
-
-        public SquarableStatement(TradeStatement purchaseTradedStatement)
+        public SquarableStatement(TradeStatement tradeStatement)
         {
             IsSquared = false;
-            InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
+            InitializeCommonProperties(tradeStatement);
+            if (tradeStatement.IsPurchase) InitializePurchaseProperties(tradeStatement);
+            else InitializeSaleProperties(tradeStatement);
         }
 
-        private void InitializeSaleProperties(TradeStatement saleTradedStatement)
-        {
-            
-            SaleDate = saleTradedStatement.Date;
-            SaleValue = saleTradedStatement.Value;
-            SaleTransactionTax = saleTradedStatement.TransactionTax;
-            SaleTransactionDetail = saleTradedStatement.TransactionDetail;
-        }
-
-        private void InitializeCommonAndPurchaseProperties(TradeStatement purchaseTradedStatement)
+        private void InitializeCommonProperties(TradeStatement purchaseTradedStatement)
         {
             Name = purchaseTradedStatement.Name;
             Quantity = purchaseTradedStatement.Quantity;
+        }
+
+        private void InitializePurchaseProperties(TradeStatement purchaseTradedStatement)
+        {
             PurchaseDate = purchaseTradedStatement.Date;
             PurchaseValue = purchaseTradedStatement.Value;
             PurchaseTransactionTax = purchaseTradedStatement.TransactionTax;
             PurchaseTransactionDetail = purchaseTradedStatement.TransactionDetail;
+        }
+
+        private void InitializeSaleProperties(TradeStatement saleTradedStatement)
+        {
+
+            SaleDate = saleTradedStatement.Date;
+            SaleValue = saleTradedStatement.Value;
+            SaleTransactionTax = saleTradedStatement.TransactionTax;
+            SaleTransactionDetail = saleTradedStatement.TransactionDetail;
         }
 
         public string Name { get; set; }

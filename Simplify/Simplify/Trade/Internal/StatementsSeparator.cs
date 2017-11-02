@@ -73,7 +73,7 @@ namespace Simplify.Trade
             }
 
             var brokenStatements = new BrokenTradeStatements(bigger, smaller.Quantity);
-            var squarableStatement = new SquarableStatement(new[] { brokenStatements.BrokenTradeStatement, smaller });
+            var squarableStatement = new SquarableStatement( brokenStatements.BrokenTradeStatement, smaller );
             return new SquarableStatementAndRemainder(squarableStatement, brokenStatements.RemainingTradeStatement);
         }
 
