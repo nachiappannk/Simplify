@@ -17,9 +17,24 @@ namespace Simplify.Trade
 
     public class AssetQuotation
     {
+        public event Action Changed;
+
+        private readonly Quote _quote;
+
+        public AssetQuotation(Quote quote)
+        {
+            _quote = quote;
+            _quote.Changed += () => Changed?.Invoke();
+        }
+
         public string Name { get; set; }
-        public bool IsClosed { get; set; }
-        public double? QuotePerUnit { get; set; }
+        public bool IsOwned { get; set; }
+
+        public double? QuotePerUnit
+        {
+            get { return _quote.QuotedValue; }
+            set { _quote.QuotedValue = value; }
+        }
     }
 
     public class PurchasedAssetEvaluationStatement
@@ -48,6 +63,7 @@ namespace Simplify.Trade
         private List<SquarableStatement> _purchaseAndSaleMappedStatements;
         private Dictionary<string,List<SquarableStatement>> statementsForAssets;
         
+        public List<AssetQuotation> AssetQuotations { get; set; }
 
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
@@ -73,15 +89,54 @@ namespace Simplify.Trade
             var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
             statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());
 
-            var closedAssetStatements = new Dictionary<string, List<SquarableStatement>>();
-            var openAssetStatements = new Dictionary<string, List<SquarableStatement>>();
+            var statementsForClosedAssets = new Dictionary<string, List<SquarableStatement>>();
+            var statementsForOpenAssets = new Dictionary<string, List<SquarableStatement>>();
             foreach (var statementsForAsset in statementsForAssets)
             {
                 if (statementsForAsset.Value.Any(x => !x.IsSquared))
-                    openAssetStatements.Add(statementsForAsset.Key, statementsForAsset.Value);
+                    statementsForOpenAssets.Add(statementsForAsset.Key, statementsForAsset.Value);
                 else
-                    closedAssetStatements.Add(statementsForAsset.Key, statementsForAsset.Value);
+                    statementsForClosedAssets.Add(statementsForAsset.Key, statementsForAsset.Value);
             }
+
+            AssetQuotations = new List<AssetQuotation>();
+            HashSet<string> assetChecker = new HashSet<string>();
+            foreach (var quotationStatement in quotationStatements)
+            {
+                if (assetChecker.Contains(quotationStatement.Name)) continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(quotationStatement.Name))
+                {
+                    Name = quotationStatement.Name,
+                    IsOwned = statementsForOpenAssets.ContainsKey(quotationStatement.Name)
+                };
+                assetChecker.Add(quotationStatement.Name);
+                AssetQuotations.Add(assetQuotation);
+            }
+            foreach (var statementsForClosedAsset in statementsForClosedAssets)
+            {
+                var assetName = statementsForClosedAsset.Key;
+                if(assetChecker.Contains(assetName))continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(assetName))
+                {
+                    Name = assetName,
+                    IsOwned = false,
+                };
+                assetChecker.Add(assetName);
+                AssetQuotations.Add(assetQuotation);
+            }
+            foreach (var statementsForOpenAsset in statementsForOpenAssets)
+            {
+                var assetName = statementsForOpenAsset.Key;
+                if (assetChecker.Contains(assetName)) continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(assetName))
+                {
+                    Name = assetName,
+                    IsOwned = true,
+                };
+                assetChecker.Add(assetName);
+                AssetQuotations.Add(assetQuotation);
+            }
+
 
             ProfitBook = new List<SquarableStatement>();
             ProfitBook.AddRange(_purchaseAndSaleMappedStatements.Where(x => x.IsSquared));

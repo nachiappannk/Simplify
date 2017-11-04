@@ -37,6 +37,7 @@ namespace Simplify.Trade
     {
         public event Action Changed;
 
+        public event Action Changing;
         public string Name { get; set; }
 
         private double? _quotedValue;
