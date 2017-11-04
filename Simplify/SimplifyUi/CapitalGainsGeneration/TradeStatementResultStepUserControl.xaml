@@ -35,6 +35,9 @@
             <TabItem Header="Open Positions Detailed">
                     <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
             </TabItem>
+            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
+                <common:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+            </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
                     <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
@@ -110,9 +113,7 @@
             <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationBookViewModel}">
                 <local:AssetPurchaseInformationUserControl/>
             </TabItem>
-            <TabItem Header="Open Positions Aggregated" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
-                <common:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
-            </TabItem>
+            
             
         </TabControl>
     </Grid>
