@@ -94,7 +94,7 @@
     <Compile Include="CapitalGainsGeneration\TradeStatementResultStepUserControl.xaml.cs">
       <DependentUpon>TradeStatementResultStepUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
+    <Compile Include="Common\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationSummarizedViewModel.cs" />
