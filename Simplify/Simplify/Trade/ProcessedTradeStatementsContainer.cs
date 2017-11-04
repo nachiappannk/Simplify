@@ -63,6 +63,8 @@ namespace Simplify.Trade
                     return result;
                 }).ToList();
 
+            
+
             var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
             statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());
 
@@ -75,6 +77,26 @@ namespace Simplify.Trade
                 else
                     statementsForClosedAssets.Add(statementsForAsset.Key, statementsForAsset.Value);
             }
+
+            PurchasedAssetSummarizedStatements = statementsForOpenAssets
+                .Select(y =>
+                {
+                    var name = y.Key;
+                    var statements = y.Value;
+                    var openStatements = statements.Where(x => !x.IsSquared).ToList();
+                    var closedStatements = statements.Where(x => x.IsSquared).ToList();
+                    var result =
+                        new PurchasedAssetEvaluationSummarizedStatement(_repository.GetQuote(name))
+                        {
+                            Name = name,
+                            PurchaseStartDate = openStatements.Select(x => x.PurchaseDate).Min(),
+                            PurchaseEndDate = openStatements.Select(x => x.PurchaseDate).Max(),
+                            Quantity = openStatements.Select(x => x.Quantity).Sum(),
+                            Value = openStatements.Select(x => x.PurchaseValue).Sum(),
+                            RealizedProfit = closedStatements.Sum(x => x.SaleValue - x.PurchaseValue)
+                        };
+                    return result;
+                }).ToList();
 
             AssetQuotations = new List<AssetQuotation>();
             HashSet<string> assetChecker = new HashSet<string>();

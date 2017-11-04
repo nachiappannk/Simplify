@@ -37,7 +37,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             PurchaseEndDate = statement.PurchaseEndDate;
             Value = statement.Value;
             ValuePerUnit = statement.GetAverageValue();
-            
+            RealizedProfit = statement.RealizedProfit;
+
 
 
             _statement = statement;
@@ -96,6 +97,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             get { return _statement.GetCurrentValue(); }
             set { }
         }
+
+        [DisplayName("Realized Profit")]
+        public double RealizedProfit { get; set; }
+
 
         [DisplayName("Unrealized Profit")]
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]

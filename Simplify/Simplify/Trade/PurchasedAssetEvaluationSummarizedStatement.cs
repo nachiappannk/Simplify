@@ -19,6 +19,8 @@ namespace Simplify.Trade
         public double Quantity { get; set; }
         public double Value { get; set; }
 
+        public double RealizedProfit { get; set; }
+
         public double? QuotePerUnit
         {
             get { return _quote.QuotedValue; }
