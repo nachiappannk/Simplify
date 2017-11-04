@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplify", "Simplify\Simpli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplifyUi", "SimplifyUi\SimplifyUi.csproj", "{F203A336-E547-4351-8E9D-0037946EA882}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplifyUiComponents", "SimplifyUiComponents\SimplifyUiComponents.csproj", "{839D5617-DCB7-4E79-A52F-C0D7BFBF3817}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F203A336-E547-4351-8E9D-0037946EA882}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F203A336-E547-4351-8E9D-0037946EA882}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F203A336-E547-4351-8E9D-0037946EA882}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839D5617-DCB7-4E79-A52F-C0D7BFBF3817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839D5617-DCB7-4E79-A52F-C0D7BFBF3817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839D5617-DCB7-4E79-A52F-C0D7BFBF3817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839D5617-DCB7-4E79-A52F-C0D7BFBF3817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

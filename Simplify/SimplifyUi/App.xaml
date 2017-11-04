@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SimplifyUi" 
              xmlns:common="clr-namespace:SimplifyUi.Common"
+             xmlns:simplifyUiComponents="clr-namespace:SimplifyUiComponents;assembly=SimplifyUiComponents"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="WritableFormatableDataGrid" TargetType="{x:Type common:FormatableDataGrid}">
+        <Style x:Key="WritableFormatableDataGrid" TargetType="{x:Type simplifyUiComponents:FormatableDataGrid}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="IsReadOnly" Value="False"/>

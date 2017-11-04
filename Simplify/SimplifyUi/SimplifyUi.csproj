@@ -108,7 +108,6 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
     <Compile Include="Common\ViewModelTools\ViewModelProperty.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
-    <Compile Include="Common\FormatableDataGrid.cs" />
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>
     </Compile>
@@ -222,6 +221,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimplifyUiComponents\SimplifyUiComponents.csproj">
+      <Project>{839d5617-dcb7-4e79-a52f-c0d7bfbf3817}</Project>
+      <Name>SimplifyUiComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simplify\Simplify.csproj">
       <Project>{9f7856e7-43ed-44c4-8423-8a3a0da4fa4c}</Project>
       <Name>Simplify</Name>
