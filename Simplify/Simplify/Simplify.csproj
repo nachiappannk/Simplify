@@ -92,7 +92,7 @@
     <Compile Include="Books\DatedStatement.cs" />
     <Compile Include="Books\DetailedDatedStatement.cs" />
     <Compile Include="Books\RealAccountBook.cs" />
-    <Compile Include="Trade\Internal\StatementsSeparator.cs" />
+    <Compile Include="Trade\Internal\SaleAndPurchaseMapper.cs" />
     <Compile Include="Trade\TradeStatement.cs" />
     <Compile Include="DataGateway\IBooksOfAccountWriter.cs" />
     <Compile Include="ExcelDataGateway\BalanceSheetGateway.cs" />

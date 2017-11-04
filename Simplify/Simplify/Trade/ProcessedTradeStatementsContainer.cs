@@ -45,6 +45,10 @@ namespace Simplify.Trade
 
     public class ProcessedTradeStatementsContainer
     {
+        private List<SquarableStatement> _purchaseAndSaleMappedStatements;
+        private Dictionary<string,List<SquarableStatement>> statementsForAssets;
+        
+
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
         public List<SquarableStatement> ProfitBook { get; set; }
@@ -59,8 +63,31 @@ namespace Simplify.Trade
         public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<QuotationStatement> quotationStatements)
         {
             _repository = new QuotationRepository(quotationStatements);
+
+            var assetNames = tradeStatements.Select(x => x.Name).Distinct().ToList();
+            assetNames.AddRange(quotationStatements.Select(x => x.Name));
+            assetNames = assetNames.Distinct().ToList();
+
+            _purchaseAndSaleMappedStatements = GetSaleAndPurchaseMappedStatements(tradeStatements);
+
+            var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
+            statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());
+
+            var closedAssetStatements = new Dictionary<string, List<SquarableStatement>>();
+            var openAssetStatements = new Dictionary<string, List<SquarableStatement>>();
+            foreach (var statementsForAsset in statementsForAssets)
+            {
+                if (statementsForAsset.Value.Any(x => !x.IsSquared))
+                    openAssetStatements.Add(statementsForAsset.Key, statementsForAsset.Value);
+                else
+                    closedAssetStatements.Add(statementsForAsset.Key, statementsForAsset.Value);
+            }
+
+            ProfitBook = new List<SquarableStatement>();
+            ProfitBook.AddRange(_purchaseAndSaleMappedStatements.Where(x => x.IsSquared));
+            OpenPositionBook = _purchaseAndSaleMappedStatements.Where(x => !x.IsSquared).Select(x => x.ConvertToTradeStatement()).ToList();
+
             InitializeAssetNamesBook(tradeStatements);
-            InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
             InitializeAssetEvaluationBook(OpenPositionBook);
             InitializeAssetEvaluationAggregatedBook(OpenPositionBook);
@@ -100,14 +127,11 @@ namespace Simplify.Trade
 
 
 
-        private void InitializeOpenPositionAndProfitBook(List<TradeStatement> tradeStatements)
+        private List<SquarableStatement> GetSaleAndPurchaseMappedStatements(List<TradeStatement> tradeStatements)
         {
-            var separator = new StatementsSeparator();
-            List<TradeStatement> openStatements;
-            List<SquarableStatement> closedStatements;
-            separator.SeparateStatementsAsClosedAndOpen(tradeStatements, out openStatements, out closedStatements);
-            OpenPositionBook = openStatements;
-            ProfitBook = closedStatements;
+            var mapper = new SaleAndPurchaseMapper();
+            var mappedStatements = mapper.MapSaleAndPurchaseStatements(tradeStatements);
+            return mappedStatements;
         }
 
         private void InitializeSummaryBooks()
