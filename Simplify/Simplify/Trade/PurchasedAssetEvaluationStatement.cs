@@ -4,13 +4,13 @@ namespace Simplify.Trade
 {
     public class PurchasedAssetEvaluationStatement
     {
-        public event Action Changed;
+        public event Action EvaluationChanged;
         private readonly Quote _quote;
 
         public PurchasedAssetEvaluationStatement(Quote quote)
         {
             _quote = quote;
-            _quote.Changed += () => { Changed?.Invoke(); };
+            _quote.Changed += () => { EvaluationChanged?.Invoke(); };
         }
         public DateTime Date { get; set; }
         public string Name { get; set; }
@@ -41,6 +41,23 @@ namespace Simplify.Trade
                 Value = statement.PurchaseValue
             };
             return result;
+        }
+
+        public static double GetAverageValue(this PurchasedAssetEvaluationStatement statement)
+        {
+            return statement.Value / statement.Quantity;
+        }
+
+        public static double? GetCurrentValue(this PurchasedAssetEvaluationStatement statement)
+        {
+            if (!statement.QuotePerUnit.HasValue) return null;
+            return statement.QuotePerUnit.Value * statement.Quantity;
+        }
+
+        public static double? GetUnrealizedProfit(this PurchasedAssetEvaluationStatement statement)
+        {
+            if (!statement.QuotePerUnit.HasValue) return null;
+            return statement.GetCurrentValue() - statement.Value;
         }
     }
 }

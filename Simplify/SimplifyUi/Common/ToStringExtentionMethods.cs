@@ -12,10 +12,6 @@ namespace SimplifyUi.Common
         {
             return date.ToString("yyyy-MM-dd");
         }
-
-        public static string ToStringWithNumberOfDecimals(this double value, int numberOfDecimals)
-        {
-            return value.ToString("N"+numberOfDecimals);
-        }
+        
     }
 }

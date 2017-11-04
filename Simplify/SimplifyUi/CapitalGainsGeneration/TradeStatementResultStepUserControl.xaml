@@ -32,10 +32,8 @@
             <TabItem Header="Asset Price List" DataContext="{Binding AssetQuotesViewModel}">
                 <common:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
             </TabItem>
-            <TabItem Header="Open Positions">
-                <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
-                </Grid>
+            <TabItem Header="Open Positions Detailed">
+                    <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
             </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
