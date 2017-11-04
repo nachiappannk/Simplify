@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Simplify.Trade;
 using SimplifyUi.Common;
+using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
@@ -17,15 +19,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             {
                 Name = x.Name,
                 Quantity = x.Quantity,
-                PurchaseDate = x.PurchaseDate.ToStringDisplayable(),
+                PurchaseDate = x.PurchaseDate,
                 PurchaseValue = x.PurchaseValue,
                 PurchaseTransactionTax = x.PurchaseTransactionTax,
                 PurchaseTransactionDetail = x.PurchaseTransactionDetail,
-                SaleDate = x.SaleDate.ToStringDisplayable(),
+                SaleDate = x.SaleDate,
                 SaleValue = x.SaleValue,
                 SaleTransactionDetail = x.SaleTransactionDetail,
                 SaleTransactionTax = x.SaleTransactionTax,
                 Profit = x.GetProfit(),
+                HoldingDays = x.GetNumberOfHoldingDays(),
             }));
         }
     }
@@ -33,20 +36,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
     public class ProfitBookTableRecord
     {
         public string Name { get; set; }
-        public double Quantity { get; set; }
 
-        [DisplayName("Purchase Date")]
-        public string PurchaseDate { get; set; }
-
-        [DisplayName("Sale Date")]
-        public string SaleDate { get; set; }
-
-        [DisplayName("Cost")]
-        public double PurchaseValue { get; set; }
-
-        [DisplayName("Sale")]
-        public double SaleValue { get; set; }
-        public double Profit { get; set; }
 
         [DisplayName("Purchase TT")]
         public string PurchaseTransactionTax { get; set; }
@@ -59,6 +49,33 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         [DisplayName("Sale TD")]
         public string SaleTransactionDetail { get; set; }
+
+
+        [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
+        public double Quantity { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
+        [DisplayName("Purchase Date")]
+        public DateTime PurchaseDate { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
+        [DisplayName("Sale Date")]
+        public DateTime SaleDate { get; set; }
+
+        [DisplayName("Held Days")]
+        public int HoldingDays { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Cost")]
+        public double PurchaseValue { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Sale")]
+        public double SaleValue { get; set; }
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        public double Profit { get; set; }
+
 
     }
 

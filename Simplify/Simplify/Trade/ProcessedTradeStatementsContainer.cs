@@ -117,6 +117,7 @@ namespace Simplify.Trade
 
             ProfitBook = new List<SquarableStatement>();
             ProfitBook.AddRange(_purchaseAndSaleMappedStatements.Where(x => x.IsSquared));
+
             OpenPositionBook = _purchaseAndSaleMappedStatements.Where(x => !x.IsSquared).Select(x => x.ConvertToTradeStatement()).ToList();
 
             InitializeAssetNamesBook(tradeStatements);
