@@ -16,11 +16,10 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         private ProcessedTradeStatementsContainer _statementsContainer;
 
         public InteractionRequest<FileSaveAsNotification> FileSaveAsRequest { get; private set; }
-        public OpenPositionViewModel OpenPositionViewModel { get; set; }
+        public AssetEvaluationViewModel AssetEvaluationViewModel { get; set; }
         public ProfitBookViewModel ProfitBookViewModel { get; set; }
-        public AssetEvaluationBookViewModel AssetEvaluationBookViewModel { get; set; }
         public AssetQuotesViewModel AssetQuotesViewModel { get; set; }
-        public AssetEvaluationAggregatedBookViewModel AssetEvaluationAggregatedBookViewModel { get; set; }
+        public AssetEvaluationSummarizedViewModel AssetEvaluationSummarizedViewModel { get; set; }
         public OpenAssetSummary HoldingAssetSummary { get; set; }
         public ClosedAssetSummary ClosedAssetSummary { get; set; }
 
@@ -40,9 +39,9 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             _statementsContainer = statementsContainer;
             AssetQuotesViewModel = new AssetQuotesViewModel(statementsContainer);
 
-            OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
-            AssetEvaluationBookViewModel = new AssetEvaluationBookViewModel(_statementsContainer.AssetEvalutionBook);
-            AssetEvaluationAggregatedBookViewModel = new AssetEvaluationAggregatedBookViewModel(_statementsContainer);
+            AssetEvaluationViewModel = new AssetEvaluationViewModel(_statementsContainer);
+
+            AssetEvaluationSummarizedViewModel = new AssetEvaluationSummarizedViewModel(_statementsContainer);
 
             
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);

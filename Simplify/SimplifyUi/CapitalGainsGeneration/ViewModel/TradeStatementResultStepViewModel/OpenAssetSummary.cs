@@ -15,7 +15,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             OnAssetSelectedChanged(SelectedAsset);
         }
 
-        public List<AssetEvaluationAggregatedRecord> SummaryRecords { get; set; }
+        public List<AssetEvaluationSummarizedRecord> SummaryRecords { get; set; }
 
         private List<AssetSummaryRecord> _records;
         public List<AssetSummaryRecord> Records
@@ -39,7 +39,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             {
                 SummaryRecords = _container.PurchasedAssetSummarizedStatements
                     .Where(x => x.Name == SelectedAsset)
-                    .Select(x => new AssetEvaluationAggregatedRecord(x))
+                    .Select(x => new AssetEvaluationSummarizedRecord(x))
                     .ToList();
             }
             

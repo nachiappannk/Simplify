@@ -32,11 +32,11 @@
             <TabItem Header="Asset Prices" DataContext="{Binding AssetQuotesViewModel}">
                 <common:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
             </TabItem>
-            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
+            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationSummarizedViewModel}">
                 <common:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
             </TabItem>
             <TabItem Header="Open Positions Detailed">
-                <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
+                <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding AssetEvaluationViewModel.OpenPositions}"/>
             </TabItem>
             <TabItem Header="Profit book">
                 <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>

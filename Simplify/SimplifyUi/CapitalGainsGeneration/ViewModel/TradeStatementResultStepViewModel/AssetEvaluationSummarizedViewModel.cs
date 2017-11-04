@@ -11,25 +11,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public class AssetEvaluationAggregatedBookViewModel
+    public class AssetEvaluationSummarizedViewModel
     {
-        private readonly AssetEvaluationAggregatedBook _book;
-
-        public AssetEvaluationAggregatedBookViewModel(ProcessedTradeStatementsContainer container)
+        public AssetEvaluationSummarizedViewModel(ProcessedTradeStatementsContainer container)
         {
-            Records = container.PurchasedAssetSummarizedStatements.Select(x => new AssetEvaluationAggregatedRecord(x)).ToList();
+            Records = container.PurchasedAssetSummarizedStatements.Select(x => new AssetEvaluationSummarizedRecord(x)).ToList();
         }
 
         
-        public List<AssetEvaluationAggregatedRecord> Records { get; set; }
+        public List<AssetEvaluationSummarizedRecord> Records { get; set; }
 
     }
 
-    public class AssetEvaluationAggregatedRecord : NotifiesPropertyChanged
+    public class AssetEvaluationSummarizedRecord : NotifiesPropertyChanged
     {
         private readonly PurchasedAssetEvaluationSummarizedStatement _statement;
 
-        public AssetEvaluationAggregatedRecord(PurchasedAssetEvaluationSummarizedStatement statement)
+        public AssetEvaluationSummarizedRecord(PurchasedAssetEvaluationSummarizedStatement statement)
         {
             Name = statement.Name;
             Quantity = statement.Quantity;

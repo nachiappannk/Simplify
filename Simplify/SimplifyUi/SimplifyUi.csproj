@@ -97,13 +97,12 @@
     <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationAggregatedBookViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationBookViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationSummarizedViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetQuotesViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ClosedAssetSummary.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenAssetSummary.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenPositionViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ProfitBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
     <Compile Include="Common\ViewModelTools\ViewModelProperty.cs" />

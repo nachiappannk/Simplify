@@ -9,13 +9,13 @@ using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public class OpenPositionViewModel
+    public class AssetEvaluationViewModel
     {
-        public List<OpenPositionTableRecord> OpenPositions { get; set; }
-        public OpenPositionViewModel(ProcessedTradeStatementsContainer container)
+        public List<AssetEvaluationRecord> OpenPositions { get; set; }
+        public AssetEvaluationViewModel(ProcessedTradeStatementsContainer container)
         {
-            OpenPositions = new List<OpenPositionTableRecord>();
-            OpenPositions.AddRange(container.PurchasedAssetEvaluationStatements.Select(x => new OpenPositionTableRecord(x)
+            OpenPositions = new List<AssetEvaluationRecord>();
+            OpenPositions.AddRange(container.PurchasedAssetEvaluationStatements.Select(x => new AssetEvaluationRecord(x)
             {
                 Date = x.Date,
                 Name = x.Name,
@@ -28,11 +28,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         }
     }
 
-    public class OpenPositionTableRecord : NotifiesPropertyChanged
+    public class AssetEvaluationRecord : NotifiesPropertyChanged
     {
         private readonly PurchasedAssetEvaluationStatement _statement;
 
-        public OpenPositionTableRecord(PurchasedAssetEvaluationStatement statement)
+        public AssetEvaluationRecord(PurchasedAssetEvaluationStatement statement)
         {
             _statement = statement;
             _statement.EvaluationChanged += OnStatementEvaluationChanged;
