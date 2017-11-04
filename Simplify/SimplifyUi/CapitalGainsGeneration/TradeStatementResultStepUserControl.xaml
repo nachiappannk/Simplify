@@ -29,21 +29,21 @@
                     <Setter Property="AlternationCount" Value="2" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Asset Price List" DataContext="{Binding AssetQuotesViewModel}">
+            <TabItem Header="Asset Prices" DataContext="{Binding AssetQuotesViewModel}">
                 <common:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
-            </TabItem>
-            <TabItem Header="Open Positions Detailed">
-                    <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
             </TabItem>
             <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
                 <common:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+            </TabItem>
+            <TabItem Header="Open Positions Detailed">
+                <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
             </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
                     <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Summary" DataContext="{Binding HoldingAssetSummary}">
+            <TabItem Header="Open Asset Summary" DataContext="{Binding HoldingAssetSummary}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -58,7 +58,7 @@
                     <common:FormatableDataGrid Grid.Row="2" Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Summary (0)" DataContext="{Binding ClosedAssetSummary}">
+            <TabItem Header="Closed Asset Summary" DataContext="{Binding ClosedAssetSummary}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -86,11 +86,6 @@
                     <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" Grid.Row="2" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationBookViewModel}">
-                <local:AssetPurchaseInformationUserControl/>
-            </TabItem>
-            
-            
         </TabControl>
     </Grid>
 </UserControl>

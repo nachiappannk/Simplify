@@ -71,7 +71,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost/Unit")]
-
         public double ValuePerUnit { get; set; }
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]

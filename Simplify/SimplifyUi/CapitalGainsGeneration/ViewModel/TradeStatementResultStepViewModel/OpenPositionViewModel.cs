@@ -69,7 +69,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Price")]
+        [DisplayName("Current Price")]
         public double? CurrentValue
         {
             get { return _statement.GetCurrentValue(); }
@@ -77,7 +77,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         }
 
         [Editable(true)]
-        [DisplayName("Price/Unit")]
+        [DisplayName("Current Price/Unit")]
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? CurrentPerUnit {
             get { return _statement.QuotePerUnit; }

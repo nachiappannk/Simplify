@@ -29,13 +29,13 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             _assetQuotation = assetQuotation;
             assetQuotation.Changed += () => { FirePropertyChanged(nameof(CurrentPrice)); };
             Name = assetQuotation.Name;
-            OwnerShipInfo = assetQuotation.IsOwned ? "Owned" : "Not Owned";
+            OwnerShipInfo = assetQuotation.IsOwned ? "Open" : "Closed";
 
         }
 
         public string Name { get; set; }
 
-        [DisplayName("Owner ship")]
+        [DisplayName("Status")]
         public string OwnerShipInfo { get; set; }
 
         [Editable(true)]
