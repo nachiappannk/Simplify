@@ -39,9 +39,7 @@
                 <common:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
             </TabItem>
             <TabItem Header="Profit book">
-                <Grid>
-                    <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
-                </Grid>
+                <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
             </TabItem>
             <TabItem Header="Open Asset Summary" DataContext="{Binding HoldingAssetSummary}">
                 <Grid>
