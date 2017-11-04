@@ -87,26 +87,29 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         public DateTime? PurchaseDate { get; set; }
 
-        [DisplayName("Cost")]
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        public double PurchaseValue { get; set; }
-
-
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost per Unit")]
         public double PurchasePerUnit { get; set; }
+
+
+        [DisplayName("Cost")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        public double PurchaseValue { get; set; }
 
         [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         [DisplayName("Sale Date")]
         public DateTime? SaleDate { get; set; }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Sale Value")]
-        public double? SaleValue { get; set; }
 
         [DisplayName("Sale per Unit")]
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? SalePerUnit { get; set; }
+
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Sale Value")]
+        public double? SaleValue { get; set; }
+
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? Profit { get; set; }

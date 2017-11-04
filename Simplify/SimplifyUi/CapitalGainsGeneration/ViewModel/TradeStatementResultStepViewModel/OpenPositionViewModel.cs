@@ -60,13 +60,22 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayFormat(DataFormatString = CommonDefinition.QuantityDisplayFormat)]
         public double Quantity { get; set; }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        public double Cost { get; set; }
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost/Unit")]
         public double CostPerUnit { get; set; }
 
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        public double Cost { get; set; }
+
+        [Editable(true)]
+        [DisplayName("Current Price/Unit")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        public double? CurrentPerUnit
+        {
+            get { return _statement.QuotePerUnit; }
+            set { _statement.QuotePerUnit = value; }
+        }
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Current Price")]
@@ -74,14 +83,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
             get { return _statement.GetCurrentValue(); }
             set { }
-        }
-
-        [Editable(true)]
-        [DisplayName("Current Price/Unit")]
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        public double? CurrentPerUnit {
-            get { return _statement.QuotePerUnit; }
-            set { _statement.QuotePerUnit = value; } 
         }
 
         [DisplayName("Unrealized Profit")]
