@@ -89,7 +89,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             HoldingAssetSummary = new OpenAssetSummary(_statementsContainer.OpenAssetSummaryBooks);
             ClosedAssetSummary = new ClosedAssetSummary(_statementsContainer.ClosedAssetSummaryBooks);
             AssetEvaluationBookViewModel = new AssetEvaluationBookViewModel(_statementsContainer.AssetEvalutionBook);
-            AssetEvaluationAggregatedBookViewModel = new AssetEvaluationAggregatedBookViewModel(_statementsContainer.AssetEvaluationAggregatedBook);
+            AssetEvaluationAggregatedBookViewModel = new AssetEvaluationAggregatedBookViewModel(_statementsContainer);
             AssetQuotesViewModel = new AssetQuotesViewModel(statementsContainer);
         }
 

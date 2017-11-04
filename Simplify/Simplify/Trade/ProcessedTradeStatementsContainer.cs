@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -15,16 +14,6 @@ namespace Simplify.Trade
         public double? UnrealizedProfit { get; set; }
     }
 
-    public class PurchasedAssetEvaluationSummarizedStatement
-    {
-        public string Name { get; set; }
-        public DateTime PurchaseStartDate { get; set; }
-        public DateTime PurchaseEndDate { get; set; }
-        public double Quantity { get; set; }
-        public double Value { get; set; }
-        public double? QuotePerUnit { get; set; }
-    }
-
     public class ProcessedTradeStatementsContainer
     {
         private List<SquarableStatement> _purchaseAndSaleMappedStatements;
@@ -32,6 +21,8 @@ namespace Simplify.Trade
         
         public List<AssetQuotation> AssetQuotations { get; set; }
         public List<PurchasedAssetEvaluationStatement> PurchasedAssetEvaluationStatements { get; set; }
+
+        public List<PurchasedAssetEvaluationSummarizedStatement> PurchasedAssetSummarizedStatements { get; set;}
 
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
@@ -58,6 +49,19 @@ namespace Simplify.Trade
                 .Where(x => !x.IsSquared)
                 .Select(x => x.CreatePurchasedAssetEvalutionStatement(_repository.GetQuote(x.Name)))
                 .ToList();
+
+            PurchasedAssetSummarizedStatements = PurchasedAssetEvaluationStatements
+                .GroupBy(x => x.Name, x => x, (name, statements) =>
+                {
+                    var result = new PurchasedAssetEvaluationSummarizedStatement(_repository.GetQuote(name));
+                    result.Name = name;
+                    var statementList = statements.ToList();
+                    result.PurchaseStartDate = statementList.Select(x => x.Date).Min();
+                    result.PurchaseEndDate = statementList.Select(x => x.Date).Max();
+                    result.Quantity = statementList.Select(x => x.Quantity).Sum();
+                    result.Value = statementList.Select(x => x.Value).Sum();
+                    return result;
+                }).ToList();
 
             var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
             statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());
