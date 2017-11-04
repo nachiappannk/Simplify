@@ -29,10 +29,8 @@
                     <Setter Property="AlternationCount" Value="2" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Asset Names">
-                <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding AssetNamesViewModel.AssetNames}" />
-                </Grid>
+            <TabItem Header="Asset Price List" DataContext="{Binding AssetQuotesViewModel}">
+                <common:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
             </TabItem>
             <TabItem Header="Open Positions">
                 <Grid>
@@ -117,9 +115,7 @@
             <TabItem Header="Open Positions Aggregated" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
                 <local:AssetPurchaseAggregatedInformationUserControl></local:AssetPurchaseAggregatedInformationUserControl>
             </TabItem>
-            <TabItem Header="Asset Price List" DataContext="{Binding AssetQuotesViewModel}">
-                <common:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
-            </TabItem>
+            
         </TabControl>
     </Grid>
 </UserControl>

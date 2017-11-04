@@ -99,7 +99,6 @@ namespace Simplify.ExcelDataGateway.Trade
         public void Write(string fileName, ProcessedTradeStatementsContainer container)
         {
             ExcelWriter writer = new ExcelWriter(fileName);
-            WriteAssetNames(container, writer);
             WriteSumary(container, writer);
             WriteProfitBook(container, writer);
             WriteOpenPositions(container, writer);
@@ -163,12 +162,7 @@ namespace Simplify.ExcelDataGateway.Trade
             }).ToList();
             writer.AddSheet("Summary", summaryRecords);
         }
-
-        private static void WriteAssetNames(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var assetNameRecords = container.AssetNamesBook.Select(x => new AssetNameRecord {Name = x}).ToList();
-            writer.AddSheet("AssetName", assetNameRecords);
-        }
+        
     }
 
     public class TradeLogGateway

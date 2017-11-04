@@ -16,19 +16,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public InteractionRequest<FileSaveAsNotification> FileSaveAsRequest { get; private set; }
         private ProcessedTradeStatementsContainer _statementsContainer;
 
-        private AssetNamesViewModel _assetNamesViewModel;
-        public AssetNamesViewModel AssetNamesViewModel
-        {
-            get { return _assetNamesViewModel; }
-            set
-            {
-                if (_assetNamesViewModel != value)
-                {
-                    _assetNamesViewModel = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
+        
 
         private OpenPositionViewModel _openPositionViewModel;
         public OpenPositionViewModel OpenPositionViewModel
@@ -96,7 +84,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public void SetStatements(ProcessedTradeStatementsContainer statementsContainer)
         {
             _statementsContainer = statementsContainer;
-            AssetNamesViewModel = new AssetNamesViewModel(statementsContainer);
             OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
             HoldingAssetSummary = new OpenAssetSummary(_statementsContainer.OpenAssetSummaryBooks);
