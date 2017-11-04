@@ -15,39 +15,6 @@ namespace Simplify.Trade
         public double? UnrealizedProfit { get; set; }
     }
 
-    public class AssetQuotation
-    {
-        public event Action Changed;
-
-        private readonly Quote _quote;
-
-        public AssetQuotation(Quote quote)
-        {
-            _quote = quote;
-            _quote.Changed += () => Changed?.Invoke();
-        }
-
-        public string Name { get; set; }
-        public bool IsOwned { get; set; }
-
-        public double? QuotePerUnit
-        {
-            get { return _quote.QuotedValue; }
-            set { _quote.QuotedValue = value; }
-        }
-    }
-
-    public class PurchasedAssetEvaluationStatement
-    {
-        public DateTime Date { get; set; }
-        public string Name { get; set; }
-        public double Quantity { get; set; }
-        public double Value { get; set; }
-        public string TransactionTax { get; set; }
-        public string TransactionDetail { get; set; }
-        public double? QuotePerUnit { get; set; }
-    }
-
     public class PurchasedAssetEvaluationSummarizedStatement
     {
         public string Name { get; set; }
@@ -64,6 +31,7 @@ namespace Simplify.Trade
         private Dictionary<string,List<SquarableStatement>> statementsForAssets;
         
         public List<AssetQuotation> AssetQuotations { get; set; }
+        public List<PurchasedAssetEvaluationStatement> PurchasedAssetEvaluationStatements { get; set; }
 
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
@@ -85,6 +53,11 @@ namespace Simplify.Trade
             assetNames = assetNames.Distinct().ToList();
 
             _purchaseAndSaleMappedStatements = GetSaleAndPurchaseMappedStatements(tradeStatements);
+
+            PurchasedAssetEvaluationStatements = _purchaseAndSaleMappedStatements
+                .Where(x => !x.IsSquared)
+                .Select(x => x.CreatePurchasedAssetEvalutionStatement(_repository.GetQuote(x.Name)))
+                .ToList();
 
             var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
             statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());

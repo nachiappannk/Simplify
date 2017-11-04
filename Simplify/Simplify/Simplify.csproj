@@ -73,11 +73,13 @@
     <Compile Include="Trade\AssetEvaluationAggregatedStatement.cs" />
     <Compile Include="Trade\AssetEvaluationStatement.cs" />
     <Compile Include="Trade\AssetEvalutionBook.cs" />
+    <Compile Include="Trade\AssetQuotation.cs" />
     <Compile Include="Trade\AssetStatement.cs" />
     <Compile Include="Trade\ClosedAssetSummaryBook.cs" />
     <Compile Include="Application\JournalStatementBracketTrimmer.cs" />
     <Compile Include="Application\RealBooksGenerator.cs" />
     <Compile Include="Application\StatementPriorityAdjuster.cs" />
+    <Compile Include="Trade\PurchasedAssetEvaluationStatement.cs" />
     <Compile Include="Trade\QuotationRepository.cs" />
     <Compile Include="Trade\QuotationStatement.cs" />
     <Compile Include="Trade\OpenAssetSummaryBook.cs" />
