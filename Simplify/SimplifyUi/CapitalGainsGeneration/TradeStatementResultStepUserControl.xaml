@@ -111,7 +111,7 @@
                 <local:AssetPurchaseInformationUserControl/>
             </TabItem>
             <TabItem Header="Open Positions Aggregated" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
-                <local:AssetPurchaseAggregatedInformationUserControl></local:AssetPurchaseAggregatedInformationUserControl>
+                <common:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
             </TabItem>
             
         </TabControl>
