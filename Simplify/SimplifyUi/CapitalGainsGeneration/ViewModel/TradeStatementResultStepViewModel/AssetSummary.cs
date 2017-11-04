@@ -11,7 +11,7 @@ using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public abstract class AssetSummary<T> : INotifyPropertyChanged
+    public abstract class AssetSummary<T> : NotifiesPropertyChanged
     {
         protected readonly Dictionary<string, T> _dictionary;
 
@@ -49,30 +49,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         }
 
         protected abstract void OnAssetSelectedChanged(string selectedAsset);
-
-
-        private List<AssetSummaryRecord> _records;
-        public List<AssetSummaryRecord> Records
-        {
-            get { return _records; }
-            set
-            {
-                if (_records != value)
-                {
-                    _records = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        }
     }
 
     public class AssetSummaryRecord

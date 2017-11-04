@@ -7,76 +7,43 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 {
     public class OpenAssetSummary : AssetSummary<OpenAssetSummaryBook>
     {
-        public OpenAssetSummary(Dictionary<string, OpenAssetSummaryBook> dictionary) : base(dictionary)
+        private readonly ProcessedTradeStatementsContainer _container;
+
+        public OpenAssetSummary(ProcessedTradeStatementsContainer container) : base(container.OpenAssetSummaryBooks)
         {
+            _container = container;
+            OnAssetSelectedChanged(SelectedAsset);
+        }
+
+        public List<AssetEvaluationAggregatedRecord> SummaryRecords { get; set; }
+
+        private List<AssetSummaryRecord> _records;
+        public List<AssetSummaryRecord> Records
+        {
+            get { return _records; }
+            set
+            {
+                if (_records != value)
+                {
+                    _records = value;
+                    FirePropertyChanged();
+                }
+            }
         }
 
         protected override void OnAssetSelectedChanged(string selectedAsset)
         {
             var openAssetSummaryBook = _dictionary[selectedAsset];
             Records = openAssetSummaryBook.Statements.Select(x => new AssetSummaryRecord(x)).ToList();
-            OpenQuantity = openAssetSummaryBook.QuanityOfOpenPosition;
-            AverageCost = openAssetSummaryBook.AverageCost;
-            OpenPositionCost = openAssetSummaryBook.OpenPositionCost;
-            RealizedProfit = openAssetSummaryBook.RealizedProfit;
-        }
-
-
-        private double _openQuantity;
-
-        public double OpenQuantity
-        {
-            get { return _openQuantity; }
-            set
+            if (_container != null)
             {
-                if (Math.Abs(_openQuantity - value) > 0.001)
-                {
-                    _openQuantity = value;
-                    FirePropertyChanged();
-                }
+                SummaryRecords = _container.PurchasedAssetSummarizedStatements
+                    .Where(x => x.Name == SelectedAsset)
+                    .Select(x => new AssetEvaluationAggregatedRecord(x))
+                    .ToList();
             }
-        }
-
-        private double _averageCost;
-        public double AverageCost
-        {
-            get { return _averageCost; }
-            set
-            {
-                if (Math.Abs(_averageCost - value) > 0.001)
-                {
-                    _averageCost = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-
-        private double _openPositionCost;
-        public double OpenPositionCost
-        {
-            get { return _openPositionCost; }
-            set
-            {
-                if (Math.Abs(_openPositionCost - value) > 0.001)
-                {
-                    _openPositionCost = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-
-        private double _realizedProfit;
-        public double RealizedProfit
-        {
-            get { return _realizedProfit; }
-            set
-            {
-                if (Math.Abs(_realizedProfit - value) > 0.001)
-                {
-                    _realizedProfit = value;
-                    FirePropertyChanged();
-                }
-            }
+            
+            FirePropertyChanged(nameof(SummaryRecords));
         }
     }
 }

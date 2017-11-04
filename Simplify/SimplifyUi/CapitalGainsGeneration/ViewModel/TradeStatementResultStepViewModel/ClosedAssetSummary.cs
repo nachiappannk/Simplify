@@ -11,6 +11,20 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
         }
 
+
+        private List<AssetSummaryRecord> _records;
+        public List<AssetSummaryRecord> Records
+        {
+            get { return _records; }
+            set
+            {
+                if (_records != value)
+                {
+                    _records = value;
+                    FirePropertyChanged();
+                }
+            }
+        }
         protected override void OnAssetSelectedChanged(string selectedAsset)
         {
             var closedAssetSummaryBook = _dictionary[selectedAsset];

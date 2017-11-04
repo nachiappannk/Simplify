@@ -86,7 +86,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
             _statementsContainer = statementsContainer;
             OpenPositionViewModel = new OpenPositionViewModel(_statementsContainer);
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
-            HoldingAssetSummary = new OpenAssetSummary(_statementsContainer.OpenAssetSummaryBooks);
+            HoldingAssetSummary = new OpenAssetSummary(_statementsContainer);
             ClosedAssetSummary = new ClosedAssetSummary(_statementsContainer.ClosedAssetSummaryBooks);
             AssetEvaluationBookViewModel = new AssetEvaluationBookViewModel(_statementsContainer.AssetEvalutionBook);
             AssetEvaluationAggregatedBookViewModel = new AssetEvaluationAggregatedBookViewModel(_statementsContainer);
