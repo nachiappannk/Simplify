@@ -8,6 +8,7 @@ using Simplify.Trade;
 using SimplifyUi.Annotations;
 using SimplifyUi.Common.ViewModelTools;
 using System.ComponentModel.DataAnnotations;
+using SimplifyUi.Common.ViewModel;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {

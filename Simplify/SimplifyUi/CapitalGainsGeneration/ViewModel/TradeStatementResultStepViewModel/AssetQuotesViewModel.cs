@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Simplify.Trade;
-using SimplifyUi.Annotations;
+using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
@@ -45,17 +44,6 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
             get { return _assetQuotation.QuotePerUnit; }
             set { _assetQuotation.QuotePerUnit = value; }
-        }
-    }
-
-    public class NotifiesPropertyChanged : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

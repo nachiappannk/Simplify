@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
 using SimplifyUi.Common;
+using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 using SimplifyUi.Properties;
 

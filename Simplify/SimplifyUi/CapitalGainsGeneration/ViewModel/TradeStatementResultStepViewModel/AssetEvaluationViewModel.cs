@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Simplify.Trade;
 using SimplifyUi.Common;
+using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
