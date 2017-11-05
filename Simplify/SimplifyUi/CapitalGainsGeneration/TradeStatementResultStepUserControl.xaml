@@ -30,8 +30,15 @@
                     <Setter Property="AlternationCount" Value="2" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Asset Prices" DataContext="{Binding AssetQuotesViewModel}">
-                <simplifyUiComponents:FormatableDataGrid  ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+            <TabItem Header="Asset Prices">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid  Grid.Row="1" ItemsSource="{Binding AssetQuotesViewModel.Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+                </Grid>
             </TabItem>
             <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationSummarizedViewModel}">
                 <simplifyUiComponents:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />

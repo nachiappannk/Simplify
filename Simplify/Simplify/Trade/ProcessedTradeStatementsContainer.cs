@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -8,10 +9,66 @@ namespace Simplify.Trade
 
     public class TradeSummary
     {
-        public double CostOfOpenPosition { get; set; }
-        public double Profit { get; set; }
-        public double? ValueOfOpenPosition { get; set; }
-        public double? UnrealizedProfit { get; set; }
+        public event Action Changed;
+
+        private double _costOfOpenPosition;
+
+        public double CostOfOpenPosition
+        {
+            get { return _costOfOpenPosition; }
+            set
+            {
+                if (!_costOfOpenPosition.IsDoubleEqual(value))
+                {
+                    _costOfOpenPosition = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        public double _profit;
+
+        public double Profit
+        {
+            get { return _profit; }
+            set
+            {
+                if (!_profit.IsDoubleEqual(value))
+                {
+                    _profit = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        public double? _valueOfOpenPosition;
+
+        public double? ValueOfOpenPosition
+        {
+            get { return _valueOfOpenPosition; }
+            set {
+                if (!_valueOfOpenPosition.IsNullableDoubleEqual(value))
+                {
+                    _valueOfOpenPosition = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        private double? _unrealizedProfit;
+
+        public double? UnrealizedProfit
+        {
+            get { return _unrealizedProfit; }
+            set
+            {
+                if (!_unrealizedProfit.IsNullableDoubleEqual(value))
+                {
+                    _unrealizedProfit = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
     }
 
     public class ProcessedTradeStatementsContainer
@@ -31,6 +88,7 @@ namespace Simplify.Trade
         public Dictionary<string, ClosedAssetSummaryBook> ClosedAssetSummaryBooks { get; private set; }
         public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
+        public TradeSummary TradeSummary { get; set; }
         public AssetEvaluationAggregatedBook AssetEvaluationAggregatedBook { get; set; }
 
         private readonly QuotationRepository _repository;
@@ -146,6 +204,27 @@ namespace Simplify.Trade
             InitializeSummaryBooks();
             InitializeAssetEvaluationBook(OpenPositionBook);
             InitializeAssetEvaluationAggregatedBook(OpenPositionBook);
+
+            TradeSummary = new TradeSummary();
+
+            InitializeTradeSummary();
+            _repository.Changed += InitializeTradeSummary;
+        }
+
+        private void InitializeTradeSummary()
+        {
+            TradeSummary.Profit = ProfitBook.Sum(x => x.SaleValue - x.PurchaseValue);
+            TradeSummary.CostOfOpenPosition = PurchasedAssetSummarizedStatements.Sum(x => x.Value);
+            if (PurchasedAssetSummarizedStatements.Any(x => !x.QuotePerUnit.HasValue))
+            {
+                TradeSummary.UnrealizedProfit = null;
+                TradeSummary.ValueOfOpenPosition = null;
+            }
+            else
+            {
+                TradeSummary.UnrealizedProfit = PurchasedAssetSummarizedStatements.Sum(x => x.GetUnrealizedProfit());
+                TradeSummary.ValueOfOpenPosition = PurchasedAssetSummarizedStatements.Sum(x => x.GetCurrentValue());
+            }
         }
 
         private void InitializeAssetEvaluationAggregatedBook(List<TradeStatement> openPositionBook)

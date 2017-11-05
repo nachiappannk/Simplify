@@ -6,7 +6,7 @@ namespace Simplify.Trade
 {
     public class QuotationRepository
     {
-
+        public event Action Changed;
         Dictionary<string, Quote> quotes = new Dictionary<string, Quote>();
 
         public QuotationRepository(List<QuotationStatement> quotationStatements)
@@ -26,6 +26,10 @@ namespace Simplify.Trade
                 {
                     Name = name,
                     QuotedValue = null
+                };
+                quote.Changed += () =>
+                {
+                    Changed?.Invoke();
                 };
                 quotes.Add(name, quote);
             }
