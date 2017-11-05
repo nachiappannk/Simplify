@@ -40,11 +40,25 @@
                     <simplifyUiComponents:FormatableDataGrid  Grid.Row="1" ItemsSource="{Binding AssetQuotesViewModel.Records}" Style="{StaticResource WritableFormatableDataGrid}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationSummarizedViewModel}">
-                <simplifyUiComponents:FormatableDataGrid ItemsSource="{Binding Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+            <TabItem Header="Open Positions">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid  Grid.Row="1" ItemsSource="{Binding AssetEvaluationSummarizedViewModel.Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+                </Grid>
             </TabItem>
             <TabItem Header="Open Positions Detailed">
-                <simplifyUiComponents:FormatableDataGrid Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding AssetEvaluationViewModel.OpenPositions}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid Grid.Row="1" Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding AssetEvaluationViewModel.OpenPositions}"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Profit book">
                 <simplifyUiComponents:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
