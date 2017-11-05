@@ -14,25 +14,47 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 {
     public abstract class AssetSummary<T> : NotifiesPropertyChanged
     {
-        protected readonly Dictionary<string, T> _dictionary;
+        
 
         protected AssetSummary(Dictionary<string,T> dictionary)
         {
-            _dictionary = dictionary;
-            AssetNames = dictionary.Keys.ToList();
-            if (AssetNames.Count > 0)
-            {
-                SelectedAsset = AssetNames.ElementAt(0);
-                IsEnabled = true;
-            }
-            else
-            {
-                IsEnabled = false;
-            }
+            
+            //AssetNames = dictionary.Keys.ToList();
+            //if (AssetNames.Count > 0)
+            //{
+            //    SelectedAsset = AssetNames.ElementAt(0);
+            //    IsEnabled = true;
+            //}
+            //else
+            //{
+            //    IsEnabled = false;
+            //}
         }
+        
 
         public bool IsEnabled { get; set; }
-        public List<string> AssetNames { get; set; }
+
+        private List<string> _assetNames;
+
+        public List<string> AssetNames
+        {
+            get { return _assetNames; }
+            set
+            {
+                if (value == null || value.Count == 0)
+                {
+                    _assetNames = new List<string>();
+                    IsEnabled = false;
+                    SelectedAsset = String.Empty;
+                }
+                else
+                {
+                    _assetNames = value;
+                    IsEnabled = true;
+                    SelectedAsset = _assetNames.ElementAt(0);
+                }
+            }
+        }
 
         private string _selectedAsset;
 
@@ -44,7 +66,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 if (_selectedAsset != value)
                 {
                     _selectedAsset = value;
-                    OnAssetSelectedChanged(_selectedAsset);
+                    if(IsEnabled) OnAssetSelectedChanged(_selectedAsset);
                 }
             }
         }

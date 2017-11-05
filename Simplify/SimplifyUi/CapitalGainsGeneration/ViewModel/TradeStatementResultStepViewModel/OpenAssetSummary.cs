@@ -7,12 +7,16 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 {
     public class OpenAssetSummary : AssetSummary<OpenAssetSummaryBook>
     {
+        protected readonly Dictionary<string, OpenAssetSummaryBook> _dictionary;
         private readonly ProcessedTradeStatementsContainer _container;
 
         public OpenAssetSummary(ProcessedTradeStatementsContainer container) : base(container.OpenAssetSummaryBooks)
         {
             _container = container;
-            OnAssetSelectedChanged(SelectedAsset);
+            _dictionary = container.OpenAssetSummaryBooks;
+            AssetNames = _dictionary.Keys.ToList();
+
+
         }
 
         public List<AssetEvaluationSummarizedRecord> SummaryRecords { get; set; }
@@ -35,7 +39,7 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         {
             var openAssetSummaryBook = _dictionary[selectedAsset];
             Records = openAssetSummaryBook.Statements.Select(x => new AssetSummaryRecord(x)).ToList();
-            if (_container != null)
+            //if (_container != null)
             {
                 SummaryRecords = _container.PurchasedAssetSummarizedStatements
                     .Where(x => x.Name == SelectedAsset)

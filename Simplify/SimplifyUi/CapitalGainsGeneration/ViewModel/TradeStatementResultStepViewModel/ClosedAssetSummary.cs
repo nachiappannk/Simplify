@@ -7,8 +7,11 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 {
     public class ClosedAssetSummary : AssetSummary<ClosedAssetSummaryBook>
     {
+        protected readonly Dictionary<string, ClosedAssetSummaryBook> _dictionary;
         public ClosedAssetSummary(Dictionary<string, ClosedAssetSummaryBook> dictionary) : base(dictionary)
         {
+            _dictionary = dictionary;
+            AssetNames = _dictionary.Keys.ToList();
         }
 
 
