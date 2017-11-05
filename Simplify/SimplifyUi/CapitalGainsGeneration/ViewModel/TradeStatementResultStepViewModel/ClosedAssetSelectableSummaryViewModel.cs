@@ -5,10 +5,10 @@ using Simplify.Trade;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public class ClosedAssetSummary : AssetSummary
+    public class ClosedAssetSelectableSummaryViewModel : AssetSelectableSummaryViewModel
     {
         protected readonly Dictionary<string, ClosedAssetSummaryBook> _dictionary;
-        public ClosedAssetSummary(Dictionary<string, ClosedAssetSummaryBook> dictionary)
+        public ClosedAssetSelectableSummaryViewModel(Dictionary<string, ClosedAssetSummaryBook> dictionary)
         {
             _dictionary = dictionary;
             AssetNames = _dictionary.Keys.ToList();

@@ -20,8 +20,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         public ProfitBookViewModel ProfitBookViewModel { get; set; }
         public AssetQuotesViewModel AssetQuotesViewModel { get; set; }
         public AssetEvaluationSummarizedViewModel AssetEvaluationSummarizedViewModel { get; set; }
-        public OpenAssetSummary HoldingAssetSummary { get; set; }
-        public ClosedAssetSummary ClosedAssetSummary { get; set; }
+        public OpenAssetSelectableSummaryViewModel HoldingAssetSelectableSummaryViewModel { get; set; }
+        public ClosedAssetSelectableSummaryViewModel ClosedAssetSelectableSummaryViewModel { get; set; }
 
         public TradeStatementResultStepViewModel()
         {
@@ -45,8 +45,8 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
 
             
             ProfitBookViewModel = new ProfitBookViewModel(_statementsContainer);
-            HoldingAssetSummary = new OpenAssetSummary(_statementsContainer);
-            ClosedAssetSummary = new ClosedAssetSummary(_statementsContainer.ClosedAssetSummaryBooks);
+            HoldingAssetSelectableSummaryViewModel = new OpenAssetSelectableSummaryViewModel(_statementsContainer);
+            ClosedAssetSelectableSummaryViewModel = new ClosedAssetSelectableSummaryViewModel(_statementsContainer.ClosedAssetSummaryBooks);
             
         }
 

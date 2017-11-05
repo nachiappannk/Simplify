@@ -12,7 +12,7 @@ using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public abstract class AssetSummary : NotifiesPropertyChanged
+    public abstract class AssetSelectableSummaryViewModel : NotifiesPropertyChanged
     {
         public bool IsEnabled { get; set; }
 

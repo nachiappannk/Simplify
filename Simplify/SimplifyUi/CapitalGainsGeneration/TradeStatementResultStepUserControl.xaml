@@ -42,7 +42,7 @@
             <TabItem Header="Profit book">
                 <simplifyUiComponents:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
             </TabItem>
-            <TabItem Header="Open Asset Summary" DataContext="{Binding HoldingAssetSummary}">
+            <TabItem Header="Open Asset Summary" DataContext="{Binding HoldingAssetSelectableSummaryViewModel}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -57,7 +57,7 @@
                     <simplifyUiComponents:FormatableDataGrid Grid.Row="2" Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Closed Asset Summary" DataContext="{Binding ClosedAssetSummary}">
+            <TabItem Header="Closed Asset Summary" DataContext="{Binding ClosedAssetSelectableSummaryViewModel}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
