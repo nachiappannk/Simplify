@@ -83,7 +83,6 @@
     <Compile Include="Trade\PurchasedAssetEvaluationSummarizedStatement.cs" />
     <Compile Include="Trade\QuotationRepository.cs" />
     <Compile Include="Trade\QuotationStatement.cs" />
-    <Compile Include="Trade\OpenAssetSummaryBook.cs" />
     <Compile Include="Trade\SquarableStatement.cs" />
     <Compile Include="Books\NotionalAccount.cs" />
     <Compile Include="Books\NotionalAccountBook.cs" />
