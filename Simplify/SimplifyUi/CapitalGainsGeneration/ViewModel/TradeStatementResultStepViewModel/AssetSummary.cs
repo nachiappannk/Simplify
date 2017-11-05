@@ -12,26 +12,8 @@ using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public abstract class AssetSummary<T> : NotifiesPropertyChanged
+    public abstract class AssetSummary : NotifiesPropertyChanged
     {
-        
-
-        protected AssetSummary(Dictionary<string,T> dictionary)
-        {
-            
-            //AssetNames = dictionary.Keys.ToList();
-            //if (AssetNames.Count > 0)
-            //{
-            //    SelectedAsset = AssetNames.ElementAt(0);
-            //    IsEnabled = true;
-            //}
-            //else
-            //{
-            //    IsEnabled = false;
-            //}
-        }
-        
-
         public bool IsEnabled { get; set; }
 
         private List<string> _assetNames;
