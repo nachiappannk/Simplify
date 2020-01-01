@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SimplifyUi.CapitalGainsGeneration.TradeSummaryUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimplifyUi.CapitalGainsGeneration"
+             xmlns:tradeStatementResultStepViewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance tradeStatementResultStepViewModel:SummaryViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Left">
+    <Grid Margin="10,5,10,30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Summary" FontWeight="Bold" FontSize="18"/>
+        <TextBlock Text="Profit" Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Text=":" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock Text="{Binding Profit, StringFormat=N2}" Grid.Row="1" Grid.Column="2"/>
+        <TextBlock Text="Unrealized Profit" Grid.Row="2" Grid.Column="0"/>
+        <TextBlock Text=":" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Text="{Binding UnrealizedProfit , StringFormat=N2}" Grid.Row="2" Grid.Column="2"/>
+        <TextBlock Text="Cost of Open assets" Grid.Row="3" Grid.Column="0"/>
+        <TextBlock Text=":" Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Text="{Binding CostOfOpenPosition, StringFormat=N2}" Grid.Row="3" Grid.Column="2"/>
+        <TextBlock Text="Value of Open assets" Grid.Row="4" Grid.Column="0"/>
+        <TextBlock Text=":" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Text="{Binding ValueOfOpenPosition, StringFormat=N2}" Grid.Row="4" Grid.Column="2"/>
+    </Grid>
+    
+</UserControl>

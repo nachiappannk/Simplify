@@ -85,12 +85,6 @@
       <DependentUpon>BooksOfAccountInputUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BooksOfAccountGeneration\ViewModel\BooksOfAccountInputViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\AssetPurchaseAggregatedInformationUserControl.xaml.cs">
-      <DependentUpon>AssetPurchaseAggregatedInformationUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CapitalGainsGeneration\AssetPurchaseInformationUserControl.xaml.cs">
-      <DependentUpon>AssetPurchaseInformationUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CapitalGainsGeneration\TradeStatementComputationStepUserControl.xaml.cs">
       <DependentUpon>TradeStatementComputationStepUserControl.xaml</DependentUpon>
     </Compile>
@@ -100,26 +94,27 @@
     <Compile Include="CapitalGainsGeneration\TradeStatementResultStepUserControl.xaml.cs">
       <DependentUpon>TradeStatementResultStepUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CapitalGainsGeneration\ViewModel\FileSaveAsNotification.cs" />
+    <Compile Include="CapitalGainsGeneration\TradeSummaryUserControl.xaml.cs">
+      <DependentUpon>TradeSummaryUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\SummaryViewModel.cs" />
+    <Compile Include="Common\ViewModel\FileSaveAsNotification.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementComputationStepViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementInputStepViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationAggregatedBookViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationBookViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetNamesViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSummary.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ClosedAssetSummary.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\CostBookViewModel.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenAssetSummary.cs" />
-    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenPositionViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationSummarizedViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetQuotesViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetSelectableSummaryViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ClosedAssetSelectableSummaryViewModel.cs" />
+    <Compile Include="Common\ViewModel\NotifiesPropertyChanged.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\OpenAssetSelectableSummaryViewModel.cs" />
+    <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\AssetEvaluationViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\ProfitBookViewModel.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementResultStepViewModel\TradeStatementResultStepViewModel.cs" />
     <Compile Include="Common\ViewModelTools\ViewModelProperty.cs" />
     <Compile Include="CapitalGainsGeneration\ViewModel\TradeStatementWorkFlow.cs" />
-    <Compile Include="Common\FormatableDataGrid.cs" />
     <Compile Include="Common\MessageDisplayingUserControl.xaml.cs">
       <DependentUpon>MessageDisplayingUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ToStringExtentionMethods.cs" />
     <Compile Include="Common\ViewModelTools\CommonDefinition.cs" />
     <Compile Include="Common\ViewModel\NamedCommand.cs" />
     <Compile Include="Common\ViewModel\WorkFlowStepViewModel.cs" />
@@ -151,14 +146,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CapitalGainsGeneration\AssetPurchaseAggregatedInformationUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CapitalGainsGeneration\AssetPurchaseInformationUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="CapitalGainsGeneration\TradeStatementComputationStepUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CapitalGainsGeneration\TradeStatementResultStepUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapitalGainsGeneration\TradeSummaryUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -238,6 +229,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimplifyUiComponents\SimplifyUiComponents.csproj">
+      <Project>{839d5617-dcb7-4e79-a52f-c0d7bfbf3817}</Project>
+      <Name>SimplifyUiComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simplify\Simplify.csproj">
       <Project>{9f7856e7-43ed-44c4-8423-8a3a0da4fa4c}</Project>
       <Name>Simplify</Name>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -5,16 +6,89 @@ using Simplify.CommonDefinitions;
 
 namespace Simplify.Trade
 {
+
+    public class TradeSummary
+    {
+        public event Action Changed;
+
+        private double _costOfOpenPosition;
+
+        public double CostOfOpenPosition
+        {
+            get { return _costOfOpenPosition; }
+            set
+            {
+                if (!_costOfOpenPosition.IsDoubleEqual(value))
+                {
+                    _costOfOpenPosition = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        public double _profit;
+
+        public double Profit
+        {
+            get { return _profit; }
+            set
+            {
+                if (!_profit.IsDoubleEqual(value))
+                {
+                    _profit = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        public double? _valueOfOpenPosition;
+
+        public double? ValueOfOpenPosition
+        {
+            get { return _valueOfOpenPosition; }
+            set {
+                if (!_valueOfOpenPosition.IsNullableDoubleEqual(value))
+                {
+                    _valueOfOpenPosition = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+
+        private double? _unrealizedProfit;
+
+        public double? UnrealizedProfit
+        {
+            get { return _unrealizedProfit; }
+            set
+            {
+                if (!_unrealizedProfit.IsNullableDoubleEqual(value))
+                {
+                    _unrealizedProfit = value;
+                    Changed?.Invoke();
+                }
+            }
+        }
+    }
+
     public class ProcessedTradeStatementsContainer
     {
+        private List<SquarableStatement> _purchaseAndSaleMappedStatements;
+        private Dictionary<string,List<SquarableStatement>> statementsForAssets;
+        
+        public List<AssetQuotation> AssetQuotations { get; set; }
+        public List<PurchasedAssetEvaluationStatement> PurchasedAssetEvaluationStatements { get; set; }
+
+        public List<PurchasedAssetEvaluationSummarizedStatement> PurchasedAssetSummarizedStatements { get; set;}
+
         public List<string> AssetNamesBook { get; private set; }
         public List<TradeStatement> OpenPositionBook { get; private set; }
         public List<SquarableStatement> ProfitBook { get; set; }
-        public Dictionary<string, OpenAssetSummaryBook> OpenAssetSummaryBooks { get; private set; }
+        public Dictionary<string, List<SquarableStatement>> OpenAssetSummaryBooks { get; private set; }
         public Dictionary<string, ClosedAssetSummaryBook> ClosedAssetSummaryBooks { get; private set; }
-        public List<CostStatement> EffectiveCostStatementBook { get; private set; }
         public AssetEvalutionBook AssetEvalutionBook { get; set; }
 
+        public TradeSummary TradeSummary { get; set; }
         public AssetEvaluationAggregatedBook AssetEvaluationAggregatedBook { get; set; }
 
         private readonly QuotationRepository _repository;
@@ -22,12 +96,135 @@ namespace Simplify.Trade
         public ProcessedTradeStatementsContainer(List<TradeStatement> tradeStatements, List<QuotationStatement> quotationStatements)
         {
             _repository = new QuotationRepository(quotationStatements);
+
+            var assetNames = tradeStatements.Select(x => x.Name).Distinct().ToList();
+            assetNames.AddRange(quotationStatements.Select(x => x.Name));
+            assetNames = assetNames.Distinct().ToList();
+
+            _purchaseAndSaleMappedStatements = GetSaleAndPurchaseMappedStatements(tradeStatements);
+
+            PurchasedAssetEvaluationStatements = _purchaseAndSaleMappedStatements
+                .Where(x => !x.IsSquared)
+                .Select(x => x.CreatePurchasedAssetEvalutionStatement(_repository.GetQuote(x.Name)))
+                .ToList();
+
+            PurchasedAssetSummarizedStatements = PurchasedAssetEvaluationStatements
+                .GroupBy(x => x.Name, x => x, (name, statements) =>
+                {
+                    var result = new PurchasedAssetEvaluationSummarizedStatement(_repository.GetQuote(name));
+                    result.Name = name;
+                    var statementList = statements.ToList();
+                    result.PurchaseStartDate = statementList.Select(x => x.Date).Min();
+                    result.PurchaseEndDate = statementList.Select(x => x.Date).Max();
+                    result.Quantity = statementList.Select(x => x.Quantity).Sum();
+                    result.Value = statementList.Select(x => x.Value).Sum();
+                    return result;
+                }).ToList();
+
+            
+
+            var groupedStatements = _purchaseAndSaleMappedStatements.GroupBy(x => x.Name, x=> x);
+            statementsForAssets =  groupedStatements.ToDictionary(x => x.Key, x => x.AsEnumerable().ToList());
+
+            var statementsForClosedAssets = new Dictionary<string, List<SquarableStatement>>();
+            var statementsForOpenAssets = new Dictionary<string, List<SquarableStatement>>();
+            foreach (var statementsForAsset in statementsForAssets)
+            {
+                if (statementsForAsset.Value.Any(x => !x.IsSquared))
+                    statementsForOpenAssets.Add(statementsForAsset.Key, statementsForAsset.Value);
+                else
+                    statementsForClosedAssets.Add(statementsForAsset.Key, statementsForAsset.Value);
+            }
+
+            PurchasedAssetSummarizedStatements = statementsForOpenAssets
+                .Select(y =>
+                {
+                    var name = y.Key;
+                    var statements = y.Value;
+                    var openStatements = statements.Where(x => !x.IsSquared).ToList();
+                    var closedStatements = statements.Where(x => x.IsSquared).ToList();
+                    var result =
+                        new PurchasedAssetEvaluationSummarizedStatement(_repository.GetQuote(name))
+                        {
+                            Name = name,
+                            PurchaseStartDate = openStatements.Select(x => x.PurchaseDate).Min(),
+                            PurchaseEndDate = openStatements.Select(x => x.PurchaseDate).Max(),
+                            Quantity = openStatements.Select(x => x.Quantity).Sum(),
+                            Value = openStatements.Select(x => x.PurchaseValue).Sum(),
+                            RealizedProfit = closedStatements.Sum(x => x.SaleValue - x.PurchaseValue)
+                        };
+                    return result;
+                }).ToList();
+
+            AssetQuotations = new List<AssetQuotation>();
+            HashSet<string> assetChecker = new HashSet<string>();
+            foreach (var quotationStatement in quotationStatements)
+            {
+                if (assetChecker.Contains(quotationStatement.Name)) continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(quotationStatement.Name))
+                {
+                    Name = quotationStatement.Name,
+                    IsOwned = statementsForOpenAssets.ContainsKey(quotationStatement.Name)
+                };
+                assetChecker.Add(quotationStatement.Name);
+                AssetQuotations.Add(assetQuotation);
+            }
+            foreach (var statementsForClosedAsset in statementsForClosedAssets)
+            {
+                var assetName = statementsForClosedAsset.Key;
+                if(assetChecker.Contains(assetName))continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(assetName))
+                {
+                    Name = assetName,
+                    IsOwned = false,
+                };
+                assetChecker.Add(assetName);
+                AssetQuotations.Add(assetQuotation);
+            }
+            foreach (var statementsForOpenAsset in statementsForOpenAssets)
+            {
+                var assetName = statementsForOpenAsset.Key;
+                if (assetChecker.Contains(assetName)) continue;
+                var assetQuotation = new AssetQuotation(_repository.GetQuote(assetName))
+                {
+                    Name = assetName,
+                    IsOwned = true,
+                };
+                assetChecker.Add(assetName);
+                AssetQuotations.Add(assetQuotation);
+            }
+
+
+            ProfitBook = new List<SquarableStatement>();
+            ProfitBook.AddRange(_purchaseAndSaleMappedStatements.Where(x => x.IsSquared));
+
+            OpenPositionBook = _purchaseAndSaleMappedStatements.Where(x => !x.IsSquared).Select(x => x.ConvertToTradeStatement()).ToList();
+
             InitializeAssetNamesBook(tradeStatements);
-            InitializeOpenPositionAndProfitBook(tradeStatements);
             InitializeSummaryBooks();
-            InitializeEffectiveCostStatementBook();
             InitializeAssetEvaluationBook(OpenPositionBook);
             InitializeAssetEvaluationAggregatedBook(OpenPositionBook);
+
+            TradeSummary = new TradeSummary();
+
+            InitializeTradeSummary();
+            _repository.Changed += InitializeTradeSummary;
+        }
+
+        private void InitializeTradeSummary()
+        {
+            TradeSummary.Profit = ProfitBook.Sum(x => x.SaleValue - x.PurchaseValue);
+            TradeSummary.CostOfOpenPosition = PurchasedAssetSummarizedStatements.Sum(x => x.Value);
+            if (PurchasedAssetSummarizedStatements.Any(x => !x.QuotePerUnit.HasValue))
+            {
+                TradeSummary.UnrealizedProfit = null;
+                TradeSummary.ValueOfOpenPosition = null;
+            }
+            else
+            {
+                TradeSummary.UnrealizedProfit = PurchasedAssetSummarizedStatements.Sum(x => x.GetUnrealizedProfit());
+                TradeSummary.ValueOfOpenPosition = PurchasedAssetSummarizedStatements.Sum(x => x.GetCurrentValue());
+            }
         }
 
         private void InitializeAssetEvaluationAggregatedBook(List<TradeStatement> openPositionBook)
@@ -64,44 +261,27 @@ namespace Simplify.Trade
 
 
 
-        private void InitializeOpenPositionAndProfitBook(List<TradeStatement> tradeStatements)
+        private List<SquarableStatement> GetSaleAndPurchaseMappedStatements(List<TradeStatement> tradeStatements)
         {
-            var separator = new StatementsSeparator();
-            List<TradeStatement> openStatements;
-            List<SquarableStatement> closedStatements;
-            separator.SeparateStatementsAsClosedAndOpen(tradeStatements, out openStatements, out closedStatements);
-            OpenPositionBook = openStatements;
-            ProfitBook = closedStatements;
-        }
-
-        private void InitializeEffectiveCostStatementBook()
-        {
-            EffectiveCostStatementBook = new List<CostStatement>();
-            var openPositionBookHeads = OpenPositionBook.Select(x => x.Name).Distinct().ToList();
-
-            foreach (var head in openPositionBookHeads)
-            {
-                var statements = OpenPositionBook.Where(x => x.Name.Equals(head)).ToList();
-                var sumOfValues = statements.Select(x => x.Value).Sum();
-                var sumOfQuantities = statements.Select(x => x.Quantity).Sum();
-                EffectiveCostStatementBook.Add(new CostStatement() {Name = head, AverageCost = sumOfValues / sumOfQuantities});
-            }
+            var mapper = new SaleAndPurchaseMapper();
+            var mappedStatements = mapper.MapSaleAndPurchaseStatements(tradeStatements);
+            return mappedStatements;
         }
 
         private void InitializeSummaryBooks()
         {
             var allStatements = ProfitBook.ToList();
             allStatements.AddRange(OpenPositionBook.Select(x => new SquarableStatement(x)));
-            OpenAssetSummaryBooks = new Dictionary<string, OpenAssetSummaryBook>();
+            OpenAssetSummaryBooks = new Dictionary<string, List<SquarableStatement>>();
             ClosedAssetSummaryBooks = new Dictionary<string, ClosedAssetSummaryBook>();
             foreach (var name in AssetNamesBook)
             {
                 var bookStatements = allStatements.Where(x => x.Name.Equals(name)).ToList();
                 if (bookStatements.Any(x => x.IsSquared == false))
                 {
-                    var book = new OpenAssetSummaryBook();
-                    book.AddRange(bookStatements);
-                    OpenAssetSummaryBooks.Add(name, book);
+                    var statements = new List<SquarableStatement>();
+                    statements.AddRange(bookStatements);
+                    OpenAssetSummaryBooks.Add(name, statements);
                 }
                 else
                 {

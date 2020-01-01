@@ -3,32 +3,22 @@ using System.Linq;
 
 namespace Simplify.Trade
 {
-    public class StatementsSeparator
+    public class SaleAndPurchaseMapper
     {
-        public List<TradeStatement> OpenPositionBook { get; private set; }
-        public List<SquarableStatement> ProfitBook { get; set; }
-
-        public void SeparateStatementsAsClosedAndOpen(List<TradeStatement> statements, out List<TradeStatement> openStatements, out List<SquarableStatement> closedStatements)
-        {
-            OpenPositionBook = new List<TradeStatement>();
-            ProfitBook = new List<SquarableStatement>();
-            SeparateStatementsAsClosedAndOpen(statements);
-            openStatements = OpenPositionBook;
-            closedStatements = ProfitBook;
-        }
-
-        private void SeparateStatementsAsClosedAndOpen(List<TradeStatement> tradeStatements)
+        public List<SquarableStatement> MapSaleAndPurchaseStatements(List<TradeStatement> tradeStatements)
         {
             var assetNames = tradeStatements.Select(x => x.Name).Distinct().OrderBy(x => x).ToList();
-
+            var profitBook = new List<SquarableStatement>();
             foreach (var name in assetNames)
             {
-                ProcessTradeStatements(tradeStatements.Where(x => x.Name == name).ToList());
+                profitBook.AddRange(MapSaleAndPurchaseStatementsForOneAsset(tradeStatements.Where(x => x.Name == name).ToList()));
             }
+            return profitBook;
         }
         
-        private void ProcessTradeStatements(List<TradeStatement> tradeStatements)
+        private List<SquarableStatement> MapSaleAndPurchaseStatementsForOneAsset(List<TradeStatement> tradeStatements)
         {
+            var profitBook = new List<SquarableStatement>();
             var purchaseStatements = tradeStatements.Where(x => x.IsPurchase).OrderBy(x => x.Date).ToList();
             var saleStatements = tradeStatements.Where(x => !x.IsPurchase).OrderBy(x => x.Date).ToList();
             while (purchaseStatements.Any() && saleStatements.Any())
@@ -37,7 +27,7 @@ namespace Simplify.Trade
                     RemoveFirstItem(purchaseStatements),
                     RemoveFirstItem(saleStatements));
 
-                ProfitBook.Add(squaredAndRemaining.SquarableStatement);
+                profitBook.Add(squaredAndRemaining.SquarableStatement);
                 var remaining = squaredAndRemaining.RemainingTradeStatement;
                 if (remaining == null) continue;
                 if (remaining.IsPurchase)
@@ -46,9 +36,12 @@ namespace Simplify.Trade
                     saleStatements.Insert(0, remaining);
             }
             if (purchaseStatements.Any())
-                OpenPositionBook.AddRange(purchaseStatements);
+                profitBook.AddRange(purchaseStatements.Select(x => new SquarableStatement(x)));
             if (saleStatements.Any())
-                OpenPositionBook.AddRange(saleStatements);
+                profitBook.AddRange(saleStatements.Select(x => new SquarableStatement(x)));
+
+
+            return profitBook;
         }
 
         private TradeStatement RemoveFirstItem(IList<TradeStatement> statements)
@@ -73,7 +66,7 @@ namespace Simplify.Trade
             }
 
             var brokenStatements = new BrokenTradeStatements(bigger, smaller.Quantity);
-            var squarableStatement = new SquarableStatement(new[] { brokenStatements.BrokenTradeStatement, smaller });
+            var squarableStatement = new SquarableStatement( brokenStatements.BrokenTradeStatement, smaller );
             return new SquarableStatementAndRemainder(squarableStatement, brokenStatements.RemainingTradeStatement);
         }
 

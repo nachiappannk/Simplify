@@ -1,6 +1,6 @@
 using Prism.Interactivity.InteractionRequest;
 
-namespace SimplifyUi.CapitalGainsGeneration.ViewModel
+namespace SimplifyUi.Common.ViewModel
 {
     public class FileSaveAsNotification : INotification
     {

@@ -1,51 +1,62 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Simplify.Trade
 {
     public class SquarableStatement
     {
-        public SquarableStatement(TradeStatement[] statements)
+        public SquarableStatement(TradeStatement statement1, TradeStatement statement2)
         {
-            TradeStatement purchaseTradedStatement = statements.First(x => x.IsPurchase);
-            TradeStatement saleTradedStatement = statements.First(x => !x.IsPurchase);
             IsSquared = true;
-            InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
+            TransactionType = TransactionType.Squared;
+            TradeStatement purchaseTradedStatement = statement1.IsPurchase? statement1 : statement2;
+            TradeStatement saleTradedStatement = statement1.IsPurchase ? statement2 : statement1;
+            InitializeCommonProperties(purchaseTradedStatement);
+            InitializePurchaseProperties(purchaseTradedStatement);
             InitializeSaleProperties(saleTradedStatement);
         }
 
-        public SquarableStatement(TradeStatement purchaseStatement, TradeStatement saleStatement) : 
-            this(new TradeStatement[] {purchaseStatement, saleStatement})
-        {
-
-        }
-
-
-        public SquarableStatement(TradeStatement purchaseTradedStatement)
+        public SquarableStatement(TradeStatement tradeStatement)
         {
             IsSquared = false;
-            InitializeCommonAndPurchaseProperties(purchaseTradedStatement);
+            InitializeCommonProperties(tradeStatement);
+            if (tradeStatement.IsPurchase)
+            {
+                InitializePurchaseProperties(tradeStatement);
+                TransactionType = TransactionType.Purchase;
+            }
+            else
+            {
+                InitializeSaleProperties(tradeStatement);
+                TransactionType = TransactionType.Sale;
+            }
         }
 
-        private void InitializeSaleProperties(TradeStatement saleTradedStatement)
-        {
-            
-            SaleDate = saleTradedStatement.Date;
-            SaleValue = saleTradedStatement.Value;
-            SaleTransactionTax = saleTradedStatement.TransactionTax;
-            SaleTransactionDetail = saleTradedStatement.TransactionDetail;
-        }
-
-        private void InitializeCommonAndPurchaseProperties(TradeStatement purchaseTradedStatement)
+        private void InitializeCommonProperties(TradeStatement purchaseTradedStatement)
         {
             Name = purchaseTradedStatement.Name;
             Quantity = purchaseTradedStatement.Quantity;
+        }
+
+        private void InitializePurchaseProperties(TradeStatement purchaseTradedStatement)
+        {
             PurchaseDate = purchaseTradedStatement.Date;
             PurchaseValue = purchaseTradedStatement.Value;
             PurchaseTransactionTax = purchaseTradedStatement.TransactionTax;
             PurchaseTransactionDetail = purchaseTradedStatement.TransactionDetail;
         }
 
+        private void InitializeSaleProperties(TradeStatement saleTradedStatement)
+        {
+
+            SaleDate = saleTradedStatement.Date;
+            SaleValue = saleTradedStatement.Value;
+            SaleTransactionTax = saleTradedStatement.TransactionTax;
+            SaleTransactionDetail = saleTradedStatement.TransactionDetail;
+        }
+
+        public TransactionType TransactionType { get; set; }
         public string Name { get; set; }
         public double Quantity { get; set; }
         public DateTime PurchaseDate { get; set; }
@@ -57,6 +68,13 @@ namespace Simplify.Trade
         public string SaleTransactionTax { get; set; }
         public string SaleTransactionDetail { get; set; }
         public bool IsSquared { get; set; }
+    }
+
+    public enum TransactionType
+    {
+        Purchase,
+        Sale,
+        Squared,
     }
 
     public static class DealExtentions
@@ -94,4 +112,34 @@ namespace Simplify.Trade
             return result;
         }
     }
+
+    public static class SquarableStatementExtentions
+    {
+        public static TradeStatement ConvertToTradeStatement(this SquarableStatement squarableStatement)
+        {
+            if (squarableStatement.IsSquared) throw new Exception();
+            var tradeStatement = new TradeStatement();
+            tradeStatement.Name = squarableStatement.Name;
+            tradeStatement.SerialNumber = 0;
+            tradeStatement.Quantity = squarableStatement.Quantity;
+            if (squarableStatement.TransactionType == TransactionType.Purchase)
+            {
+                tradeStatement.Date = squarableStatement.PurchaseDate;
+                tradeStatement.Value = squarableStatement.PurchaseValue;
+                tradeStatement.IsPurchase = true;
+                tradeStatement.TransactionDetail = squarableStatement.PurchaseTransactionDetail;
+                tradeStatement.TransactionTax = squarableStatement.PurchaseTransactionTax;
+            }
+            else
+            {
+                tradeStatement.Date = squarableStatement.SaleDate;
+                tradeStatement.Value = squarableStatement.SaleValue;
+                tradeStatement.IsPurchase = false;
+                tradeStatement.TransactionDetail = squarableStatement.SaleTransactionDetail;
+                tradeStatement.TransactionTax = squarableStatement.SaleTransactionTax;
+            }
+            return tradeStatement;
+        }
+    }
+
 }

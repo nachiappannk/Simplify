@@ -99,11 +99,9 @@ namespace Simplify.ExcelDataGateway.Trade
         public void Write(string fileName, ProcessedTradeStatementsContainer container)
         {
             ExcelWriter writer = new ExcelWriter(fileName);
-            WriteAssetNames(container, writer);
             WriteSumary(container, writer);
             WriteProfitBook(container, writer);
             WriteOpenPositions(container, writer);
-            WriteEffectiveCostBook(container, writer);
         }
 
         private void WriteOpenPositions(ProcessedTradeStatementsContainer container, ExcelWriter writer)
@@ -117,14 +115,7 @@ namespace Simplify.ExcelDataGateway.Trade
             var tradeLogGateway = new TradeLogGateway();
             return tradeLogGateway.ReadTradeLog(logger,fileName, sheetName);
         }
-
-        private static void WriteEffectiveCostBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var effectiveCostStatements = container.EffectiveCostStatementBook
-                .Select(x => new EffectiveCostRecord {Name = x.Name, Cost = x.AverageCost}).ToList();
-            writer.AddSheet("EffectiveCost", effectiveCostStatements);
-        }
-
+        
         private static void WriteProfitBook(ProcessedTradeStatementsContainer container, ExcelWriter writer)
         {
             var profitBookRecords = container.ProfitBook.Select((x, i) => new ProfitBookRecord
@@ -171,12 +162,7 @@ namespace Simplify.ExcelDataGateway.Trade
             }).ToList();
             writer.AddSheet("Summary", summaryRecords);
         }
-
-        private static void WriteAssetNames(ProcessedTradeStatementsContainer container, ExcelWriter writer)
-        {
-            var assetNameRecords = container.AssetNamesBook.Select(x => new AssetNameRecord {Name = x}).ToList();
-            writer.AddSheet("AssetName", assetNameRecords);
-        }
+        
     }
 
     public class TradeLogGateway

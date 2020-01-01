@@ -8,6 +8,7 @@ using System.Windows.Interactivity;
 using Microsoft.SqlServer.Server;
 using Prism.Interactivity.InteractionRequest;
 using SimplifyUi.CapitalGainsGeneration.ViewModel;
+using SimplifyUi.Common.ViewModel;
 
 namespace SimplifyUi.Common
 {

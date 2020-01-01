@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SimplifyUi.CapitalGainsGeneration
 {
     /// <summary>
-    /// Interaction logic for AssetPurchaseInformationUserControl.xaml
+    /// Interaction logic for TradeSummaryUserControl.xaml
     /// </summary>
-    public partial class AssetPurchaseInformationUserControl : UserControl
+    public partial class TradeSummaryUserControl : UserControl
     {
-        public AssetPurchaseInformationUserControl()
+        public TradeSummaryUserControl()
         {
             InitializeComponent();
         }

@@ -9,6 +9,7 @@
              xmlns:interactionRequest="http://prismlibrary.com/"
              xmlns:common="clr-namespace:SimplifyUi.Common"
              xmlns:tradeStatementResultStepViewModel="clr-namespace:SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel"
+             xmlns:simplifyUiComponents="clr-namespace:SimplifyUiComponents;assembly=SimplifyUiComponents"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance tradeStatementResultStepViewModel:TradeStatementResultStepViewModel}">
@@ -20,7 +21,7 @@
         </i:Interaction.Triggers>
         <TabControl>
             <TabControl.Resources>
-                <Style x:Key="ReadOnlyFormatableDataGrid" TargetType="{x:Type common:FormatableDataGrid}">
+                <Style x:Key="ReadOnlyFormatableDataGrid" TargetType="{x:Type simplifyUiComponents:FormatableDataGrid}">
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="IsReadOnly" Value="True"/>
@@ -29,22 +30,47 @@
                     <Setter Property="AlternationCount" Value="2" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Asset Names">
+            <TabItem Header="Asset Prices">
                 <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding AssetNamesViewModel.AssetNames}" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid  Grid.Row="1" ItemsSource="{Binding AssetQuotesViewModel.Records}" Style="{StaticResource WritableFormatableDataGrid}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Open Positions">
                 <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding OpenPositionViewModel.OpenPositions}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid  Grid.Row="1" ItemsSource="{Binding AssetEvaluationSummarizedViewModel.Records}" Style="{StaticResource WritableFormatableDataGrid}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Open Positions Detailed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid Grid.Row="1" Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding AssetEvaluationViewModel.OpenPositions}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Profit book">
                 <Grid>
-                    <common:FormatableDataGrid  Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <local:TradeSummaryUserControl Grid.Row="0" DataContext="{Binding SummaryViewModel}"/>
+                    <simplifyUiComponents:FormatableDataGrid Grid.Row="1" Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ProfitBookViewModel.ProfitBook }"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Summary" DataContext="{Binding HoldingAssetSummary}">
+            <TabItem Header="Open Asset Summary" DataContext="{Binding HoldingAssetSelectableSummaryViewModel}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -55,35 +81,11 @@
                         <TextBlock Text="Asset Name: " Width="Auto" Height="25" VerticalAlignment="Top" Foreground="Blue" FontWeight="Bold"/>
                         <ComboBox Height="25" VerticalAlignment="Top" ItemsSource="{Binding AssetNames}" SelectedItem="{Binding SelectedAsset}" Width="Auto"/>
                     </StackPanel>
-                    <Grid Grid.Row="1" Margin="0,10,0,10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Available Quantity" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OpenQuantity, StringFormat=#.##}" Width="Auto"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Effective Cost" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AverageCost, StringFormat=N2}" Width="Auto"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Open Position Cost" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding OpenPositionCost, StringFormat=N2}" Width="Auto"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Realized Profit" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
-                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding RealizedProfit, StringFormat=N2}" Width="Auto"/>
-                    </Grid>
-                    <common:FormatableDataGrid Grid.Row="2" Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding Records}" />
+                    <simplifyUiComponents:FormatableDataGrid Grid.Row="1" Style="{StaticResource WritableFormatableDataGrid}" ItemsSource="{Binding SummaryRecords}" />
+                    <simplifyUiComponents:FormatableDataGrid Grid.Row="2" Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding Records}" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Summary (0)" DataContext="{Binding ClosedAssetSummary}">
+            <TabItem Header="Closed Asset Summary" DataContext="{Binding ClosedAssetSelectableSummaryViewModel}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -106,21 +108,10 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Profit" Width="Auto" Height="25" FontWeight="DemiBold" Foreground="Blue"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text=":" Width="Auto" Height="25" FontWeight="DemiBold" Margin="1,0" Foreground="Blue"/>
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Profit, StringFormat=#.##}" Width="Auto"/>
-                        
+
                     </Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" Grid.Row="2" ItemsSource="{Binding Records}" />
+                    <simplifyUiComponents:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" Grid.Row="2" ItemsSource="{Binding Records}" />
                 </Grid>
-            </TabItem>
-            <TabItem Header="Average Cost">
-                <Grid>
-                    <common:FormatableDataGrid Style="{StaticResource ReadOnlyFormatableDataGrid}" ItemsSource="{Binding ConstBookViewModel.CostBookRecords}"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Open Positions" DataContext="{Binding AssetEvaluationBookViewModel}">
-                <local:AssetPurchaseInformationUserControl/>
-            </TabItem>
-            <TabItem Header="Open Positions Aggregated" DataContext="{Binding AssetEvaluationAggregatedBookViewModel}">
-                <local:AssetPurchaseAggregatedInformationUserControl></local:AssetPurchaseAggregatedInformationUserControl>
             </TabItem>
         </TabControl>
     </Grid>

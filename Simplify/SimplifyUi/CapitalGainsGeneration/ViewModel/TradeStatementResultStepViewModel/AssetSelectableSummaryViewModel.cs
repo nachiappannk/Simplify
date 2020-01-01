@@ -6,32 +6,37 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Simplify.Trade;
 using SimplifyUi.Common;
+using SimplifyUi.Common.ViewModel;
 using SimplifyUi.Common.ViewModelTools;
 using SimplifyUi.Properties;
 
 namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepViewModel
 {
-    public abstract class AssetSummary<T> : INotifyPropertyChanged
+    public abstract class AssetSelectableSummaryViewModel : NotifiesPropertyChanged
     {
-        protected readonly Dictionary<string, T> _dictionary;
+        public bool IsEnabled { get; set; }
 
-        protected AssetSummary(Dictionary<string,T> dictionary)
+        private List<string> _assetNames;
+
+        public List<string> AssetNames
         {
-            _dictionary = dictionary;
-            AssetNames = dictionary.Keys.ToList();
-            if (AssetNames.Count > 0)
+            get { return _assetNames; }
+            set
             {
-                SelectedAsset = AssetNames.ElementAt(0);
-                IsEnabled = true;
-            }
-            else
-            {
-                IsEnabled = false;
+                if (value == null || value.Count == 0)
+                {
+                    _assetNames = new List<string>();
+                    IsEnabled = false;
+                    SelectedAsset = String.Empty;
+                }
+                else
+                {
+                    _assetNames = value;
+                    IsEnabled = true;
+                    SelectedAsset = _assetNames.ElementAt(0);
+                }
             }
         }
-
-        public bool IsEnabled { get; set; }
-        public List<string> AssetNames { get; set; }
 
         private string _selectedAsset;
 
@@ -43,36 +48,12 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
                 if (_selectedAsset != value)
                 {
                     _selectedAsset = value;
-                    OnAssetSelectedChanged(_selectedAsset);
+                    if(IsEnabled) OnAssetSelectedChanged(_selectedAsset);
                 }
             }
         }
 
         protected abstract void OnAssetSelectedChanged(string selectedAsset);
-
-
-        private List<AssetSummaryRecord> _records;
-        public List<AssetSummaryRecord> Records
-        {
-            get { return _records; }
-            set
-            {
-                if (_records != value)
-                {
-                    _records = value;
-                    FirePropertyChanged();
-                }
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        }
     }
 
     public class AssetSummaryRecord
@@ -111,26 +92,29 @@ namespace SimplifyUi.CapitalGainsGeneration.ViewModel.TradeStatementResultStepVi
         [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         public DateTime? PurchaseDate { get; set; }
 
-        [DisplayName("Cost")]
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        public double PurchaseValue { get; set; }
-
-
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         [DisplayName("Cost per Unit")]
         public double PurchasePerUnit { get; set; }
+
+
+        [DisplayName("Cost")]
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        public double PurchaseValue { get; set; }
 
         [DisplayFormat(DataFormatString = CommonDefinition.DateDisplayFormat)]
         [DisplayName("Sale Date")]
         public DateTime? SaleDate { get; set; }
 
-        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
-        [DisplayName("Sale Value")]
-        public double? SaleValue { get; set; }
 
         [DisplayName("Sale per Unit")]
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? SalePerUnit { get; set; }
+
+
+        [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
+        [DisplayName("Sale Value")]
+        public double? SaleValue { get; set; }
+
 
         [DisplayFormat(DataFormatString = CommonDefinition.ValueDisplayFormat)]
         public double? Profit { get; set; }
