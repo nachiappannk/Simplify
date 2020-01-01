@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -14,3 +14,4 @@
 /Simplify/SimplifyUiComponents/bin/Release
 /Simplify/SimplifyUiComponents/obj/Debug
 /Simplify/SimplifyUiComponents/obj/Release
+Simplify/.vs/
